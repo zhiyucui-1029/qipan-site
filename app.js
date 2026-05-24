@@ -264,7 +264,8 @@ const homeKindNames = {
 const homeExtraIndex = [
   { kind: "opp", label: "绕棒型机会", desc: "从侧翼重组分发与供给" },
   { kind: "opp", label: "针尖型机会", desc: "高价值小切口单点突破" },
-  { kind: "opp", label: "大坝加深型机会", desc: "位置越做越厚" },
+  { kind: "opp", label: "大坝型机会", desc: "位置越做越厚" },
+  { kind: "opp", label: "转轴型机会", desc: "比较单位被重写" },
   { kind: "st", label: "低价绕棒路径", desc: "从被低估需求切入" },
   { kind: "st", label: "平台扩张路径", desc: "把能力迁移到相邻战场" },
   { kind: "st", label: "反卷型策略", desc: "用纪律和信任重做交易" },
@@ -623,6 +624,13 @@ if (homeSearchForm && homeSearchInput && homeSuggest) {
       runHomeSearch(link.dataset.homeQuery);
     });
   });
+}
+
+const initialCase = new URLSearchParams(window.location.search).get("case");
+if (initialCase) {
+  state.caseName = getCaseKey(initialCase);
+  state.selectedCell = 0;
+  companyInput.value = state.caseName;
 }
 
 renderCaseCards();

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>看懂一盘棋｜好机会</title>
+  <meta name="description" content="用 2x2 机会矩阵理解针尖型、绕棒型、大坝型、转轴型四类结构性机会。" />
+  <link rel="stylesheet" href="./styles.css?v=opportunity-20260524" />
+</head>
+<body>
+  <header class="site-header page-header" aria-label="站点导航">
+    <a class="brand" href="./index.html" aria-label="看懂一盘棋首页">
+      <span class="brand-mark" aria-hidden="true"><span></span></span>
+      <span>
+        <strong>看懂一盘棋</strong>
+        <small>展厅 01 · 好机会</small>
+      </span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="./index.html">首页</a>
+      <a class="active" href="./hao-jihui.html">好机会</a>
+      <a href="./hao-gongsi.html">好公司</a>
+      <a href="./hao-celue.html">好策略</a>
+    </nav>
+    <button class="plain-btn" type="button" id="themeToggle">深色</button>
+  </header>
+
+  <main>
+    <section class="opportunity-hero" aria-label="好机会方法论">
+      <div class="section-inner opportunity-hero-grid">
+        <div class="opportunity-copy">
+          <p class="eyebrow">好机会 / Opportunity Map</p>
+          <h1>先判断机会从哪里长出来。</h1>
+          <p class="lead">好机会不是一句“赛道很大”。先看它起于边缘小格还是中心大格，再看变化是格子自己变深，还是棋盘连接方式被改写。</p>
+        </div>
+        <div class="method-note" aria-label="方法论摘要">
+          <span>2x2 方法</span>
+          <strong>起点位置 × 变化方式</strong>
+          <p>纵轴看机会起点：边缘小格还是中心大格。横轴看机会机制：格子变深还是棋盘改线。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="opportunity-map-band" aria-label="2x2 机会矩阵">
+      <div class="section-inner opportunity-map-layout">
+        <div class="matrix-panel">
+          <div class="matrix-axis axis-top">
+            <span>格子变深</span>
+            <span>棋盘改线</span>
+          </div>
+          <div class="matrix-axis axis-side" aria-hidden="true">
+            <span>边缘小格</span>
+            <span>中心大格</span>
+          </div>
+
+          <div class="opportunity-matrix" aria-label="机会类型矩阵">
+            <button class="matrix-cell active" type="button" data-opportunity="needle">
+              <span class="matrix-code">01</span>
+              <strong>针尖型</strong>
+              <small>小格子里的参数突破</small>
+              <b style="--x:74%;--y:34%">英伟达 / AI 算力</b>
+            </button>
+            <button class="matrix-cell" type="button" data-opportunity="stick">
+              <span class="matrix-code">02</span>
+              <strong>绕棒型</strong>
+              <small>多条弱线缠成新结构</small>
+              <b style="--x:32%;--y:66%">拼多多 / 下沉电商</b>
+            </button>
+            <button class="matrix-cell" type="button" data-opportunity="dam">
+              <span class="matrix-code">03</span>
+              <strong>大坝型</strong>
+              <small>关键位置继续蓄水</small>
+              <b style="--x:62%;--y:42%">宁德时代 / 动力电池</b>
+            </button>
+            <button class="matrix-cell" type="button" data-opportunity="pivot">
+              <span class="matrix-code">04</span>
+              <strong>转轴型</strong>
+              <small>比较单位被重写</small>
+              <b style="--x:44%;--y:56%">苹果 / iPhone</b>
+            </button>
+          </div>
+        </div>
+
+        <aside class="opportunity-inspector" aria-live="polite">
+          <p class="section-label" id="inspectorType">针尖型机会</p>
+          <h2 id="inspectorTitle">小格子里的一个参数，刺穿旧格局。</h2>
+          <p id="inspectorText">它起点通常很小，但有一个可量化参数跨过阈值。真正要看的不是今天有多大，而是这根针是否已经有可靠方向。</p>
+          <div class="inspector-list" id="inspectorSignals"></div>
+          <a class="primary-link" id="inspectorCaseLink" href="./index.html#generator">看这个案例</a>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section-band opportunity-types" aria-label="四类机会">
+      <div class="section-inner">
+        <div class="section-heading compact-heading">
+          <p class="eyebrow">四类 MVP 案例</p>
+          <h2>每一类先放一个样板点。</h2>
+          <p>这一版先不追求案例多，而是让用户理解：同样叫“机会”，背后的生成机制完全不同。</p>
+        </div>
+        <div class="opportunity-card-grid">
+          <article class="opportunity-card" data-opportunity-card="needle">
+            <span>针尖型</span>
+            <h3>英伟达 / AI 算力</h3>
+            <p>需求侧的 AI 训练和推理像针尖一样刺出，但它能放大，是因为背后已有 CUDA 和 GPU 大坝承接。</p>
+            <button type="button" data-opportunity="needle">放到矩阵里看</button>
+          </article>
+          <article class="opportunity-card" data-opportunity-card="stick">
+            <span>绕棒型</span>
+            <h3>拼多多 / 下沉电商</h3>
+            <p>下沉客群、社交分发、白牌供给单看都不完美，缠在一起却形成了新交易结构。</p>
+            <button type="button" data-opportunity="stick">放到矩阵里看</button>
+          </article>
+          <article class="opportunity-card" data-opportunity-card="dam">
+            <span>大坝型</span>
+            <h3>宁德时代 / 动力电池</h3>
+            <p>供应链、规模、客户关系和工艺能力已经成坝；机会来自行业水位继续上涨。</p>
+            <button type="button" data-opportunity="dam">放到矩阵里看</button>
+          </article>
+          <article class="opportunity-card" data-opportunity-card="pivot">
+            <span>转轴型</span>
+            <h3>苹果 / iPhone</h3>
+            <p>它不是赢了旧手机参数，而是让“手机”从通信设备变成个人数字生活入口。</p>
+            <button type="button" data-opportunity="pivot">放到矩阵里看</button>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>看懂一盘棋</span>
+    <span>好机会展厅 · MVP</span>
+  </footer>
+
+  <script src="./opportunity.js?v=opportunity-20260524"></script>
+</body>
+</html>
