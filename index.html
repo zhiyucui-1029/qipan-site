@@ -5,32 +5,59 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>看懂一盘棋｜战略棋盘案例生成器</title>
   <meta name="description" content="用战略棋盘看懂一个好机会、一家好公司和一条好策略。输入公司名，生成交互式案例推演。" />
-  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="./styles.css?v=home-20260524" />
 </head>
 <body>
-  <header class="site-header" aria-label="站点导航">
-    <a class="brand" href="#top" aria-label="看懂一盘棋首页">
-      <span class="brand-mark" aria-hidden="true">
-        <span></span>
-      </span>
-      <span>
-        <strong>看懂一盘棋</strong>
-        <small>战略棋盘案例生成器</small>
-      </span>
-    </a>
-    <nav class="nav-links" aria-label="主导航">
-      <a href="#cases">深案例</a>
-      <a href="#method">方法论</a>
-      <a href="#premium">付费推演</a>
+  <header class="home-topbar" aria-label="首页快捷入口">
+    <nav class="home-nav" aria-label="主导航">
+      <a href="#generator">好机会</a>
+      <a href="#cases">好公司</a>
+      <a href="#method">好策略</a>
+      <button class="plain-btn" type="button" id="themeToggle">深色</button>
     </nav>
-    <button class="plain-btn" type="button" id="themeToggle">深色</button>
   </header>
 
   <main id="top">
-    <section class="hero-workbench" aria-label="战略棋盘生成器">
+    <section class="home-shell" aria-label="首页搜索">
+      <div class="home-center">
+        <div class="logo-stack">
+          <div class="logo-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+              <path d="M4 18L10 12L14 15L20 8" />
+              <path d="M18 8H20V10" />
+            </svg>
+          </div>
+          <h1 class="logo-word">看懂一盘棋</h1>
+        </div>
+
+        <p class="home-subtitle">搜公司、机会、策略或棋盘概念，进入同一张战略棋盘。</p>
+
+        <form class="home-search-wrap" id="homeSearchForm" autocomplete="off" role="search">
+          <div class="home-search">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="m20 20-3.5-3.5"></path>
+            </svg>
+            <input id="homeSearchInput" type="search" aria-label="搜索公司、机会、策略或棋盘概念" placeholder="试试“拼多多”“英伟达”“大坝”" />
+            <button class="home-submit" type="submit">生成</button>
+          </div>
+          <div class="home-suggest" id="homeSuggest" role="listbox" aria-label="搜索建议"></div>
+        </form>
+
+        <div class="home-links" aria-label="快捷入口">
+          <a class="hall-pill" href="#generator" data-home-query="拼多多">拼多多</a>
+          <a class="hall-pill" href="#generator" data-home-query="英伟达">英伟达</a>
+          <a class="hall-pill" href="#generator" data-home-query="美团 vs 饿了么">美团 vs 饿了么</a>
+        </div>
+
+        <p class="micro-copy">搜不到也没关系，会先生成一张可追问的草稿棋盘。</p>
+      </div>
+    </section>
+
+    <section class="hero-workbench generator-section" id="generator" aria-label="战略棋盘生成器">
       <div class="hero-intro">
         <p class="eyebrow">机会 / 公司 / 策略 · 同一张棋盘</p>
-        <h1>看懂一盘棋</h1>
+        <h2>生成一盘棋</h2>
         <p class="lead">输入一家你关心的公司，把它放进“位置、能力、通道、大坝、赔率”的结构里看。免费入口先给你一页判断，深度版再回到当时的人员、证据和决策现场。</p>
       </div>
 

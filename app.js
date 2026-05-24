@@ -251,9 +251,53 @@ const sliders = [
   ["position", document.getElementById("positionSlider"), document.getElementById("positionValue")],
   ["execution", document.getElementById("executionSlider"), document.getElementById("executionValue")]
 ];
+const homeSearchForm = document.getElementById("homeSearchForm");
+const homeSearchInput = document.getElementById("homeSearchInput");
+const homeSuggest = document.getElementById("homeSuggest");
+const generatorSection = document.getElementById("generator");
+const homeKindNames = {
+  co: "公司",
+  opp: "机会",
+  st: "策略",
+  cn: "概念"
+};
+const homeExtraIndex = [
+  { kind: "opp", label: "绕棒型机会", desc: "从侧翼重组分发与供给" },
+  { kind: "opp", label: "针尖型机会", desc: "高价值小切口单点突破" },
+  { kind: "opp", label: "大坝加深型机会", desc: "位置越做越厚" },
+  { kind: "st", label: "低价绕棒路径", desc: "从被低估需求切入" },
+  { kind: "st", label: "平台扩张路径", desc: "把能力迁移到相邻战场" },
+  { kind: "st", label: "反卷型策略", desc: "用纪律和信任重做交易" },
+  { kind: "cn", label: "棋盘", desc: "机会位置与路径的总览" },
+  { kind: "cn", label: "大坝", desc: "用户和供给难以离开的结构" },
+  { kind: "cn", label: "通道", desc: "价值连接和复用路径" },
+  { kind: "cn", label: "赔率", desc: "风险、位置和兑现的合成判断" }
+];
+let homeMatches = [];
+let homeActive = -1;
 
 function normalizeName(name) {
   return name.replace(/\s+/g, "").toLowerCase();
+}
+
+function getHomeIndex() {
+  const cases = Object.entries(CASES).map(([label, item]) => ({
+    kind: "co",
+    label,
+    desc: item.type,
+    aliases: item.tags
+  }));
+  return [...cases, ...homeExtraIndex];
+}
+
+function escapeHtml(value) {
+  return value.replace(/[&<>"']/g, (char) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    "\"": "&quot;",
+    "'": "&#39;"
+  }[char]));
 }
 
 function findCase(input) {
@@ -402,6 +446,66 @@ function updateScore() {
   document.getElementById("scoreText").textContent = scoreText;
 }
 
+function matchHomeItems(query) {
+  const items = getHomeIndex();
+  const q = query.trim().toLowerCase();
+  if (!q) return items.slice(0, 8);
+  return items
+    .map((item) => {
+      const haystack = [item.label, item.desc, ...(item.aliases || [])].join(" ").toLowerCase();
+      if (!haystack.includes(q)) return null;
+      const labelIndex = item.label.toLowerCase().indexOf(q);
+      return { item, score: labelIndex === -1 ? 50 : labelIndex };
+    })
+    .filter(Boolean)
+    .sort((a, b) => a.score - b.score)
+    .slice(0, 10)
+    .map(({ item }) => item);
+}
+
+function renderHomeSuggest() {
+  if (!homeSuggest) return;
+  if (!homeMatches.length) {
+    homeSuggest.innerHTML = '<div class="suggest-empty">没有匹配词条，直接回车也会生成一张草稿棋盘。</div>';
+    return;
+  }
+  homeSuggest.innerHTML = homeMatches.map((item, index) => (
+    `<div class="suggest-item${index === homeActive ? " active" : ""}" data-home-index="${index}" role="option">
+      <span class="suggest-kind">${homeKindNames[item.kind]}</span>
+      <span class="suggest-label">${escapeHtml(item.label)}</span>
+      <span class="suggest-desc">${escapeHtml(item.desc || "")}</span>
+    </div>`
+  )).join("");
+}
+
+function openHomeSuggest() {
+  if (homeSearchForm) homeSearchForm.classList.add("is-open");
+}
+
+function closeHomeSuggest() {
+  if (homeSearchForm) homeSearchForm.classList.remove("is-open");
+  homeActive = -1;
+}
+
+function updateHomeSuggest() {
+  if (!homeSearchInput) return;
+  homeMatches = matchHomeItems(homeSearchInput.value);
+  homeActive = homeMatches.length ? 0 : -1;
+  renderHomeSuggest();
+  openHomeSuggest();
+}
+
+function runHomeSearch(value) {
+  const query = value.trim() || "拼多多";
+  const caseName = getCaseKey(query);
+  state.caseName = caseName;
+  state.selectedCell = 0;
+  companyInput.value = caseName;
+  render();
+  closeHomeSuggest();
+  generatorSection.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
 form.addEventListener("submit", (event) => {
   event.preventDefault();
   const name = getCaseKey(companyInput.value);
@@ -441,7 +545,7 @@ caseGrid.addEventListener("click", (event) => {
   state.selectedCell = 0;
   companyInput.value = state.caseName;
   render();
-  document.getElementById("top").scrollIntoView({ behavior: "smooth" });
+  generatorSection.scrollIntoView({ behavior: "smooth", block: "start" });
 });
 
 boardGrid.addEventListener("click", (event) => {
@@ -472,6 +576,54 @@ document.getElementById("waitlistForm").addEventListener("submit", (event) => {
   document.getElementById("waitlistStatus").textContent = `已记录本地意向：下一版可以优先做「${name}」的深度棋局样例。`;
   input.value = "";
 });
+
+if (homeSearchForm && homeSearchInput && homeSuggest) {
+  homeSearchInput.addEventListener("focus", updateHomeSuggest);
+  homeSearchInput.addEventListener("input", updateHomeSuggest);
+  homeSearchInput.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      homeActive = Math.min(homeActive + 1, homeMatches.length - 1);
+      renderHomeSuggest();
+    } else if (event.key === "ArrowUp") {
+      event.preventDefault();
+      homeActive = Math.max(homeActive - 1, 0);
+      renderHomeSuggest();
+    } else if (event.key === "Enter") {
+      event.preventDefault();
+      const item = homeMatches[homeActive];
+      runHomeSearch(item ? item.label : homeSearchInput.value);
+    } else if (event.key === "Escape") {
+      closeHomeSuggest();
+      homeSearchInput.blur();
+    }
+  });
+
+  homeSearchForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const item = homeMatches[homeActive];
+    runHomeSearch(item ? item.label : homeSearchInput.value);
+  });
+
+  homeSuggest.addEventListener("mousedown", (event) => {
+    const itemNode = event.target.closest("[data-home-index]");
+    if (!itemNode) return;
+    event.preventDefault();
+    const item = homeMatches[Number(itemNode.dataset.homeIndex)];
+    if (item) runHomeSearch(item.label);
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!homeSearchForm.contains(event.target)) closeHomeSuggest();
+  });
+
+  document.querySelectorAll("[data-home-query]").forEach((link) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      runHomeSearch(link.dataset.homeQuery);
+    });
+  });
+}
 
 renderCaseCards();
 render();
