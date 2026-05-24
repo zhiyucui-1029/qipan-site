@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>看懂一盘棋｜战略棋盘案例生成器</title>
+  <meta name="description" content="用战略棋盘看懂一个好机会、一家好公司和一条好策略。输入公司名，生成交互式案例推演。" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="site-header" aria-label="站点导航">
+    <a class="brand" href="#top" aria-label="看懂一盘棋首页">
+      <span class="brand-mark" aria-hidden="true">
+        <span></span>
+      </span>
+      <span>
+        <strong>看懂一盘棋</strong>
+        <small>战略棋盘案例生成器</small>
+      </span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="#cases">深案例</a>
+      <a href="#method">方法论</a>
+      <a href="#premium">付费推演</a>
+    </nav>
+    <button class="plain-btn" type="button" id="themeToggle">深色</button>
+  </header>
+
+  <main id="top">
+    <section class="hero-workbench" aria-label="战略棋盘生成器">
+      <div class="hero-intro">
+        <p class="eyebrow">机会 / 公司 / 策略 · 同一张棋盘</p>
+        <h1>看懂一盘棋</h1>
+        <p class="lead">输入一家你关心的公司，把它放进“位置、能力、通道、大坝、赔率”的结构里看。免费入口先给你一页判断，深度版再回到当时的人员、证据和决策现场。</p>
+      </div>
+
+      <form class="command-bar" id="caseForm" autocomplete="off">
+        <label class="field search-field" for="companyInput">
+          <span>公司 / 赛道 / 商战案例</span>
+          <input id="companyInput" name="company" type="search" value="拼多多" placeholder="试试：拼多多、英伟达、美团 vs 饿了么" />
+        </label>
+        <label class="field" for="personaSelect">
+          <span>你的视角</span>
+          <select id="personaSelect" name="persona">
+            <option value="investor">投资者</option>
+            <option value="founder">创业者</option>
+            <option value="manager">管理者</option>
+          </select>
+        </label>
+        <button class="primary-btn" type="submit">生成棋局</button>
+      </form>
+
+      <div class="quick-row" id="quickCases" aria-label="快速案例入口"></div>
+
+      <div class="workbench-grid">
+        <aside class="control-panel" aria-label="分析控制台">
+          <div class="panel-section">
+            <p class="section-label">你想看什么</p>
+            <div class="segmented" role="tablist" aria-label="分析意图">
+              <button class="segment active" type="button" data-intent="opportunity">好机会</button>
+              <button class="segment" type="button" data-intent="company">好公司</button>
+              <button class="segment" type="button" data-intent="strategy">好策略</button>
+            </div>
+          </div>
+
+          <div class="panel-section">
+            <p class="section-label">当前位置</p>
+            <h2 id="caseTitle">拼多多</h2>
+            <p id="caseFrame">绕开主战场，从低价心智、社交分发和供给重组切入。</p>
+            <div class="tag-row" id="tagRow"></div>
+          </div>
+
+          <div class="panel-section">
+            <p class="section-label">赔率滑杆</p>
+            <div class="slider-set">
+              <label>
+                <span>行业空间 <strong id="spaceValue">76</strong></span>
+                <input id="spaceSlider" type="range" min="20" max="100" value="76" />
+              </label>
+              <label>
+                <span>位置质量 <strong id="positionValue">82</strong></span>
+                <input id="positionSlider" type="range" min="20" max="100" value="82" />
+              </label>
+              <label>
+                <span>路径兑现 <strong id="executionValue">68</strong></span>
+                <input id="executionSlider" type="range" min="20" max="100" value="68" />
+              </label>
+            </div>
+            <div class="score-box">
+              <strong id="scoreOutput">7.6</strong>
+              <span id="scoreText">机会已经被打深，关键看大坝能否继续变厚。</span>
+            </div>
+          </div>
+        </aside>
+
+        <section class="board-stage" aria-label="交互棋盘">
+          <div class="board-topline">
+            <div>
+              <p class="section-label">棋盘快照</p>
+              <h2 id="boardHeadline">这不是简单低价，而是换边打出来的新棋局。</h2>
+            </div>
+            <span id="sourceBadge" class="source-badge">样板案例</span>
+          </div>
+          <div class="board-grid" id="boardGrid" aria-label="战略棋盘格子"></div>
+          <div class="cell-detail" id="cellDetail" aria-live="polite"></div>
+        </section>
+
+        <section class="case-brief" aria-label="生成结果">
+          <div class="brief-block">
+            <p class="section-label">一句话判断</p>
+            <h2 id="verdictTitle">拼多多先踩中被低估的需求格，再把分发和供给重做成自己的通道。</h2>
+            <p id="verdictText">对投资者来说，重点不是“低价电商”这个标签，而是它能不能把原来分散的人、货和流量重新组织起来。</p>
+          </div>
+          <div class="brief-block">
+            <p class="section-label">关键路径</p>
+            <div class="path-list" id="pathList"></div>
+          </div>
+          <div class="brief-block">
+            <p class="section-label">反方质疑</p>
+            <div class="risk-list" id="riskList"></div>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="section-band" id="cases" aria-label="深案例货架">
+      <div class="section-inner">
+        <div class="section-heading">
+          <p class="eyebrow">深案例货架</p>
+          <h2>用案例把方法论变成可理解的判断。</h2>
+          <p>首页保留少量可免费试看的样板案例。真正有转化价值的，是把每家公司拆成“当时发生了什么、哪些人做了什么、为什么那一步重要”。</p>
+        </div>
+        <div class="case-grid" id="caseGrid"></div>
+      </div>
+    </section>
+
+    <section class="section-band method-band" id="method" aria-label="战略棋盘方法论">
+      <div class="section-inner method-layout">
+        <div class="method-copy">
+          <p class="eyebrow">战略棋盘方法论</p>
+          <h2>不是看热闹，而是看它有没有位置。</h2>
+          <p>一家公司真正值不值得研究，往往不取决于它今天是不是最热，而取决于它站住了什么位置。位置不是一句护城河，它需要被拆成能连续追问的结构。</p>
+        </div>
+        <div class="question-rail">
+          <article>
+            <strong>1. 真正会什么</strong>
+            <span>把产品拿掉，还剩下什么底层能力。</span>
+          </article>
+          <article>
+            <strong>2. 越做越轻吗</strong>
+            <span>一次投入能否被反复复用。</span>
+          </article>
+          <article>
+            <strong>3. 能长出新边吗</strong>
+            <span>今天的点能否自然扩成一组业务。</span>
+          </article>
+          <article>
+            <strong>4. 用户离得开吗</strong>
+            <span>离开会损失关系、流程、数据还是习惯。</span>
+          </article>
+          <article>
+            <strong>5. 是风还是河</strong>
+            <span>需求来自短期情绪，还是长期结构。</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-band" id="premium" aria-label="付费产品设想">
+      <div class="section-inner">
+        <div class="section-heading compact-heading">
+          <p class="eyebrow">未来付费层</p>
+          <h2>免费让人看懂一页，付费让人回到当时那盘棋。</h2>
+          <p>网站的引流入口可以免费生成结构化判断；收费部分应该卖更难替代的东西：证据、时点复盘、关键人员、反事实路径和持续监测。页面不提供买卖建议，只提供事实、结构和长期逻辑提醒。</p>
+        </div>
+        <div class="premium-grid">
+          <article>
+            <span>01</span>
+            <h3>历史深案例</h3>
+            <p>把拼多多、英伟达、苹果、Costco 等案例拆成棋盘复盘，训练用户的判断框架。</p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>时点回放</h3>
+            <p>回到某一年，重建当时的人员、资本、渠道、供给和竞争格局，看当时能否判断出来。</p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>公司定制推演</h3>
+            <p>用户输入任意公司，系统先生成假设清单，再接证据库和人工校验形成深度版。</p>
+          </article>
+          <article>
+            <span>04</span>
+            <h3>棋盘监测</h3>
+            <p>定期跟踪关键格子是否变深、大坝是否变薄、路径是否被竞争者改写。</p>
+          </article>
+        </div>
+        <form class="waitlist-form" id="waitlistForm">
+          <label class="field" for="waitlistInput">
+            <span>想先看哪家公司</span>
+            <input id="waitlistInput" type="text" placeholder="例如：泡泡玛特、台积电、字节跳动" />
+          </label>
+          <button class="primary-btn" type="submit">申请样例推演</button>
+          <p id="waitlistStatus" aria-live="polite">提交后会在本页生成一条本地状态，不会上传数据。</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>看懂一盘棋</span>
+    <span>战略棋盘原型 · 2026</span>
+  </footer>
+
+  <script src="./app.js"></script>
+</body>
+</html>
