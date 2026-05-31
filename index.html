@@ -99,8 +99,8 @@
   <div class="nav-inner">
     <a class="logo" href="index.html">qipan.site <span class="logo-sub">· AI 战略棋盘工作台</span></a>
     <nav class="nav-links">
-      <a href="index.html" class="is-active">首页</a>
-      <a href="#workshop">PPT 工坊</a>
+      <a href="index.html" class="is-active" data-home-link>首页</a>
+      <a href="#workshop" data-workshop-link>PPT 工坊</a>
       <a href="past.html">案例馆</a>
       <a href="method.html">战略棋盘</a>
     </nav>
@@ -300,5 +300,18 @@
     </div>
   </section>
 </main>
+<script>
+  (() => {
+    const homeLink = document.querySelector("[data-home-link]");
+    const workshopLink = document.querySelector("[data-workshop-link]");
+    const syncNavState = () => {
+      const isWorkshop = window.location.hash === "#workshop";
+      homeLink?.classList.toggle("is-active", !isWorkshop);
+      workshopLink?.classList.toggle("is-active", isWorkshop);
+    };
+    syncNavState();
+    window.addEventListener("hashchange", syncNavState);
+  })();
+</script>
 </body>
 </html>
