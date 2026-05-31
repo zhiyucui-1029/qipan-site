@@ -162,14 +162,12 @@ function renderOpportunity(key) {
       <b>›</b>
     </article>`
   )).join("");
-  peerGrid.innerHTML = item.peers.map(([logo, name, note]) => (
-    `<article>
-      <strong>${logo}</strong>
-      <div>
-        <h3>${name}</h3>
-        <p>${note}</p>
-      </div>
-      <span>${item.tags[0]} · ${item.tags[1]}</span>
+  peerGrid.innerHTML = item.peers.map(([logo, name, note], idx) => (
+    `<article class="peer-card-item">
+      <div class="peer-logo">${logo}</div>
+      <div class="peer-name">${name}</div>
+      <div class="peer-tag">${note}</div>
+      <span class="peer-signal">信号 ${(idx + 2) % 5 + 2}</span>
     </article>`
   )).join("");
 

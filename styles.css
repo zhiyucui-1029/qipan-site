@@ -2538,3 +2538,164 @@ input[type="range"] {
     border-bottom: 1px solid var(--studio-line);
   }
 }
+
+/* ============================================================
+   v4 LANDING — 好机会 hero / 矩阵四色 / 案例 logo 卡片
+   2026-05-25 不动旧规则，全部叠加在末尾
+   ============================================================ */
+
+/* —— Hero 双栏：左主标题，右德鲁克引文 —— */
+.hero-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: 48px;
+  align-items: start;
+  padding: 56px 48px;
+}
+.hero-card .hero-main h1 {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 5vw, 60px);
+  line-height: 1.1;
+  margin: 14px 0 14px;
+  letter-spacing: -0.01em;
+}
+.hero-card .hero-main > p {
+  color: var(--muted);
+  font-size: 18px;
+  max-width: 32ch;
+  margin: 0 0 28px;
+}
+.hero-card .studio-eyebrow {
+  color: var(--green-deep);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin: 0;
+}
+.hero-cta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.hero-cta-primary,
+.hero-cta-ghost {
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 18px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background 160ms ease, color 160ms ease, border-color 160ms ease;
+}
+.hero-cta-primary {
+  background: var(--green-deep);
+  color: #fff;
+  border: 1px solid var(--green-deep);
+}
+.hero-cta-primary:hover { background: var(--green); border-color: var(--green); }
+.hero-cta-ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--line);
+}
+.hero-cta-ghost:hover { border-color: var(--ink); }
+
+/* 引文：无卡片、无头像，仅左侧 1px 细灰线 */
+.hero-quote {
+  border-left: 1px solid var(--line);
+  padding: 6px 0 6px 22px;
+  align-self: stretch;
+}
+.hero-quote p {
+  margin: 0 0 10px;
+  color: var(--muted);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 16px;
+  line-height: 1.7;
+}
+.hero-quote cite {
+  font-style: normal;
+  color: var(--faint);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 880px) {
+  .hero-card { grid-template-columns: 1fr; gap: 28px; padding: 36px 24px; }
+  .hero-quote { border-left: 0; border-top: 1px solid var(--line); padding: 18px 0 0; }
+}
+
+/* —— 矩阵四象限：四种低饱和度色块 —— */
+.opportunity-cell { transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease; }
+
+.opportunity-cell[data-opportunity="rift"] {
+  background: color-mix(in srgb, #C75450 14%, var(--surface));
+  border-color: color-mix(in srgb, #C75450 32%, var(--line));
+}
+.opportunity-cell[data-opportunity="burst"] {
+  background: color-mix(in srgb, #C8902A 14%, var(--surface));
+  border-color: color-mix(in srgb, #C8902A 32%, var(--line));
+}
+.opportunity-cell[data-opportunity="compound"] {
+  background: color-mix(in srgb, #4F8770 14%, var(--surface));
+  border-color: color-mix(in srgb, #4F8770 32%, var(--line));
+}
+.opportunity-cell[data-opportunity="penetration"] {
+  background: color-mix(in srgb, #4A5BA8 14%, var(--surface));
+  border-color: color-mix(in srgb, #4A5BA8 32%, var(--line));
+}
+.opportunity-cell:hover { transform: translateY(-1px); box-shadow: var(--shadow-soft); }
+.opportunity-cell.active {
+  border-width: 1.5px;
+  border-color: var(--ink);
+  box-shadow: var(--shadow);
+}
+
+/* —— 案例公司卡片：logo + 名称 + 信号数 —— */
+.peer-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+.peer-card-item {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+.peer-card-item:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-soft);
+  border-color: color-mix(in srgb, var(--green) 32%, var(--line));
+}
+.peer-logo {
+  width: 36px; height: 36px;
+  display: grid; place-items: center;
+  border-radius: 8px;
+  background: var(--surface-2);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--ink);
+  letter-spacing: 0;
+}
+.peer-name { font-weight: 700; font-size: 15px; line-height: 1.4; }
+.peer-tag { color: var(--muted); font-size: 13px; }
+.peer-signal {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; color: var(--green-deep); font-weight: 700;
+}
+.peer-signal::before {
+  content: ""; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--green);
+}
+@media (max-width: 880px) {
+  .peer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
