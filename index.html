@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>StratVault · AI 战略分析，专业 PPT</title>
-<meta name="description" content="描述你的战略问题，60秒生成一套咨询级分析报告 PPT。">
+<title>StratVault · AI Strategy Decks for Real Business Problems</title>
+<meta name="description" content="Describe your business problem and generate a consultant-grade strategy deck.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -22,7 +22,7 @@
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
-    font-family: 'Inter', 'Noto Sans SC', -apple-system, sans-serif;
+    font-family: 'Inter', -apple-system, sans-serif;
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
@@ -90,7 +90,7 @@
     letter-spacing: -.03em;
     color: var(--text);
     line-height: 1;
-    margin-bottom: 12px;
+    margin: 0 0 12px;
   }
   .brand-name span {
     background: linear-gradient(135deg, var(--gold-dark), var(--gold));
@@ -195,7 +195,7 @@
     font-weight: 400;
   }
 
-  /* ── PPT Preview Strip ── */
+  /* ── Deck Preview Strip ── */
   .ppt-strip {
     width: 100%;
     max-width: 960px;
@@ -210,24 +210,88 @@
     animation: scrollPPT 40s linear infinite;
   }
   .ppt-scroll:hover { animation-play-state: paused; }
-  .ppt-slide-img {
+  .ppt-slide {
     flex-shrink: 0;
     width: 260px;
     height: 163px;
     border-radius: 10px;
     overflow: hidden;
+    padding: 18px;
+    border: 1px solid rgba(15, 40, 64, .08);
     box-shadow: 0 4px 20px rgba(0,0,0,.12);
     transition: transform .3s, box-shadow .3s;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
-  .ppt-slide-img:hover {
+  .ppt-slide:hover {
     transform: scale(1.06) translateY(-4px);
     box-shadow: 0 8px 32px rgba(215,179,106,.25);
   }
-  .ppt-slide-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  .ppt-slide::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px);
+    background-size: 28px 28px;
+    pointer-events: none;
+  }
+  .ppt-slide.dark {
+    background: linear-gradient(135deg, #101820 0%, #173d49 100%);
+    color: #fff;
+  }
+  .ppt-slide.light {
+    background: linear-gradient(135deg, #fff 0%, #f6f2e8 100%);
+    color: var(--text);
+  }
+  .ppt-slide.blue {
+    background: linear-gradient(135deg, #102b4e 0%, #1f5f7c 100%);
+    color: #fff;
+  }
+  .ppt-slide.green {
+    background: linear-gradient(135deg, #0f2f2b 0%, #1f6b55 100%);
+    color: #fff;
+  }
+  .ppt-slide span,
+  .ppt-slide h4,
+  .ppt-slide p,
+  .ppt-slide .mini-bars {
+    position: relative;
+    z-index: 1;
+  }
+  .ppt-slide span {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .12em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+  .ppt-slide h4 {
+    margin: 0;
+    font-size: 24px;
+    line-height: 1.08;
+    letter-spacing: 0;
+  }
+  .ppt-slide p {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.45;
+    color: currentColor;
+    opacity: .72;
+  }
+  .mini-bars {
+    display: flex;
+    align-items: end;
+    gap: 8px;
+    height: 34px;
+  }
+  .mini-bars i {
     display: block;
+    width: 26px;
+    border-radius: 4px 4px 0 0;
+    background: linear-gradient(180deg, var(--gold), #7ca52e);
+    opacity: .9;
   }
   @keyframes scrollPPT {
     0% { transform: translateX(0); }
@@ -282,18 +346,18 @@
 
 <header class="nav">
   <div class="nav-inner">
-    <a class="logo" href="index.html">StratVault <span class="logo-sub">· AI 战略分析工作台</span></a>
+    <a class="logo" href="index.html">StratVault <span class="logo-sub">· AI Strategy Deck Studio</span></a>
     <nav class="nav-links">
-      <a href="workshop.html">工坊</a>
-      <a href="cases.html">案例</a>
-      <a href="experts.html">专家</a>
-      <a href="academy.html">下载</a>
-      <a href="method.html">方法</a>
-        <a href="profile.html">我的</a>
+      <a href="workshop.html">Workshop</a>
+      <a href="cases.html">Cases</a>
+      <a href="experts.html">Experts</a>
+      <a href="academy.html">Toolkits</a>
+      <a href="method.html">Method</a>
+        <a href="profile.html">Profile</a>
     </nav>
     <div class="nav-cta">
-      <a class="btn-ghost" href="cases.html">看案例</a>
-      <a class="btn-primary" href="workshop.html">开始生成</a>
+      <a class="btn-ghost" href="cases.html">View Cases</a>
+      <a class="btn-primary" href="workshop.html">Start</a>
     </div>
   </div>
 </header>
@@ -302,15 +366,15 @@
 
   <!-- Brand -->
   <div class="brand-mark">
-    <div class="brand-name">Strat<span>Vault</span></div>
-    <div class="brand-tagline">描述你的战略问题，60 秒生成专业 PPT</div>
+    <h1 class="brand-name">Strat<span>Vault</span></h1>
+    <div class="brand-tagline">Describe a business problem. Get a board-ready strategy deck.</div>
   </div>
 
   <!-- Search Box -->
   <div class="search-wrap">
     <div class="search-box">
-      <input class="search-input" type="text" placeholder="描述你正在面对的战略问题…" id="searchInput">
-      <button class="search-btn" onclick="window.location.href='workshop.html'" aria-label="生成">
+      <input class="search-input" type="text" placeholder="Describe the strategic problem you are facing..." id="searchInput">
+      <button class="search-btn" onclick="window.location.href='workshop.html'" aria-label="Generate">
         <svg fill="none" stroke="#fff" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </button>
     </div>
@@ -320,43 +384,103 @@
   <div class="scenarios">
     <a class="scenario-pill" href="workshop.html">
       <span class="pill-icon">📈</span>
-      <span>我的增长放缓了，怎么破局？<br><span class="pill-text-sub">增长问题破局</span></span>
+      <span>Our growth is slowing. Where do we break through?<br><span class="pill-text-sub">Growth Breakthrough</span></span>
     </a>
     <a class="scenario-pill" href="workshop.html">
       <span class="pill-icon">🎯</span>
-      <span>年度战略会下个月，材料怎么搭？<br><span class="pill-text-sub">年度战略规划</span></span>
+      <span>Board strategy meeting next month. How should we frame it?<br><span class="pill-text-sub">Annual Strategy Plan</span></span>
     </a>
     <a class="scenario-pill" href="workshop.html">
       <span class="pill-icon">📊</span>
-      <span>Q3 复盘两周后要交，先理清方向<br><span class="pill-text-sub">季度经营复盘</span></span>
+      <span>Q3 review is due in two weeks. Clarify the story first.<br><span class="pill-text-sub">Quarterly Business Review</span></span>
     </a>
   </div>
 
-  <!-- PPT Preview Strip -->
+  <!-- Deck Preview Strip -->
   <div class="ppt-strip">
     <div class="ppt-scroll">
-      <div class="ppt-slide-img"><img src="site/assets/img/slide-1.png" alt="增长诊断"></div>
-      <div class="ppt-slide-img"><img src="site/assets/img/slide-2.png" alt="财务趋势"></div>
-      <div class="ppt-slide-img"><img src="site/assets/img/slide-3.png" alt="竞争格局"></div>
-      <div class="ppt-slide-img"><img src="site/assets/img/slide-4.png" alt="行动路线图"></div>
-      <div class="ppt-slide-img"><img src="site/assets/img/slide-5.png" alt="战略选择"></div>
-      <div class="ppt-slide-img"><img src="site/assets/img/slide-6.png" alt="执行跟踪"></div>
+      <div class="ppt-slide dark">
+        <span>01 Situation Scan</span>
+        <h4>Growth<br>Diagnosis</h4>
+        <p>Signals, metrics, and pressure points.</p>
+        <div class="mini-bars"><i style="height:18px"></i><i style="height:26px"></i><i style="height:34px"></i></div>
+      </div>
+      <div class="ppt-slide light">
+        <span>02 Evidence</span>
+        <h4>Public Signal<br>Scan</h4>
+        <p>Facts, sources, and implication layers.</p>
+        <div class="mini-bars"><i style="height:22px"></i><i style="height:14px"></i><i style="height:30px"></i></div>
+      </div>
+      <div class="ppt-slide blue">
+        <span>03 Industry</span>
+        <h4>Pressure<br>Board</h4>
+        <p>Five forces mapped into profit pressure.</p>
+        <div class="mini-bars"><i style="height:30px"></i><i style="height:20px"></i><i style="height:26px"></i></div>
+      </div>
+      <div class="ppt-slide green">
+        <span>04 Choice</span>
+        <h4>Strategic<br>Position</h4>
+        <p>Where to play, how to win, what to stop.</p>
+        <div class="mini-bars"><i style="height:16px"></i><i style="height:28px"></i><i style="height:34px"></i></div>
+      </div>
+      <div class="ppt-slide dark">
+        <span>05 Roadmap</span>
+        <h4>90-Day<br>Actions</h4>
+        <p>Milestones, owners, and validation gates.</p>
+        <div class="mini-bars"><i style="height:12px"></i><i style="height:24px"></i><i style="height:34px"></i></div>
+      </div>
+      <div class="ppt-slide light">
+        <span>06 Output</span>
+        <h4>Editable<br>Deck</h4>
+        <p>PPTX-ready structure for board discussion.</p>
+        <div class="mini-bars"><i style="height:20px"></i><i style="height:32px"></i><i style="height:24px"></i></div>
+      </div>
       <!-- Duplicate for infinite scroll -->
-      <div class="ppt-slide-img"><img src="site/assets/img/slide-1.png" alt="增长诊断"></div>
-      <div class="ppt-slide-img"><img src="site/assets/img/slide-2.png" alt="财务趋势"></div>
-      <div class="ppt-slide-img"><img src="site/assets/img/slide-3.png" alt="竞争格局"></div>
-      <div class="ppt-slide-img"><img src="site/assets/img/slide-4.png" alt="行动路线图"></div>
-      <div class="ppt-slide-img"><img src="site/assets/img/slide-5.png" alt="战略选择"></div>
-      <div class="ppt-slide-img"><img src="site/assets/img/slide-6.png" alt="执行跟踪"></div>
+      <div class="ppt-slide dark">
+        <span>01 Situation Scan</span>
+        <h4>Growth<br>Diagnosis</h4>
+        <p>Signals, metrics, and pressure points.</p>
+        <div class="mini-bars"><i style="height:18px"></i><i style="height:26px"></i><i style="height:34px"></i></div>
+      </div>
+      <div class="ppt-slide light">
+        <span>02 Evidence</span>
+        <h4>Public Signal<br>Scan</h4>
+        <p>Facts, sources, and implication layers.</p>
+        <div class="mini-bars"><i style="height:22px"></i><i style="height:14px"></i><i style="height:30px"></i></div>
+      </div>
+      <div class="ppt-slide blue">
+        <span>03 Industry</span>
+        <h4>Pressure<br>Board</h4>
+        <p>Five forces mapped into profit pressure.</p>
+        <div class="mini-bars"><i style="height:30px"></i><i style="height:20px"></i><i style="height:26px"></i></div>
+      </div>
+      <div class="ppt-slide green">
+        <span>04 Choice</span>
+        <h4>Strategic<br>Position</h4>
+        <p>Where to play, how to win, what to stop.</p>
+        <div class="mini-bars"><i style="height:16px"></i><i style="height:28px"></i><i style="height:34px"></i></div>
+      </div>
+      <div class="ppt-slide dark">
+        <span>05 Roadmap</span>
+        <h4>90-Day<br>Actions</h4>
+        <p>Milestones, owners, and validation gates.</p>
+        <div class="mini-bars"><i style="height:12px"></i><i style="height:24px"></i><i style="height:34px"></i></div>
+      </div>
+      <div class="ppt-slide light">
+        <span>06 Output</span>
+        <h4>Editable<br>Deck</h4>
+        <p>PPTX-ready structure for board discussion.</p>
+        <div class="mini-bars"><i style="height:20px"></i><i style="height:32px"></i><i style="height:24px"></i></div>
+      </div>
     </div>
   </div>
 
   <!-- Bottom Links -->
   <div class="bottom-links">
-    <a href="cases.html">看案例</a>
-    <a href="experts.html">专家网络</a>
-    <a href="method.html">分析引擎</a>
-    <a href="academy.html">商学院合作</a>
+    <a href="cases.html">View Cases</a>
+    <a href="experts.html">Expert Network</a>
+    <a href="method.html">Analysis Engine</a>
+    <a href="academy.html">Toolkits</a>
   </div>
 
 </main>

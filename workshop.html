@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>工坊 · StratVault</title>
-<meta name="description" content="选择场景，生成专业战略分析报告。" />
+<title>Workshop · StratVault</title>
+<meta name="description" content="Choose a business scenario and generate a professional strategy deck." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -13,7 +13,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{
-  font-family:'Inter','Noto Sans SC',-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",sans-serif;
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;
   color:#1a1d24;background:#fafaf7;
   font-size:15px;line-height:1.65;letter-spacing:.01em;
   -webkit-font-smoothing:antialiased;
@@ -463,21 +463,21 @@ textarea.wiz-input{resize:vertical;min-height:90px;line-height:1.6}
 <!-- ====== NAV ====== -->
 <header class="nav">
   <div class="nav-inner">
-    <a class="logo" href="index.html">StratVault <span class="logo-sub">· AI 战略分析工作台</span></a>
+    <a class="logo" href="index.html">StratVault <span class="logo-sub">· AI Strategy Deck Studio</span></a>
     <nav class="nav-links">
-      <a href="workshop.html" class="is-active">工坊</a>
-      <a href="cases.html">案例</a>
-      <a href="experts.html">专家</a>
-      <a href="academy.html">下载</a>
-      <a href="method.html">方法</a>
+      <a href="workshop.html" class="is-active">Workshop</a>
+      <a href="cases.html">Cases</a>
+      <a href="experts.html">Experts</a>
+      <a href="academy.html">Toolkits</a>
+      <a href="method.html">Method</a>
     </nav>
     <div class="nav-cta">
-      <a class="btn-ghost" href="cases.html">看案例</a>
+      <a class="btn-ghost" href="cases.html">View Cases</a>
       <a class="btn-avatar btn-ghost" href="profile.html">
         <span class="avatar-circle">U</span>
-        我的
+        Profile
       </a>
-      <a class="btn-primary" href="workshop.html">开始生成</a>
+      <a class="btn-primary" href="workshop.html">Start</a>
     </div>
   </div>
 </header>
@@ -486,34 +486,34 @@ textarea.wiz-input{resize:vertical;min-height:90px;line-height:1.6}
 <div class="ctx-bar">
   <div class="ctx-bar-inner">
     <div class="ctx-left">
-      <span class="ctx-label">当前项目:</span>
+      <span class="ctx-label">Current project:</span>
       <div class="ctx-dropdown" id="ctxDropdown">
         <button class="ctx-dropdown-btn" onclick="toggleCtxMenu()">
-          <span id="ctxCurrentLabel">Nike 中国 · 增长停滞问题</span>
+          <span id="ctxCurrentLabel">Nike China · Growth Stagnation</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="ctx-menu" id="ctxMenu">
           <div class="ctx-menu-item active" onclick="switchContext(this, 'nike', 0)">
             <span class="dot green"></span>
-            Nike 中国 · 增长停滞问题
+            Nike China · Growth Stagnation
           </div>
           <div class="ctx-menu-item" onclick="switchContext(this, 'nike', 1)">
             <span class="dot yellow"></span>
-            Nike 中国 · 品类创新问题
+            Nike China · Category Innovation
           </div>
           <div class="ctx-menu-item" onclick="switchContext(this, 'nike', 2)">
             <span class="dot grey"></span>
-            Nike 中国 · 组织协同问题
+            Nike China · Organization Alignment
           </div>
           <div class="ctx-menu-divider"></div>
           <div class="ctx-menu-item" onclick="switchContext(this, 'starbucks', 0)">
             <span class="dot yellow"></span>
-            星巴克中国 · 市场份额下降
+            Starbucks China · Share Decline
           </div>
         </div>
       </div>
     </div>
-    <a class="ctx-manage" href="profile.html">管理项目 →</a>
+    <a class="ctx-manage" href="profile.html">Manage projects →</a>
   </div>
 </div>
 
@@ -523,34 +523,34 @@ textarea.wiz-input{resize:vertical;min-height:90px;line-height:1.6}
   <!-- Scenario Selector -->
   <div class="scenario-area" id="scenarioArea">
     <div class="scenario-header">
-      <h2>选择分析场景</h2>
-      <p>为当前问题选择合适的分析模板</p>
+      <h2>Choose a scenario</h2>
+      <p>Choose the right analysis workflow for this problem</p>
     </div>
 
     <div class="scenario-grid" id="scenarioGrid">
       <div class="sc-card active" onclick="selectScenario(this)">
         <div class="radio"></div>
         <span class="sc-icon">🚀</span>
-        <h3>增长问题破局</h3>
-        <p>营收停滞，找到增长引擎与突破路径</p>
+        <h3>Growth Breakthrough</h3>
+        <p>Revenue has stalled. Find the growth engine and path to win.</p>
       </div>
       <div class="sc-card" onclick="selectScenario(this)">
         <div class="radio"></div>
         <span class="sc-icon">📋</span>
-        <h3>年度战略规划</h3>
-        <p>系统梳理目标、资源与关键举措</p>
+        <h3>Annual Strategy Plan</h3>
+        <p>Align goals, resources, and strategic initiatives.</p>
       </div>
       <div class="sc-card" onclick="selectScenario(this)">
         <div class="radio"></div>
         <span class="sc-icon">🔍</span>
-        <h3>季度经营复盘</h3>
-        <p>深度回顾业务进展，纠偏调整方向</p>
+        <h3>Quarterly Business Review</h3>
+        <p>Review performance, diagnose gaps, and reset priorities.</p>
       </div>
     </div>
 
     <div class="start-btn-wrap">
       <button class="start-btn" onclick="startWizard()">
-        开始分析 →
+        Start analysis →
       </button>
     </div>
   </div>
@@ -568,8 +568,8 @@ textarea.wiz-input{resize:vertical;min-height:90px;line-height:1.6}
 
     <!-- Nav buttons -->
     <div class="wiz-nav" id="wizNav">
-      <button class="wiz-btn wiz-btn-prev" id="btnPrev" onclick="wizPrev()">← 上一步</button>
-      <button class="wiz-btn wiz-btn-next" id="btnNext" onclick="wizNext()">下一步 →</button>
+      <button class="wiz-btn wiz-btn-prev" id="btnPrev" onclick="wizPrev()">← Previous</button>
+      <button class="wiz-btn wiz-btn-next" id="btnNext" onclick="wizNext()">Next →</button>
     </div>
   </div>
 
@@ -577,7 +577,7 @@ textarea.wiz-input{resize:vertical;min-height:90px;line-height:1.6}
   <div class="gen-result" id="genResult">
     <div class="gen-progress" id="genProgress">
       <div class="progress-label">
-        <span>正在生成报告…</span>
+        <span>Generating deck...</span>
         <span id="progressPct">0%</span>
       </div>
       <div class="progress-track">
@@ -586,29 +586,29 @@ textarea.wiz-input{resize:vertical;min-height:90px;line-height:1.6}
     </div>
 
     <div class="slides-preview" id="slidesPreview">
-      <div class="slides-label">报告预览 · 15 页</div>
+      <div class="slides-label">Deck preview · 15 slides</div>
       <div class="slides-grid">
         <!-- Slide 1: Unlocked -->
         <div class="slide-card unlocked">
           <div class="slide-inner">
             <span class="slide-eyebrow">STRATVAULT</span>
-            <h4>增长破局<br/>战略报告</h4>
+            <h4>Growth Breakthrough<br/>Strategy Deck</h4>
             <div class="slide-lines"><span></span><span></span><span></span></div>
           </div>
         </div>
         <!-- Slide 2: Unlocked -->
         <div class="slide-card unlocked">
           <div class="slide-inner">
-            <span class="slide-eyebrow">01 现状分析</span>
-            <h4>营收趋势</h4>
+            <span class="slide-eyebrow">01 Situation Scan</span>
+            <h4>Revenue Trend</h4>
             <div class="slide-bars"><span></span><span></span><span></span><span></span><span></span></div>
           </div>
         </div>
         <!-- Slide 3: Unlocked -->
         <div class="slide-card unlocked">
           <div class="slide-inner">
-            <span class="slide-eyebrow">02 竞争格局</span>
-            <h4>市场定位</h4>
+            <span class="slide-eyebrow">02 Competitive Landscape</span>
+            <h4>Market Position</h4>
             <div class="slide-grid-mini"><span></span><span></span><span></span><span></span></div>
           </div>
         </div>
@@ -631,14 +631,14 @@ textarea.wiz-input{resize:vertical;min-height:90px;line-height:1.6}
       <div class="price-overlay">
         <div class="price-overlay-left">
           <div class="price-tag">
-            <span class="currency">¥</span>
-            <span class="amount">199</span>
+            <span class="currency">$</span>
+            <span class="amount">49</span>
           </div>
-          <div class="price-desc">解锁完整 15 页报告 · 含可编辑 PPTX 源文件</div>
+          <div class="price-desc">Unlock the full 15-slide report · Editable PPTX included</div>
         </div>
         <button class="price-download-btn">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          立即下载
+          Download now
         </button>
       </div>
     </div>
@@ -651,32 +651,32 @@ textarea.wiz-input{resize:vertical;min-height:90px;line-height:1.6}
   <div class="foot-inner">
     <div class="foot-brand">
       <a class="logo" href="index.html">StratVault</a>
-      <p>AI 驱动的战略分析工作台 · 让战略可视化</p>
+      <p>AI-powered strategy deck studio</p>
     </div>
     <div class="foot-cols">
       <div>
-        <h5>产品</h5>
-        <a href="workshop.html">PPT 工坊</a>
-        <a href="cases.html">案例库</a>
-        <a href="experts.html">专家网络</a>
-        <a href="academy.html">下载</a>
+        <h5>Product</h5>
+        <a href="workshop.html">Deck Workshop</a>
+        <a href="cases.html">Case Library</a>
+        <a href="experts.html">Expert Network</a>
+        <a href="academy.html">Toolkits</a>
       </div>
       <div>
-        <h5>方法论</h5>
-        <a href="method.html">战略屋模型</a>
-        <a>五维分析法</a>
-        <a>增长飞轮</a>
+        <h5>Method</h5>
+        <a href="method.html">Strategy House Model</a>
+        <a>Five-Layer Analysis</a>
+        <a>Growth Flywheel</a>
       </div>
       <div>
-        <h5>关于</h5>
-        <a>关于我们</a>
-        <a>商务合作</a>
-        <a>联系我们</a>
+        <h5>Company</h5>
+        <a>About</a>
+        <a>Partnerships</a>
+        <a>Contact</a>
       </div>
     </div>
   </div>
   <div class="foot-bottom">
-    <span>© 2026 StratVault · AI 战略分析工作台</span>
+    <span>© 2026 StratVault · AI Strategy Deck Studio</span>
   </div>
 </footer>
 
@@ -685,10 +685,10 @@ textarea.wiz-input{resize:vertical;min-height:90px;line-height:1.6}
 // STATE
 // ========================================
 const contextOptions = [
-  { project: 'nike', problem: 0, label: 'Nike 中国 · 增长停滞问题', dot: 'green' },
-  { project: 'nike', problem: 1, label: 'Nike 中国 · 品类创新问题', dot: 'yellow' },
-  { project: 'nike', problem: 2, label: 'Nike 中国 · 组织协同问题', dot: 'grey' },
-  { project: 'starbucks', problem: 0, label: '星巴克中国 · 市场份额下降', dot: 'yellow' },
+  { project: 'nike', problem: 0, label: 'Nike China · Growth Stagnation', dot: 'green' },
+  { project: 'nike', problem: 1, label: 'Nike China · Category Innovation', dot: 'yellow' },
+  { project: 'nike', problem: 2, label: 'Nike China · Organization Alignment', dot: 'grey' },
+  { project: 'starbucks', problem: 0, label: 'Starbucks China · Share Decline', dot: 'yellow' },
 ];
 
 let currentCtx = 0;
@@ -757,52 +757,52 @@ function resetToScenario() {
 // ========================================
 const steps = [
   {
-    question: '你所在的行业是什么？',
+    question: 'What industry are you in?',
     type: 'text',
-    placeholder: '例如：运动鞋服零售',
+    placeholder: 'e.g., sportswear retail',
     key: '1',
     hasInsight: true,
     insightKey: 'insight1',
-    insightPlaceholder: '关于行业的任何假设或观察…'
+    insightPlaceholder: 'Any hypothesis or observation about this industry...'
   },
   {
-    question: '目前最大的增长挑战是什么？',
+    question: 'What is the biggest growth challenge right now?',
     type: 'textarea',
-    placeholder: '例如：线下渠道萎缩，线上增长乏力',
+    placeholder: 'e.g., offline channels are shrinking and online growth is slowing',
     key: '2',
     hasInsight: true,
     insightKey: 'insight2',
-    insightPlaceholder: '你对这个挑战的初步判断…'
+    insightPlaceholder: 'Your initial view on this challenge...'
   },
   {
-    question: '过去一年营收变化趋势？',
+    question: 'How has revenue changed over the past year?',
     type: 'pills',
-    options: ['增长>20%', '增长5-20%', '基本持平', '下降5-20%', '下降>20%'],
+    options: ['Up >20%', 'Up 5-20%', 'Flat', 'Down 5-20%', 'Down >20%'],
     key: '3',
     hasInsight: true,
     insightKey: 'insight3',
-    insightPlaceholder: '补充说明变化的原因…'
+    insightPlaceholder: 'Add context on what may be driving the change...'
   },
   {
-    question: '你的核心竞争优势是什么？',
+    question: 'What is your core competitive advantage?',
     type: 'textarea',
-    placeholder: '例如：品牌认知度高，供应链成熟',
+    placeholder: 'e.g., strong brand awareness, mature supply chain',
     key: '4',
     hasInsight: true,
     insightKey: 'insight4',
-    insightPlaceholder: '你认为优势能否持续…'
+    insightPlaceholder: 'Do you think this advantage is sustainable?'
   },
   {
-    question: '报告的主要受众是谁？',
+    question: 'Who is the primary audience for the report?',
     type: 'pills',
-    options: ['董事会/CEO', '业务负责人', '战略部', '投资人'],
+    options: ['Board / CEO', 'Business Lead', 'Strategy Team', 'Investors'],
     key: '5',
     hasInsight: true,
     insightKey: 'insight5',
-    insightPlaceholder: '受众最关注哪些维度…'
+    insightPlaceholder: 'What does this audience care about most?'
   },
   {
-    question: '确认生成',
+    question: 'Confirm and generate',
     type: 'summary',
     key: '6',
   }
@@ -859,14 +859,14 @@ function renderStep() {
       <div class="summary-list">`;
 
     const labels = [
-      '你所在的行业是什么？',
-      '目前最大的增长挑战是什么？',
-      '过去一年营收变化趋势？',
-      '你的核心竞争优势是什么？',
-      '报告的主要受众是谁？'
+      'What industry are you in?',
+      'What is the biggest growth challenge right now?',
+      'How has revenue changed over the past year?',
+      'What is your core competitive advantage?',
+      'Who is the primary audience for the report?'
     ];
     for (let i = 1; i <= 5; i++) {
-      const ans = wizAnswers[i] || '（未填写）';
+      const ans = wizAnswers[i] || 'Not answered';
       html += `<div class="summary-row">
         <div class="sr-num">${i}</div>
         <div class="sr-content">
@@ -895,7 +895,7 @@ function renderStep() {
 
     if (step.hasInsight) {
       html += `<div class="wiz-insight">
-        <label>💡 你的洞察（可选）</label>
+        <label>💡 Your insight (optional)</label>
         <textarea class="wiz-input" placeholder="${step.insightPlaceholder}" oninput="wizAnswers['${step.insightKey}']=this.value">${wizAnswers[step.insightKey] || ''}</textarea>
       </div>`;
     }
@@ -930,11 +930,11 @@ function updateWizNav() {
 
   if (wizardStep === totalSteps - 1) {
     next.className = 'wiz-btn wiz-btn-gen';
-    next.innerHTML = '生成 PPT →';
+    next.innerHTML = 'Generate Deck →';
     next.onclick = startGeneration;
   } else {
     next.className = 'wiz-btn wiz-btn-next';
-    next.innerHTML = '下一步 →';
+    next.innerHTML = 'Next →';
     next.onclick = wizNext;
   }
 }

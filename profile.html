@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>我的空间 · StratVault</title>
-<meta name="description" content="管理你的项目、查看能力成长、追踪分析历史。">
+<title>Profile · StratVault</title>
+<meta name="description" content="Manage your projects, track capability growth, and review deck history.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -13,7 +13,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{
-  font-family:'Inter','Noto Sans SC',-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",sans-serif;
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;
   color:#1a1d24;background:#fafaf7;
   font-size:15px;line-height:1.65;letter-spacing:.01em;
   -webkit-font-smoothing:antialiased;
@@ -480,21 +480,21 @@ input,textarea,select{font:inherit}
 <!-- ====== NAV ====== -->
 <header class="nav">
   <div class="nav-inner">
-    <a class="logo" href="index.html">StratVault <span class="logo-sub">· AI 战略分析工作台</span></a>
+    <a class="logo" href="index.html">StratVault <span class="logo-sub">· AI Strategy Deck Studio</span></a>
     <nav class="nav-links">
-      <a href="workshop.html">工坊</a>
-      <a href="cases.html">案例</a>
-      <a href="experts.html">专家</a>
-      <a href="academy.html">下载</a>
-      <a href="method.html">方法</a>
+      <a href="workshop.html">Workshop</a>
+      <a href="cases.html">Cases</a>
+      <a href="experts.html">Experts</a>
+      <a href="academy.html">Toolkits</a>
+      <a href="method.html">Method</a>
     </nav>
     <div class="nav-cta">
-      <a class="btn-ghost" href="cases.html">看案例</a>
+      <a class="btn-ghost" href="cases.html">View Cases</a>
       <a class="btn-ghost active" href="profile.html" style="display:inline-flex;align-items:center;gap:6px;">
-        <span class="nav-avatar">用</span>
-        我的
+        <span class="nav-avatar">U</span>
+        Profile
       </a>
-      <a class="btn-primary" href="workshop.html">开始生成</a>
+      <a class="btn-primary" href="workshop.html">Start</a>
     </div>
   </div>
 </header>
@@ -502,28 +502,28 @@ input,textarea,select{font:inherit}
 <!-- ====== USER HEADER ====== -->
 <div class="user-header fade-up">
   <div class="user-info">
-    <div class="user-avatar">用</div>
+    <div class="user-avatar">U</div>
     <div>
-      <div class="user-name">用户的名字</div>
-      <div class="user-greeting">欢迎回来，继续你的战略分析之旅</div>
+      <div class="user-name">User Name</div>
+      <div class="user-greeting">Welcome back. Continue building sharper strategy decks.</div>
     </div>
   </div>
   <div class="user-stats">
     <div class="stat-chip">
       <span class="sc-icon">📅</span>
-      加入 <span class="sc-val">42</span> 天
+      Joined <span class="sc-val">42</span> days ago
     </div>
     <div class="stat-chip">
       <span class="sc-icon">📁</span>
-      <span class="sc-val">3</span> 个项目
+      <span class="sc-val">3</span> projects
     </div>
     <div class="stat-chip">
       <span class="sc-icon">📊</span>
-      <span class="sc-val">7</span> 份报告
+      <span class="sc-val">7</span> decks
     </div>
     <div class="stat-chip">
       <span class="sc-icon">⭐</span>
-      <span class="sc-val gold">Lv.3</span> 分析师
+      <span class="sc-val gold">Lv.3</span> Analyst
     </div>
   </div>
 </div>
@@ -533,30 +533,30 @@ input,textarea,select{font:inherit}
 
   <!-- ====== Column 1: Projects ====== -->
   <div class="col-projects fade-up fd1">
-    <div class="col-title">项目文件夹</div>
+    <div class="col-title">Project Folders</div>
 
     <!-- Nike -->
     <div class="folder-group">
       <div class="folder-header" onclick="toggleFolder(this)">
         <span class="folder-icon">📁</span>
-        <span>Nike 中国</span>
-        <span class="folder-tag">3 个问题</span>
+        <span>Nike China</span>
+        <span class="folder-tag">3 questions</span>
       </div>
       <div class="folder-items" id="folder-nike">
         <div class="folder-item">
           <div class="fi-dot green"></div>
-          <span class="fi-name">增长停滞问题</span>
-          <span class="fi-count">2份报告 🟢</span>
+          <span class="fi-name">Growth Stagnation</span>
+          <span class="fi-count">2 decks 🟢</span>
         </div>
         <div class="folder-item">
           <div class="fi-dot yellow"></div>
-          <span class="fi-name">品类创新问题</span>
-          <span class="fi-count">1份报告 🟡</span>
+          <span class="fi-name">Category Innovation</span>
+          <span class="fi-count">1 deck 🟡</span>
         </div>
         <div class="folder-item">
           <div class="fi-dot grey"></div>
-          <span class="fi-name">组织协同问题</span>
-          <span class="fi-count">待分析 ⚪</span>
+          <span class="fi-name">Organization Alignment</span>
+          <span class="fi-count">Not analyzed ⚪</span>
         </div>
       </div>
     </div>
@@ -565,36 +565,36 @@ input,textarea,select{font:inherit}
     <div class="folder-group">
       <div class="folder-header" onclick="toggleFolder(this)">
         <span class="folder-icon">📁</span>
-        <span>星巴克中国</span>
-        <span class="folder-tag">1 个问题</span>
+        <span>Starbucks China</span>
+        <span class="folder-tag">1 question</span>
       </div>
       <div class="folder-items" id="folder-starbucks">
         <div class="folder-item">
           <div class="fi-dot green"></div>
-          <span class="fi-name">竞争格局分析</span>
-          <span class="fi-count">1份报告 🟢</span>
+          <span class="fi-name">Competitive Landscape Analysis</span>
+          <span class="fi-count">1 deck 🟢</span>
         </div>
       </div>
     </div>
 
-    <!-- 理想汽车 -->
+    <!-- Li Auto -->
     <div class="folder-group">
       <div class="folder-header" onclick="toggleFolder(this)">
         <span class="folder-icon">📁</span>
-        <span>理想汽车</span>
-        <span class="folder-tag new">新建</span>
+        <span>Li Auto</span>
+        <span class="folder-tag new">New</span>
       </div>
-      <div class="folder-empty">尚无问题</div>
+      <div class="folder-empty">No questions yet</div>
     </div>
 
     <!-- New Project -->
     <div class="proj-new" onclick="this.querySelector('input').focus()">
       <div class="plus">+</div>
-      <span>+ 新建项目</span>
-      <input type="text" placeholder="输入公司名称…" style="display:none;flex:1;padding:6px 10px;border:1px solid #e8e4d8;border-radius:6px;font-size:13px;outline:none;background:#fff;color:#1a1d24" onfocus="this.style.display='block';this.previousElementSibling.style.display='none'" onblur="if(!this.value){this.style.display='none';this.previousElementSibling.style.display='inline'}" />
+      <span>+ New project</span>
+      <input type="text" placeholder="Enter company name..." style="display:none;flex:1;padding:6px 10px;border:1px solid #e8e4d8;border-radius:6px;font-size:13px;outline:none;background:#fff;color:#1a1d24" onfocus="this.style.display='block';this.previousElementSibling.style.display='none'" onblur="if(!this.value){this.style.display='none';this.previousElementSibling.style.display='inline'}" />
     </div>
 
-    <a class="new-analysis-btn" href="workshop.html">新建分析 →</a>
+    <a class="new-analysis-btn" href="workshop.html">New Analysis →</a>
   </div>
 
   <!-- ====== Column 2: Activity & Achievements ====== -->
@@ -602,54 +602,54 @@ input,textarea,select{font:inherit}
 
     <!-- 2a: Activity Calendar -->
     <div class="card fade-up fd2">
-      <div class="card-title"><span class="ct-icon">📅</span> 分析日历</div>
+      <div class="card-title"><span class="ct-icon">📅</span> Analysis Calendar</div>
       <div class="calendar-grid" id="calendarGrid">
         <!-- Built by JS -->
       </div>
-      <div class="cal-summary">过去 12 周共完成 <strong style="color:#8a5d32">18</strong> 次分析</div>
+      <div class="cal-summary"><strong style="color:#8a5d32">18</strong> analysis sessions completed in the last 12 weeks</div>
     </div>
 
     <!-- 2b: Badges -->
     <div class="card fade-up fd3">
-      <div class="card-title"><span class="ct-icon">🏆</span> 我的勋章</div>
+      <div class="card-title"><span class="ct-icon">🏆</span> Profile Badges</div>
       <div class="badge-grid">
         <!-- Earned -->
         <div class="badge-item">
           <div class="badge-circle earned">🌟</div>
-          <span class="badge-label">首份报告</span>
+          <span class="badge-label">First Deck</span>
         </div>
         <div class="badge-item">
           <div class="badge-circle earned">📊</div>
-          <span class="badge-label">数据驱动</span>
+          <span class="badge-label">Data Driven</span>
         </div>
         <div class="badge-item">
           <div class="badge-circle earned">📁</div>
-          <span class="badge-label">多项目达人</span>
+          <span class="badge-label">Multi-Project</span>
         </div>
         <!-- Locked -->
         <div class="badge-item">
           <div class="badge-circle locked">🎯</div>
-          <span class="badge-label">战略思考者</span>
+          <span class="badge-label">Strategic Thinker</span>
         </div>
         <div class="badge-item">
           <div class="badge-circle locked">🚀</div>
-          <span class="badge-label">连续生成</span>
+          <span class="badge-label">Generation Streak</span>
         </div>
         <div class="badge-item">
           <div class="badge-circle locked">🔥</div>
-          <span class="badge-label">模板大师</span>
+          <span class="badge-label">Template Master</span>
         </div>
         <div class="badge-item">
           <div class="badge-circle locked">👑</div>
-          <span class="badge-label">全矩阵解锁</span>
+          <span class="badge-label">Full Matrix</span>
         </div>
         <div class="badge-item">
           <div class="badge-circle locked">🌍</div>
-          <span class="badge-label">行业通</span>
+          <span class="badge-label">Industry Fluent</span>
         </div>
       </div>
       <div class="badge-progress">
-        <span>3/8 勋章已解锁</span>
+        <span>3/8 badges unlocked</span>
         <div class="badge-progress-bar">
           <div class="badge-progress-fill"></div>
         </div>
@@ -658,13 +658,13 @@ input,textarea,select{font:inherit}
 
     <!-- 2c: Level Progress -->
     <div class="card fade-up fd4">
-      <div class="card-title"><span class="ct-icon">⚡</span> 等级进度</div>
+      <div class="card-title"><span class="ct-icon">⚡</span> Level Progress</div>
       <div class="level-section">
         <div class="level-current">
           <div class="level-label">
-            <span class="lv-badge">Lv.3</span> 分析师
+            <span class="lv-badge">Lv.3</span> Analyst
           </div>
-          <div class="level-next">下一级：Lv.4 战略师</div>
+          <div class="level-next">Next: Lv.4 Strategist</div>
         </div>
         <div class="xp-bar">
           <div class="xp-fill"></div>
@@ -682,79 +682,79 @@ input,textarea,select{font:inherit}
 
     <!-- 3a: Capability Heatmap -->
     <div class="card fade-up fd2">
-      <div class="card-title"><span class="ct-icon">🗺️</span> 能力图谱</div>
+      <div class="card-title"><span class="ct-icon">🗺️</span> Capability Map</div>
       <div class="heatmap-grid">
         <!-- Header row -->
         <div class="hm-corner"></div>
-        <div class="hm-col-label">诊断</div>
-        <div class="hm-col-label">分析</div>
-        <div class="hm-col-label">规划</div>
-        <div class="hm-col-label">落地</div>
+        <div class="hm-col-label">Diagnose</div>
+        <div class="hm-col-label">Analyze</div>
+        <div class="hm-col-label">Plan</div>
+        <div class="hm-col-label">Execute</div>
 
-        <!-- Row 1: 宏观环境 -->
-        <div class="hm-row-label">宏观环境</div>
+        <!-- Row 1: Macro -->
+        <div class="hm-row-label">Macro</div>
         <div class="hm-cell" data-level="2">
           <div class="hm-block"></div><div class="hm-block"></div>
-          <div class="hm-tip">PEST 宏观扫描<br>PESTEL 分析</div>
+          <div class="hm-tip">PEST Scan<br>PESTEL Analysis</div>
         </div>
-        <div class="hm-cell" data-level="0"><div class="hm-tip">尚未解锁</div></div>
-        <div class="hm-cell" data-level="0"><div class="hm-tip">尚未解锁</div></div>
+        <div class="hm-cell" data-level="0"><div class="hm-tip">Locked</div></div>
+        <div class="hm-cell" data-level="0"><div class="hm-tip">Locked</div></div>
         <div class="hm-cell" data-level="3">
           <div class="hm-block"></div><div class="hm-block"></div><div class="hm-block"></div>
-          <div class="hm-tip">趋势路线图<br>情景规划<br>宏观行动方案</div>
+          <div class="hm-tip">Trend Roadmap<br>Scenario Planning<br>Macro action plan</div>
         </div>
 
-        <!-- Row 2: 行业竞争 -->
-        <div class="hm-row-label">行业竞争</div>
-        <div class="hm-cell" data-level="0"><div class="hm-tip">尚未解锁</div></div>
+        <!-- Row 2: Industry -->
+        <div class="hm-row-label">Industry</div>
+        <div class="hm-cell" data-level="0"><div class="hm-tip">Locked</div></div>
         <div class="hm-cell" data-level="1">
           <div class="hm-block"></div>
-          <div class="hm-tip">波特五力分析</div>
+          <div class="hm-tip">Five Forces Analysis</div>
         </div>
-        <div class="hm-cell" data-level="0"><div class="hm-tip">尚未解锁</div></div>
-        <div class="hm-cell" data-level="0"><div class="hm-tip">尚未解锁</div></div>
+        <div class="hm-cell" data-level="0"><div class="hm-tip">Locked</div></div>
+        <div class="hm-cell" data-level="0"><div class="hm-tip">Locked</div></div>
 
-        <!-- Row 3: 公司能力 -->
-        <div class="hm-row-label">公司能力</div>
-        <div class="hm-cell" data-level="0"><div class="hm-tip">尚未解锁</div></div>
+        <!-- Row 3: Company -->
+        <div class="hm-row-label">Company</div>
+        <div class="hm-cell" data-level="0"><div class="hm-tip">Locked</div></div>
         <div class="hm-cell" data-level="3">
           <div class="hm-block"></div><div class="hm-block"></div><div class="hm-block"></div>
-          <div class="hm-tip">SWOT 分析<br>财务估值<br>核心能力评估</div>
+          <div class="hm-tip">SWOT Analysis<br>Financial lens<br>Capability assessment</div>
         </div>
         <div class="hm-cell" data-level="1">
           <div class="hm-block"></div>
-          <div class="hm-tip">战略屋 ★</div>
+          <div class="hm-tip">Strategy House ★</div>
         </div>
-        <div class="hm-cell" data-level="0"><div class="hm-tip">尚未解锁</div></div>
+        <div class="hm-cell" data-level="0"><div class="hm-tip">Locked</div></div>
 
-        <!-- Row 4: 业务单元 -->
-        <div class="hm-row-label">业务单元</div>
+        <!-- Row 4: Business Unit -->
+        <div class="hm-row-label">Business Unit</div>
         <div class="hm-cell" data-level="1">
           <div class="hm-block"></div>
-          <div class="hm-tip">SCQA 故事线</div>
+          <div class="hm-tip">SCQA Storyline</div>
         </div>
         <div class="hm-cell" data-level="2">
           <div class="hm-block"></div><div class="hm-block"></div>
-          <div class="hm-tip">BCG 矩阵<br>安索夫矩阵</div>
+          <div class="hm-tip">BCG Matrix<br>Ansoff Matrix</div>
         </div>
-        <div class="hm-cell" data-level="0"><div class="hm-tip">尚未解锁</div></div>
-        <div class="hm-cell" data-level="0"><div class="hm-tip">尚未解锁</div></div>
+        <div class="hm-cell" data-level="0"><div class="hm-tip">Locked</div></div>
+        <div class="hm-cell" data-level="0"><div class="hm-tip">Locked</div></div>
 
-        <!-- Row 5: 执行动作 -->
-        <div class="hm-row-label">执行动作</div>
-        <div class="hm-cell" data-level="0"><div class="hm-tip">尚未解锁</div></div>
-        <div class="hm-cell" data-level="0"><div class="hm-tip">尚未解锁</div></div>
+        <!-- Row 5: Execution -->
+        <div class="hm-row-label">Execution</div>
+        <div class="hm-cell" data-level="0"><div class="hm-tip">Locked</div></div>
+        <div class="hm-cell" data-level="0"><div class="hm-tip">Locked</div></div>
         <div class="hm-cell" data-level="1">
           <div class="hm-block"></div>
-          <div class="hm-tip">OKR / 北极星</div>
+          <div class="hm-tip">OKR / North Star</div>
         </div>
         <div class="hm-cell" data-level="2">
           <div class="hm-block"></div><div class="hm-block"></div>
-          <div class="hm-tip">解码表 ★<br>行动计划</div>
+          <div class="hm-tip">Decode Table ★<br>Action plan</div>
         </div>
       </div>
       <div class="hm-legend">
-        <span>空</span>
+        <span>Empty</span>
         <div class="hm-legend-cell" style="background:#f0ede5"></div>
         <span>1</span>
         <div class="hm-legend-cell" style="background:rgba(215,179,106,.2)"></div>
@@ -767,25 +767,25 @@ input,textarea,select{font:inherit}
 
     <!-- 3b: Capability Bars -->
     <div class="card fade-up fd3">
-      <div class="card-title"><span class="ct-icon">📈</span> 能力雷达</div>
+      <div class="card-title"><span class="ct-icon">📈</span> Capability Radar</div>
       <div class="cap-bars">
         <div class="cap-bar-row">
-          <div class="cap-bar-label">诊断</div>
+          <div class="cap-bar-label">Diagnose</div>
           <div class="cap-bar-track"><div class="cap-bar-fill" style="width:76%"></div></div>
           <div class="cap-bar-val">76%</div>
         </div>
         <div class="cap-bar-row">
-          <div class="cap-bar-label">分析</div>
+          <div class="cap-bar-label">Analyze</div>
           <div class="cap-bar-track"><div class="cap-bar-fill" style="width:87%"></div></div>
           <div class="cap-bar-val">87%</div>
         </div>
         <div class="cap-bar-row">
-          <div class="cap-bar-label">规划</div>
+          <div class="cap-bar-label">Plan</div>
           <div class="cap-bar-track"><div class="cap-bar-fill" style="width:64%"></div></div>
           <div class="cap-bar-val">64%</div>
         </div>
         <div class="cap-bar-row">
-          <div class="cap-bar-label">落地</div>
+          <div class="cap-bar-label">Execute</div>
           <div class="cap-bar-track"><div class="cap-bar-fill" style="width:55%"></div></div>
           <div class="cap-bar-val">55%</div>
         </div>
@@ -794,10 +794,10 @@ input,textarea,select{font:inherit}
 
     <!-- 3c: Quick Stats -->
     <div class="card fade-up fd4">
-      <div class="card-title"><span class="ct-icon">📋</span> 快速概览</div>
+      <div class="card-title"><span class="ct-icon">📋</span> Quick Overview</div>
       <div class="quick-stats">
         <div class="qs-item">
-          <span class="qs-label">模板已解锁</span>
+          <span class="qs-label">Templates unlocked</span>
           <span class="qs-val">5 / 20</span>
         </div>
         <div class="qs-item">
@@ -805,8 +805,8 @@ input,textarea,select{font:inherit}
           <span class="qs-val gold">78</span>
         </div>
         <div class="qs-item">
-          <span class="qs-label">最近分析</span>
-          <span class="qs-val">昨天</span>
+          <span class="qs-label">Latest analysis</span>
+          <span class="qs-val">Yesterday</span>
         </div>
       </div>
     </div>
@@ -816,27 +816,27 @@ input,textarea,select{font:inherit}
 
 <!-- ====== ACTIVITY FEED ====== -->
 <div class="activity-feed fade-up fd5">
-  <div class="feed-title">📍 最近动态</div>
+  <div class="feed-title">📍 Recent Activity</div>
   <div class="feed-list">
     <div class="feed-item">
-      <div class="feed-time">今天 14:30</div>
-      <div class="feed-text">生成了 <strong>Nike 中国 · 增长停滞问题</strong> 的报告</div>
+      <div class="feed-time">Today 14:30</div>
+      <div class="feed-text">Generated the <strong>Nike China · Growth Stagnation</strong> deck</div>
     </div>
     <div class="feed-item">
-      <div class="feed-time">昨天 10:15</div>
-      <div class="feed-text">解锁了勋章「<strong>数据驱动</strong>」🏆</div>
+      <div class="feed-time">Yesterday 10:15</div>
+      <div class="feed-text">Unlocked the <strong>Data Driven</strong> badge 🏆</div>
     </div>
     <div class="feed-item">
-      <div class="feed-time">3 天前</div>
-      <div class="feed-text">创建了项目「<strong>理想汽车</strong>」</div>
+      <div class="feed-time">3 days ago</div>
+      <div class="feed-text">Created the <strong>Li Auto</strong> project</div>
     </div>
     <div class="feed-item">
-      <div class="feed-time">5 天前</div>
-      <div class="feed-text">下载了工具包「<strong>波特五力分析</strong>」📦</div>
+      <div class="feed-time">5 days ago</div>
+      <div class="feed-text">Downloaded the <strong>Five Forces Analysis</strong> toolkit 📦</div>
     </div>
     <div class="feed-item">
-      <div class="feed-time">1 周前</div>
-      <div class="feed-text">生成了 <strong>星巴克中国 · 竞争格局分析</strong> 的报告</div>
+      <div class="feed-time">1 week ago</div>
+      <div class="feed-text">Generated the <strong>Starbucks China · Competitive Landscape</strong> deck</div>
     </div>
   </div>
 </div>
@@ -846,28 +846,28 @@ input,textarea,select{font:inherit}
   <div class="foot-inner">
     <div class="foot-brand">
       <a class="logo" href="index.html">StratVault</a>
-      <p>AI 战略分析工作台<br>Not just beautiful. Bulletproof.</p>
+      <p>AI strategy deck studio<br>Not just beautiful. Bulletproof.</p>
     </div>
     <div class="foot-cols">
-      <h5>产品</h5>
-      <a href="workshop.html">工坊</a>
-      <a href="cases.html">案例</a>
-      <a href="experts.html">专家</a>
-      <a href="academy.html">下载</a>
+      <h5>Product</h5>
+      <a href="workshop.html">Workshop</a>
+      <a href="cases.html">Cases</a>
+      <a href="experts.html">Experts</a>
+      <a href="academy.html">Toolkits</a>
     </div>
     <div class="foot-cols">
-      <h5>资源</h5>
-      <a href="method.html">方法论</a>
-      <a href="cases.html">案例馆</a>
-      <a>文档</a>
+      <h5>Resources</h5>
+      <a href="method.html">Method</a>
+      <a href="cases.html">Case Gallery</a>
+      <a>Docs</a>
       <a>API</a>
     </div>
     <div class="foot-cols">
-      <h5>关于</h5>
-      <a>团队</a>
-      <a>商务合作</a>
-      <a>联系我们</a>
-      <a>隐私政策</a>
+      <h5>Company</h5>
+      <a>Team</a>
+      <a>Partnerships</a>
+      <a>Contact</a>
+      <a>Privacy Policy</a>
     </div>
   </div>
   <div class="foot-bottom">
@@ -879,7 +879,7 @@ input,textarea,select{font:inherit}
 // ====== Calendar Generation ======
 (function(){
   const grid = document.getElementById('calendarGrid');
-  const dayLabels = ['一','二','三','四','五','六','日'];
+  const dayLabels = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
   
   // Mock active cells (week index 0-11, day index 0-6)
   const activeCells = {
@@ -904,7 +904,7 @@ input,textarea,select{font:inherit}
       const level = activeCells[key] || 0;
       cell.setAttribute('data-level', Math.min(level, 3));
       if(level > 0){
-        cell.setAttribute('data-tip', level + ' 次分析');
+        cell.setAttribute('data-tip', level + ' analysis sessions');
       }
       grid.appendChild(cell);
     }
