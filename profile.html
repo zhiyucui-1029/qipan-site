@@ -297,51 +297,64 @@ input,textarea,select{font:inherit}
 /* ====== Column 3: Capability ====== */
 .col-capability{display:flex;flex-direction:column;gap:20px}
 
-/* Heatmap */
+/* Heatmap — compact grid with mini-blocks */
 .heatmap-grid{
   display:grid;
-  grid-template-columns:auto repeat(4,1fr);
-  gap:4px;align-items:center;
+  grid-template-columns:72px repeat(4,1fr);
+  gap:3px;align-items:stretch;
 }
-.hm-corner{}
+.hm-corner{height:28px}
 .hm-col-label{
-  font-size:10px;font-weight:700;color:#8a5d32;
-  text-align:center;padding:4px 0 8px;letter-spacing:.04em;
+  font-size:11px;font-weight:700;color:#8a5d32;
+  text-align:center;padding:6px 0;letter-spacing:.04em;
 }
 .hm-row-label{
-  font-size:11px;font-weight:600;color:#6b7280;
-  padding-right:8px;white-space:nowrap;text-align:right;
+  font-size:12px;font-weight:600;color:#4b5563;
+  padding-right:10px;white-space:nowrap;text-align:right;
+  display:flex;align-items:center;justify-content:flex-end;
+  min-height:64px;
 }
 .hm-cell{
-  width:100%;aspect-ratio:1;border-radius:4px;
-  position:relative;transition:all .3s;cursor:default;
-  max-width:40px;margin:0 auto;
-  display:flex;align-items:center;justify-content:center;gap:2px;
-  flex-wrap:wrap;
+  min-height:64px;border-radius:6px;
+  position:relative;transition:all .25s;cursor:default;
+  display:flex;align-items:center;justify-content:center;
+  gap:3px;flex-wrap:wrap;padding:8px 6px;
 }
-.hm-cell:hover{transform:scale(1.15);z-index:2}
+.hm-cell:hover{transform:scale(1.06);z-index:2;box-shadow:0 4px 16px -4px rgba(138,93,50,.2)}
 .hm-cell[data-level="0"]{background:#f0ede5}
-.hm-cell[data-level="1"]{background:rgba(215,179,106,.25)}
-.hm-cell[data-level="2"]{background:rgba(215,179,106,.5)}
+.hm-cell[data-level="1"]{background:rgba(215,179,106,.2)}
+.hm-cell[data-level="2"]{background:rgba(215,179,106,.42)}
 .hm-cell[data-level="3"]{background:#d7b36a;box-shadow:0 2px 8px -2px rgba(215,179,106,.4)}
-.hm-dot{width:4px;height:4px;border-radius:50%;background:rgba(138,93,50,.5)}
-.hm-cell[data-level="3"] .hm-dot{background:rgba(255,255,255,.6)}
-.hm-cell::after{
-  content:attr(data-tip);
-  position:absolute;bottom:calc(100% + 6px);left:50%;
-  transform:translateX(-50%);
-  padding:4px 8px;border-radius:6px;
-  background:#1a1d24;color:#fff;
-  font-size:9px;white-space:nowrap;
-  opacity:0;pointer-events:none;transition:.2s;z-index:10;
+/* Mini blocks inside cells */
+.hm-block{
+  width:16px;height:16px;border-radius:3px;
+  background:rgba(138,93,50,.35);
+  transition:all .2s;
 }
-.hm-cell:hover::after{opacity:1}
+.hm-cell[data-level="2"] .hm-block{background:rgba(138,93,50,.45)}
+.hm-cell[data-level="3"] .hm-block{background:rgba(255,255,255,.55)}
+.hm-cell:hover .hm-block{transform:scale(1.1)}
+/* Tooltip */
+.hm-tip{
+  position:absolute;bottom:calc(100% + 8px);left:50%;
+  transform:translateX(-50%) translateY(4px);
+  padding:8px 12px;border-radius:8px;
+  background:#1b2426;color:#fff;
+  font-size:11px;line-height:1.5;white-space:nowrap;
+  opacity:0;pointer-events:none;transition:all .2s;z-index:20;
+  box-shadow:0 8px 24px rgba(0,0,0,.25);
+}
+.hm-tip::after{
+  content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);
+  border:5px solid transparent;border-top-color:#1b2426;
+}
+.hm-cell:hover .hm-tip{opacity:1;transform:translateX(-50%) translateY(0)}
 .hm-legend{
-  display:flex;align-items:center;gap:6px;
-  margin-top:14px;justify-content:flex-end;
-  font-size:10px;color:#9ca3af;
+  display:flex;align-items:center;gap:8px;
+  margin-top:16px;justify-content:flex-end;
+  font-size:11px;color:#9ca3af;
 }
-.hm-legend-cell{width:12px;height:12px;border-radius:3px}
+.hm-legend-cell{width:14px;height:14px;border-radius:3px}
 
 /* Capability Bars (Radar substitute) */
 .cap-bars{display:flex;flex-direction:column;gap:10px}
@@ -677,44 +690,76 @@ input,textarea,select{font:inherit}
         <div class="hm-col-label">分析</div>
         <div class="hm-col-label">规划</div>
         <div class="hm-col-label">落地</div>
+
         <!-- Row 1: 宏观环境 -->
         <div class="hm-row-label">宏观环境</div>
-        <div class="hm-cell" data-level="1" data-tip="宏观环境 × 诊断：已使用 PESTEL"><span class="hm-dot"></span></div>
-        <div class="hm-cell" data-level="0" data-tip="宏观环境 × 分析：尚未使用"></div>
-        <div class="hm-cell" data-level="0" data-tip="宏观环境 × 规划：尚未使用"></div>
-        <div class="hm-cell" data-level="0" data-tip="宏观环境 × 落地：尚未使用"></div>
+        <div class="hm-cell" data-level="2">
+          <div class="hm-block"></div><div class="hm-block"></div>
+          <div class="hm-tip">PEST 宏观扫描<br>PESTEL 分析</div>
+        </div>
+        <div class="hm-cell" data-level="0"><div class="hm-tip">尚未解锁</div></div>
+        <div class="hm-cell" data-level="0"><div class="hm-tip">尚未解锁</div></div>
+        <div class="hm-cell" data-level="3">
+          <div class="hm-block"></div><div class="hm-block"></div><div class="hm-block"></div>
+          <div class="hm-tip">趋势路线图<br>情景规划<br>宏观行动方案</div>
+        </div>
+
         <!-- Row 2: 行业竞争 -->
         <div class="hm-row-label">行业竞争</div>
-        <div class="hm-cell" data-level="2" data-tip="行业竞争 × 诊断：已使用 波特五力、行业地图"><span class="hm-dot"></span><span class="hm-dot"></span></div>
-        <div class="hm-cell" data-level="1" data-tip="行业竞争 × 分析：已使用 竞争矩阵"><span class="hm-dot"></span></div>
-        <div class="hm-cell" data-level="0" data-tip="行业竞争 × 规划：尚未使用"></div>
-        <div class="hm-cell" data-level="0" data-tip="行业竞争 × 落地：尚未使用"></div>
+        <div class="hm-cell" data-level="0"><div class="hm-tip">尚未解锁</div></div>
+        <div class="hm-cell" data-level="1">
+          <div class="hm-block"></div>
+          <div class="hm-tip">波特五力分析</div>
+        </div>
+        <div class="hm-cell" data-level="0"><div class="hm-tip">尚未解锁</div></div>
+        <div class="hm-cell" data-level="0"><div class="hm-tip">尚未解锁</div></div>
+
         <!-- Row 3: 公司能力 -->
         <div class="hm-row-label">公司能力</div>
-        <div class="hm-cell" data-level="1" data-tip="公司能力 × 诊断：已使用 核心能力评估"><span class="hm-dot"></span></div>
-        <div class="hm-cell" data-level="3" data-tip="公司能力 × 分析：已使用 SWOT、财务估值、BCG矩阵"><span class="hm-dot"></span><span class="hm-dot"></span><span class="hm-dot"></span></div>
-        <div class="hm-cell" data-level="1" data-tip="公司能力 × 规划：已使用 战略屋"><span class="hm-dot"></span></div>
-        <div class="hm-cell" data-level="0" data-tip="公司能力 × 落地：尚未使用"></div>
+        <div class="hm-cell" data-level="0"><div class="hm-tip">尚未解锁</div></div>
+        <div class="hm-cell" data-level="3">
+          <div class="hm-block"></div><div class="hm-block"></div><div class="hm-block"></div>
+          <div class="hm-tip">SWOT 分析<br>财务估值<br>核心能力评估</div>
+        </div>
+        <div class="hm-cell" data-level="1">
+          <div class="hm-block"></div>
+          <div class="hm-tip">战略屋 ★</div>
+        </div>
+        <div class="hm-cell" data-level="0"><div class="hm-tip">尚未解锁</div></div>
+
         <!-- Row 4: 业务单元 -->
         <div class="hm-row-label">业务单元</div>
-        <div class="hm-cell" data-level="0" data-tip="业务单元 × 诊断：尚未使用"></div>
-        <div class="hm-cell" data-level="2" data-tip="业务单元 × 分析：已使用 BCG矩阵、安索夫矩阵"><span class="hm-dot"></span><span class="hm-dot"></span></div>
-        <div class="hm-cell" data-level="1" data-tip="业务单元 × 规划：已使用 安索夫矩阵"><span class="hm-dot"></span></div>
-        <div class="hm-cell" data-level="0" data-tip="业务单元 × 落地：尚未使用"></div>
+        <div class="hm-cell" data-level="1">
+          <div class="hm-block"></div>
+          <div class="hm-tip">SCQA 故事线</div>
+        </div>
+        <div class="hm-cell" data-level="2">
+          <div class="hm-block"></div><div class="hm-block"></div>
+          <div class="hm-tip">BCG 矩阵<br>安索夫矩阵</div>
+        </div>
+        <div class="hm-cell" data-level="0"><div class="hm-tip">尚未解锁</div></div>
+        <div class="hm-cell" data-level="0"><div class="hm-tip">尚未解锁</div></div>
+
         <!-- Row 5: 执行动作 -->
         <div class="hm-row-label">执行动作</div>
-        <div class="hm-cell" data-level="0" data-tip="执行动作 × 诊断：尚未使用"></div>
-        <div class="hm-cell" data-level="0" data-tip="执行动作 × 分析：尚未使用"></div>
-        <div class="hm-cell" data-level="1" data-tip="执行动作 × 规划：已使用 解码表"><span class="hm-dot"></span></div>
-        <div class="hm-cell" data-level="2" data-tip="执行动作 × 落地：已使用 OKR、行动计划"><span class="hm-dot"></span><span class="hm-dot"></span></div>
+        <div class="hm-cell" data-level="0"><div class="hm-tip">尚未解锁</div></div>
+        <div class="hm-cell" data-level="0"><div class="hm-tip">尚未解锁</div></div>
+        <div class="hm-cell" data-level="1">
+          <div class="hm-block"></div>
+          <div class="hm-tip">OKR / 北极星</div>
+        </div>
+        <div class="hm-cell" data-level="2">
+          <div class="hm-block"></div><div class="hm-block"></div>
+          <div class="hm-tip">解码表 ★<br>行动计划</div>
+        </div>
       </div>
       <div class="hm-legend">
         <span>空</span>
         <div class="hm-legend-cell" style="background:#f0ede5"></div>
         <span>1</span>
-        <div class="hm-legend-cell" style="background:rgba(215,179,106,.25)"></div>
+        <div class="hm-legend-cell" style="background:rgba(215,179,106,.2)"></div>
         <span>2</span>
-        <div class="hm-legend-cell" style="background:rgba(215,179,106,.5)"></div>
+        <div class="hm-legend-cell" style="background:rgba(215,179,106,.42)"></div>
         <span>3+</span>
         <div class="hm-legend-cell" style="background:#d7b36a"></div>
       </div>
