@@ -1,0 +1,168 @@
+slide_type: cover
+version: 0.1
+name: 增长问题破局封面
+
+layout:
+  canvas: 16:9
+  structure: selectable-layout-with-shared-hero-image
+  locked: false
+  default: diagonal-split
+  options:
+    - id: diagonal-split
+      description: 现代斜切版，左标题、右行业图、底部信息栏。
+    - id: dark-research
+      description: 黑底研究报告版，深色背景、大标题、右侧强主视觉，保留少量能力模块。
+    - id: symbol-minimal
+      description: 中心视觉极简版，大面积留白、中心视觉符号、标题和品牌线，不放能力模块。
+  description: 行业图和版式分离；同一张无字 hero image 可以套入不同封面版式。
+
+template_strategy:
+  status: active_master
+  normal_generation: 直接替换槽位并渲染可编辑 PPTX，不再每次生成整页视觉图。
+  when_to_generate_new_image: 只有行业素材库没有合适 hero image 时，才生成新的无字图片并放入 asset-pack。
+  when_to_add_new_cover_template: 如果三套正式布局都无法承接某类叙事，再新增封面母版或页面模块。
+
+required_content:
+  report_series:
+    example: 增长问题破局系列报告 · 2026
+  title:
+    example: 耐克中国增长破局
+  subtitle:
+    example: 一个全球运动品牌如何重新找回增长位置
+  capability_modules:
+    count: 4
+    availability: diagonal-split 和 dark-research 使用；symbol-minimal 不使用，避免破坏极简封面气质。
+    examples:
+      - title: 增长诊断
+        subtitle: 问题识别
+      - title: 战略拆解
+        subtitle: 路径重构
+      - title: 关键举措
+        subtitle: 执行落地
+      - title: 增长闭环
+        subtitle: 验证迭代
+  brand_line:
+    example: qipan.site | AI Strategy Board Studio
+  bottom_modules:
+    count: 3
+    availability: 只在 diagonal-split 使用。
+    examples:
+      - title: 深度洞察
+        subtitle: 基于一手研究与数据建模
+      - title: 战略导向
+        subtitle: 从判断到行动的完整路径
+      - title: 结果驱动
+        subtitle: 可验证、可落地、可迭代
+
+visual_requirements:
+  visual_reference:
+    source: optional
+    role: 只用于早期风格探索或人工校准，不进入常态生成路径
+  hero_image:
+    source: industry_pack
+    role: 封面行业氛围图，可在不同 layout 中作为右侧图或顶部图复用，并可在 PPT 中替换
+    treatment: 无标题文字、无底部信息栏、深色、低饱和、有质感、不能抢主标题
+  symbol_image:
+    source: industry_pack
+    role: symbol-minimal 极简封面的中心视觉图，通常是白底、无字、可承接标题留白的行业视觉
+    treatment: 无标题文字、无真实品牌 logo、左侧留白、右侧中心视觉足够强
+  brand_kit:
+    source: design_system
+    rule: 只替换颜色 token，不改变版式
+  typography:
+    title: 大号中文标题，清晰、稳重、有咨询报告感
+    body: 中等字重，保证浅底和深底都可读
+
+design_tokens_used:
+  - primary
+  - secondary
+  - accent
+  - background
+  - surface
+  - text
+  - muted
+
+render_outputs:
+  - pptx_slide
+  - png_preview
+
+replaceable_slots:
+  - id: brand_color_tokens
+    source: brand-kit
+    runtime_key: COVER_BRAND
+    note: 选择品牌包或由用户上传颜色生成品牌包。
+  - id: cover_layout
+    source: template_option
+    runtime_key: COVER_LAYOUT
+    example: dark-research
+    note: 控制版式，不控制图片内容。
+  - id: report_series
+    source: project_brief
+    runtime_key: COVER_REPORT_SERIES
+    example: 增长问题破局系列报告 · 2026
+  - id: title
+    source: project_brief
+    runtime_key: COVER_TITLE
+    example: 耐克中国增长破局
+  - id: subtitle
+    source: project_brief
+    runtime_key: COVER_SUBTITLE
+    example: 一个全球运动品牌如何重新找回增长位置
+  - id: brand_logo
+    source: brand-kit 或用户上传
+    runtime_key: COVER_LOGO_PATH
+    note: 可覆盖品牌包默认 logo。
+  - id: hero_image
+    source: asset-pack 或用户上传
+    runtime_key: COVER_HERO_IMAGE
+    note: 必须无文字、无标题、无整页布局；不同 layout 可以复用同一张图。
+  - id: symbol_image
+    source: asset-pack 或用户上传
+    runtime_key: COVER_SYMBOL_IMAGE
+    note: symbol-minimal 使用；必须无文字、无真实品牌 logo，并保留左侧标题区。
+
+editable_layer_contract:
+  delivery_priority: pptx
+  raster_layers:
+    - id: hero_image
+      editable_as: replaceable_picture
+      description: 右侧行业氛围图，用户可在 PPT 中替换图片。
+    - id: symbol_image
+      editable_as: replaceable_picture
+      description: 极简版中心视觉图，用户可在 PPT 中替换图片。
+  native_ppt_layers:
+    - id: background_shapes
+      editable_as: ppt_shapes
+      description: 浅底或深色背景、斜切/黑底/中心视觉结构、分割线、底部深色栏。
+    - id: report_series
+      editable_as: text_box
+      description: 顶部小字。
+    - id: title
+      editable_as: text_box
+      description: 主标题。
+    - id: subtitle
+      editable_as: text_box
+      description: 副标题。
+    - id: capability_modules
+      editable_as: grouped_text_and_icons
+      description: 四个能力模块，图标、标题、副标题都可编辑；极简版不放。
+    - id: brand_line
+      editable_as: text_box
+      description: qipan.site 品牌行。
+    - id: bottom_modules
+      editable_as: grouped_text_and_icons
+      description: 底部三个模块，图标、标题、副标题都可编辑；仅斜切版使用。
+  forbidden:
+    - 把整页封面导出成一张图片后塞进 PPT。
+    - 把主标题、副标题、底部文字烘焙进背景图。
+    - 使用无法在 PPT 中替换的临时生成路径图片。
+
+quality_gates:
+  - 标题、年份、公司名不能错。
+  - 右侧图片必须与行业有关，但不能像广告海报。
+  - 深色区域文字必须可读。
+  - 底部信息栏只能放能力承诺，不放内部说明。
+  - 极简版不能强塞能力模块或底部信息栏。
+  - 如果使用用户品牌色，必须通过 contrast check 后才能渲染。
+  - PPTX 中标题、副标题、模块文字和底部文字必须可编辑。
+  - PPTX 中右侧图片区必须是可替换图片对象。

@@ -1,0 +1,37 @@
+theme_id: qipan-default
+version: 0.1
+name: qipan.site 默认咨询报告风
+
+tokens:
+  primary: "#0B4D45"
+  secondary: "#0D2D44"
+  accent: "#D6A84F"
+  background: "#F7F4EE"
+  surface: "#FFFFFF"
+  text: "#18202B"
+  muted: "#6D7583"
+  success: "#2E7D64"
+  warning: "#C98A2E"
+  risk: "#B85443"
+  divider: "#D8D1C3"
+
+usage:
+  primary: 主标题、重要线条、qipan 标识
+  secondary: 深色图片区、底部信息栏
+  accent: 分割线、图标强调、关键节点
+  background: 浅色页面底
+  surface: 卡片或浅底模块
+  text: 正文和标题文字
+  muted: 辅助说明文字
+
+brand_override_policy:
+  user_can_upload:
+    - brand_primary
+    - brand_secondary
+    - brand_accent
+  layout_locked: true
+  rules:
+    - 用户品牌色先映射到 primary、secondary、accent。
+    - 如果品牌色饱和度过高，生成降饱和版本用于大面积背景。
+    - 深色背景必须保证白字或浅色字可读。
+    - accent 只能用于强调，不用于大面积正文背景。

@@ -1,0 +1,103 @@
+slide_type: signal_evidence
+version: 0.1
+name: 公开信号扫描
+
+workflow_ref: docs/product/public-signal-scan-workflow.md
+example_case_ref: studio/knowledge/cases/nike-china-growth-breakthrough.md
+
+layout:
+  canvas: 16:9
+  structure: evidence-wall
+  card_count: 6
+  grid: 2x3
+  description: 用 6 张证据卡呈现公开信号，每张卡固定为大数字、指标说明、战略解读三层。
+
+template_strategy:
+  status: active_sample
+  normal_generation: 从 signal_cards 填入可编辑 PPTX 文本层；PNG 只用于预览。
+  when_to_add_new_layout: 只有证据天然按时间展开时，才新增 timeline 版；默认不为单个行业新增版式。
+
+required_content:
+  title:
+    default: 公开信号扫描
+  subtitle:
+    default: 先定义指标，再判断它意味着什么
+  case_label:
+    example: 耐克中国增长破局 · 2026
+  signal_cards:
+    count: 6
+    fields:
+      - signal_title
+      - big_number
+      - metric_note
+      - strategic_read
+      - source_refs
+      - source_short_name
+      - confidence
+  source_footnote:
+    description: 页面底部来源脚注，承接每张卡的来源编号。
+  initial_directions:
+    count: 2-4
+    description: 从公开信号自然指向的下一步问题假设入口。
+
+replaceable_slots:
+  - id: title
+    source: template_default
+    editable_as: text_box
+  - id: subtitle
+    source: template_default
+    editable_as: text_box
+  - id: case_label
+    source: project_brief
+    editable_as: text_box
+  - id: signal_cards
+    source: public_signal_scan_workflow
+    editable_as: grouped_text_shapes
+  - id: source_footnote
+    source: source_register
+    editable_as: text_box
+  - id: initial_directions
+    source: public_signal_scan_workflow
+    editable_as: grouped_text_shapes
+  - id: card_icons
+    source: slide_component_library
+    editable_as: ppt_shapes_or_replaceable_icons
+
+editable_layer_contract:
+  delivery_priority: pptx
+  raster_layers: []
+  native_ppt_layers:
+    - id: background
+      editable_as: ppt_shapes
+      description: 浅色背景、标题竖线、卡片底色。
+    - id: cards
+      editable_as: grouped_text_shapes
+      description: 每张卡由 PPT 原生形状和文本框组成。
+    - id: big_numbers
+      editable_as: text_box
+      description: 大数字必须是独立文本框，可改字体、字号和颜色。
+    - id: metric_notes
+      editable_as: text_box
+      description: 指标说明是独立文本框，解释数字口径。
+    - id: strategic_reads
+      editable_as: text_box
+      description: 战略解读是独立文本框，说明数字含义。
+    - id: source_refs
+      editable_as: text_box
+      description: 来源编号和页脚来源均可编辑。
+    - id: initial_directions
+      editable_as: grouped_text_shapes
+      description: 底部初步指向标签，可编辑和删改。
+  forbidden:
+    - 把整页证据墙导出成图片后塞进 PPT。
+    - 把大数字、指标说明、战略解读烘焙进背景图。
+    - 在最终 PPT 页面里写用户确认。
+
+quality_gates:
+  - 每张卡必须有大数字；没有可量化数字时，必须明确写成可识别的质性信号，并降低可信度。
+  - 每个大数字必须有指标说明。
+  - 每个指标说明必须交代时间、口径和对象。
+  - 每个战略解读必须直接连接增长问题。
+  - 每张卡必须有来源编号，页脚必须列出来源短名。
+  - 媒体或专家访谈来源不能伪装成公司披露。
+  - PPTX 中所有文字必须可编辑。

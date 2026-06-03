@@ -1,0 +1,137 @@
+workflow_id: growth_breakthrough
+version: 0.1
+status: cover_and_signal_scan_slice
+name: 增长问题破局报告
+purpose: 把一个公司的增长困境拆成可判断、可汇报、可落地的战略报告
+interaction_flow_ref: docs/product/growth-breakthrough-interaction-flow.md
+public_signal_scan_ref: docs/product/public-signal-scan-workflow.md
+
+supported_outputs:
+  - pptx
+  - png_preview
+  - pdf
+
+required_inputs:
+  - company
+  - market
+  - industry
+  - problem_statement
+  - audience
+
+optional_inputs:
+  - brand_primary
+  - brand_secondary
+  - brand_accent
+  - brand_logo
+  - cover_hero_image
+  - cover_symbol_image
+  - cover_layout
+  - source_files
+
+default_route:
+  deck_template: studio/templates/decks/growth-breakthrough/deck.yaml
+  theme: studio/design-system/themes/qipan-default.yaml
+  industry_pack: studio/asset-packs/sportswear/pack.yaml
+
+stages:
+  - id: project_brief
+    owner: orchestrator
+    output: project-brief.yaml
+    description: 确认公司、市场、行业、问题、受众和输出格式。
+
+  - id: industry_pack
+    owner: industry-router
+    output: industry-pack-ref.yaml
+    description: 选择行业素材包；常态情况下只从素材包或用户上传图中选右侧 hero image。
+
+  - id: design_system
+    owner: visual-director
+    output: brand-kit.yaml
+    description: 把 qipan 默认色或用户上传主色/辅色映射成 PPT 色彩 token，并确定 logo。
+
+  - id: cover_plan
+    owner: deck-planner
+    output: slide-01-cover-spec.yaml
+    description: 根据项目 brief 填写封面槽位：系列名、标题、副标题、品牌、logo、hero image、symbol image 和 layout。
+
+  - id: cover_asset_selection
+    owner: visual-director
+    output: cover-visual-assets.yaml
+    description: 选择已经入库的行业图或用户上传图。只有素材库缺口明显时，才单独生成新的无字 hero image 并入库；不再每次生成整页封面图。
+
+  - id: cover_render
+    owner: slide-builder
+    output: slide-01-cover
+    description: 按 cover 模板直接渲染可编辑 PPTX 页面，再导出 PNG 预览。文字、形状、图标必须是 PPT 原生对象。
+
+  - id: public_signal_scan
+    owner: research-agent
+    output: public-signal-scan.yaml
+    description: 按来源优先级搜集公开信号，生成来源编号、6 张证据卡、待补证据和初步指向。
+
+  - id: signal_evidence_plan
+    owner: deck-planner
+    output: slide-04-signal-evidence-spec.yaml
+    description: 把公开信号转换为证据墙页面槽位；每张卡固定为大数字、指标说明、战略解读三层。
+
+  - id: signal_evidence_render
+    owner: slide-builder
+    output: slide-04-signal-evidence
+    description: 按 signal-evidence 模板渲染可编辑 PPTX 页面，再导出 PNG 预览。数字、说明、解读和来源必须是 PPT 原生文本层。
+
+normal_cover_slots:
+  fixed_template: studio/renderers/pptx/slide-modules/growth-breakthrough-cover/slide-01.mjs
+  replaceable:
+    - brand_color_tokens
+    - cover_layout
+    - report_series
+    - title
+    - subtitle
+    - brand_logo
+    - hero_image
+    - symbol_image
+  fixed:
+    - capability_modules
+    - bottom_modules
+    - editable_layer_contract
+
+cover_template_policy:
+  active_templates:
+    - growth-breakthrough-cover
+  active_layouts:
+    - diagonal-split
+    - dark-research
+    - symbol-minimal
+  recommendation: 先保留一个封面模块、三种正式 layout。图片由行业素材包或用户上传提供，版式由 COVER_LAYOUT 选择；旧的普通左右/上下验证版不进入正式白名单。
+
+signal_scan_policy:
+  workflow_ref: docs/product/public-signal-scan-workflow.md
+  slide_template: studio/templates/decks/growth-breakthrough/slides/signal-evidence.yaml
+  slide_module: studio/renderers/pptx/slide-modules/growth-breakthrough-signal-evidence/slide-04.mjs
+  default_layout: evidence-wall
+  card_count: 6
+  information_hierarchy:
+    - big_number
+    - metric_note
+    - strategic_read
+  source_priority:
+    - company_disclosure
+    - operating_data
+    - industry_data
+    - competitor_evidence
+    - channel_and_user_signal
+    - authoritative_media
+  delivery_rule: PPTX 是主交付物；PNG 只用于预览。不得把证据墙整页烘焙成图片。
+
+quality_gates:
+  - 封面标题必须准确、醒目、无错字。
+  - 右侧行业图必须有质感，但不能抢主标题。
+  - 用户上传颜色只能影响色彩 token；版式只能由 COVER_LAYOUT 的白名单选项改变。
+  - dark-research 可以保留少量能力模块，强调研究报告感。
+  - symbol-minimal 不放能力模块和底部信息栏，强调品牌记忆点。
+  - 使用的图片必须来自稳定 asset-pack 路径，不能引用临时生成目录。
+  - 常态生成不使用整页封面生图；整页生图只作为早期探索或视觉参考。
+  - 交付给客户的 PPTX 不能把标题、正文、图表文字烘焙进整页图片。
+  - PNG 只用于预览；PPTX 才是客户可下载和可编辑的主交付物。
+  - 公开信号扫描页每个大数字必须有指标说明和战略解读。
+  - 公开信号扫描页每张卡必须有来源编号，页脚必须列出来源短名。

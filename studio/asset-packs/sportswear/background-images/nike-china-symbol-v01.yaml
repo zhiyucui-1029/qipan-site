@@ -1,0 +1,14 @@
+asset_id: nike-china-symbol-v01
+type: cover_symbol_visual
+status: active
+file: nike-china-symbol-v01.png
+source: generated
+usage:
+  - growth-breakthrough-cover
+preferred_layouts:
+  - symbol-minimal
+description: 无字运动鞋与增长曲线中心视觉，用于白底极简封面。
+constraints:
+  - 不含真实品牌 logo。
+  - 不含标题文字。
+  - 左侧留白，便于 PPT 原生标题覆盖。

@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>案例馆 · StratVault</title>
+<meta name="description" content="看我们如何用专业分析框架解剖真实公司，找到突破口。" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ====== Reset & Base ====== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter','Noto Sans SC',-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",sans-serif;
+  color:#1a1d24;background:#fafaf7;
+  font-size:15px;line-height:1.65;letter-spacing:.01em;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+h1,h2,h3,h4,h5{font-weight:600;letter-spacing:-.01em}
+h1{font-size:46px;line-height:1.2;letter-spacing:-.02em}
+h2{font-size:32px;line-height:1.25}
+h3{font-size:18px}
+img{max-width:100%;display:block}
+
+/* ====== Nav ====== */
+.nav{position:sticky;top:0;z-index:50;background:rgba(250,250,247,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid rgba(0,0,0,.04)}
+.nav-inner{max-width:1240px;margin:0 auto;padding:14px 32px;display:flex;align-items:center;gap:32px}
+.logo{font-weight:700;font-size:17px;letter-spacing:-.01em}
+.logo-sub{font-weight:400;color:#9ca3af;font-size:13px;margin-left:4px}
+.nav-links{display:flex;gap:28px;flex:1;margin-left:24px}
+.nav-links a{font-size:14px;color:#4b5563;transition:color .2s}
+.nav-links a:hover{color:#1a1d24}
+.nav-links a.is-active{color:#1a1d24;font-weight:600}
+.nav-cta{display:flex;gap:10px}
+.btn-primary{background:#1a1d24;color:#fff;padding:10px 18px;border-radius:8px;font-weight:500;transition:all .2s;display:inline-flex;align-items:center;justify-content:center}
+.btn-primary:hover{background:#2d3340}
+.btn-ghost{background:#fff;color:#1a1d24;padding:9px 18px;border:1px solid #e0ddd4;border-radius:8px;font-weight:500;transition:all .2s;display:inline-flex;align-items:center;justify-content:center}
+.btn-ghost:hover{border-color:#1a1d24}
+
+/* ====== Hero ====== */
+.page-hero{
+  padding:84px 32px 64px;
+  background:linear-gradient(180deg,#f9f7f1 0%,#fafaf7 100%);
+  border-bottom:1px solid #ebe7d9;
+  text-align:center;
+}
+.page-hero-inner{max-width:760px;margin:0 auto}
+.hero-eyebrow{
+  display:inline-block;
+  background:#fff;border:1px solid #e8e4d8;color:#7a4d2a;
+  padding:5px 14px;border-radius:20px;font-size:12px;font-weight:600;
+  margin-bottom:24px;letter-spacing:.06em;
+}
+.page-hero h1{margin-bottom:18px}
+.page-hero p{color:#4b5563;font-size:17px;line-height:1.8;max-width:620px;margin:0 auto}
+
+/* ====== Filter Tabs ====== */
+.filter-section{padding:36px 32px 0;text-align:center}
+.filter-tabs{display:inline-flex;gap:6px;background:#f3f1ec;padding:4px;border-radius:24px}
+.filter-tab{
+  padding:8px 20px;border-radius:20px;font-size:14px;font-weight:500;
+  color:#6b7280;background:transparent;transition:all .25s;cursor:pointer;
+  border:none;
+}
+.filter-tab:hover{color:#1a1d24}
+.filter-tab.active{background:#1a1d24;color:#fff;box-shadow:0 4px 12px -4px rgba(26,29,36,.25)}
+
+/* ====== Case Cards Grid ====== */
+.cases-section{padding:40px 32px 80px}
+.cases-grid{
+  max-width:1240px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
+}
+.case-card{
+  background:#fff;border:1px solid #ebe7d9;border-radius:16px;
+  overflow:hidden;transition:all .35s cubic-bezier(.22,.68,0,1);
+  display:flex;flex-direction:column;cursor:pointer;
+}
+.case-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 20px 48px -12px rgba(215,179,106,.22),0 8px 24px -8px rgba(60,40,20,.10);
+  border-color:#d4cdb5;
+}
+
+/* Cover image wrapper */
+.card-cover{
+  position:relative;
+  width:100%;height:200px;
+  overflow:hidden;
+}
+.card-cover img{
+  width:100%;height:100%;
+  object-fit:cover;
+  transition:transform .5s cubic-bezier(.22,.68,0,1);
+}
+.case-card:hover .card-cover img{
+  transform:scale(1.04);
+}
+/* Subtle cinematic gradient overlay on the image */
+.card-cover::after{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 40%,rgba(0,0,0,.35) 100%);
+  pointer-events:none;
+}
+
+/* Industry tag pill overlaid on image */
+.card-tag-overlay{
+  position:absolute;bottom:12px;left:12px;z-index:2;
+  padding:4px 12px;border-radius:8px;
+  background:rgba(27,36,38,.72);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  color:rgba(255,255,255,.92);
+  font-size:12px;font-weight:600;letter-spacing:.02em;
+}
+
+/* Card body */
+.card-body{padding:22px 24px 20px;flex:1;display:flex;flex-direction:column}
+.card-body h3{font-size:17px;line-height:1.45;margin-bottom:10px;color:#1a1d24}
+.card-desc{color:#6b7280;font-size:14px;line-height:1.7;margin-bottom:18px;flex:1}
+
+/* Stats row */
+.card-stats{
+  display:flex;gap:8px;flex-wrap:wrap;
+  padding-top:16px;border-top:1px solid #f3f1ec;
+  margin-bottom:16px;
+}
+.stat-chip{
+  padding:4px 10px;border-radius:6px;
+  background:#f9f7f1;border:1px solid #ebe7d9;
+  font-size:12px;color:#6b7280;font-weight:500;
+}
+
+/* Card CTA */
+.card-cta{
+  display:inline-flex;align-items:center;gap:6px;
+  color:#7a4d2a;font-size:13px;font-weight:600;
+  transition:gap .25s;
+}
+.case-card:hover .card-cta{gap:10px;color:#8a5d32}
+
+/* ====== CTA Banner ====== */
+.cta-banner{
+  max-width:1240px;margin:0 auto 80px;padding:0 32px;
+}
+.cta-banner-inner{
+  padding:48px 56px;
+  background:linear-gradient(135deg,#1a1d24 0%,#2d3340 100%);
+  border-radius:20px;
+  display:flex;justify-content:space-between;align-items:center;gap:32px;
+  color:#fff;
+}
+.cta-text h2{color:#fff;margin-bottom:10px;font-size:28px}
+.cta-text p{color:rgba(255,255,255,.65);font-size:15px}
+.cta-banner .btn-primary{
+  background:#d7b36a;color:#1a1d24;
+  padding:14px 28px;font-size:16px;font-weight:600;
+  border-radius:10px;white-space:nowrap;flex-shrink:0;
+  transition:all .2s;
+}
+.cta-banner .btn-primary:hover{background:#e8c988;transform:translateY(-1px)}
+
+/* ====== Footer ====== */
+.foot{background:#1a1d24;color:#9ca3af;padding:56px 32px 24px;margin-top:0}
+.foot-inner{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1fr 2fr;gap:60px;padding-bottom:36px;border-bottom:1px solid rgba(255,255,255,.08)}
+.foot-brand .logo{color:#fff;margin-bottom:8px;display:block}
+.foot-brand p{font-size:13px;color:#6b7280}
+.foot-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+.foot-cols h5{color:#fff;margin-bottom:14px;font-size:13px;font-weight:500}
+.foot-cols a{display:block;font-size:13px;color:#9ca3af;padding:4px 0;cursor:pointer;transition:color .2s}
+.foot-cols a:hover{color:#fff}
+.foot-bottom{max-width:1240px;margin:24px auto 0;font-size:12px;color:#6b7280;text-align:center}
+
+/* ====== Responsive ====== */
+@media (max-width:1024px){
+  .cases-grid{grid-template-columns:repeat(2,1fr)}
+  .cta-banner-inner{flex-direction:column;text-align:center;padding:40px 32px}
+  .foot-inner{grid-template-columns:1fr}
+  h1{font-size:36px}
+  h2{font-size:26px}
+}
+@media (max-width:640px){
+  .nav-inner{padding:14px 20px;gap:12px;justify-content:space-between}
+  .logo{font-size:16px}
+  .logo-sub{display:none}
+  .nav-links{display:none}
+  .nav-cta .btn-ghost{display:none}
+  .nav-cta .btn-primary{padding:9px 12px;font-size:13px;white-space:nowrap}
+  .page-hero{padding:58px 20px 44px}
+  .page-hero p{font-size:15px}
+  h1{font-size:30px}
+  .filter-section{padding:28px 20px 0}
+  .filter-tabs{flex-direction:column;border-radius:14px}
+  .filter-tab{border-radius:10px}
+  .cases-section{padding:28px 20px 56px}
+  .cases-grid{grid-template-columns:1fr;gap:16px}
+  .card-cover{height:180px}
+  .cta-banner{padding:0 20px;margin-bottom:56px}
+  .cta-banner-inner{padding:32px 24px}
+  .cta-text h2{font-size:22px}
+  .foot{padding:40px 20px 20px}
+  .foot-inner{gap:32px}
+  .foot-cols{grid-template-columns:1fr;gap:20px}
+}
+</style>
+</head>
+<body>
+
+<!-- ====== NAV ====== -->
+<header class="nav">
+  <div class="nav-inner">
+    <a class="logo" href="index.html">StratVault <span class="logo-sub">· AI 战略分析工作台</span></a>
+    <nav class="nav-links">
+      <a href="workshop.html">工坊</a>
+      <a href="cases.html" class="is-active">案例</a>
+      <a href="experts.html">专家</a>
+      <a href="academy.html">下载</a>
+      <a href="method.html">方法</a>
+      <a href="profile.html">我的</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn-ghost" href="cases.html">看案例</a>
+      <a class="btn-primary" href="workshop.html">开始生成</a>
+    </div>
+  </div>
+</header>
+
+<!-- ====== HERO ====== -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <span class="hero-eyebrow">CASE GALLERY</span>
+    <h1>案例馆</h1>
+    <p>看我们如何用专业分析框架解剖真实公司，找到突破口。</p>
+  </div>
+</section>
+
+<!-- ====== FILTER TABS ====== -->
+<div class="filter-section">
+  <div class="filter-tabs">
+    <button class="filter-tab active">StratVault 案例</button>
+    <button class="filter-tab">专家专栏</button>
+    <button class="filter-tab">用户作品</button>
+  </div>
+</div>
+
+<!-- ====== CASE CARDS GRID ====== -->
+<section class="cases-section">
+  <div class="cases-grid">
+
+    <!-- Card 1: Nike -->
+    <div class="case-card">
+      <div class="card-cover">
+        <img src="site/assets/img/case-nike.png" alt="Nike 中国案例封面" loading="lazy" />
+        <span class="card-tag-overlay">运动鞋服</span>
+      </div>
+      <div class="card-body">
+        <h3>Nike 中国 · 增长破局分析</h3>
+        <p class="card-desc">渠道转型期如何重新定义增长路径——从 DTC 战略到下沉市场的关键博弈。</p>
+        <div class="card-stats">
+          <span class="stat-chip">15页</span>
+          <span class="stat-chip">2024.Q4</span>
+        </div>
+        <a class="card-cta" href="#">查看案例 →</a>
+      </div>
+    </div>
+
+    <!-- Card 2: Starbucks -->
+    <div class="case-card">
+      <div class="card-cover">
+        <img src="site/assets/img/case-starbucks.png" alt="星巴克中国案例封面" loading="lazy" />
+        <span class="card-tag-overlay">咖啡零售</span>
+      </div>
+      <div class="card-body">
+        <h3>星巴克中国 · 竞争格局分析</h3>
+        <p class="card-desc">面对瑞幸围攻，如何守住品牌定位——第三空间价值重估与价格带战争。</p>
+        <div class="card-stats">
+          <span class="stat-chip">12页</span>
+          <span class="stat-chip">2024.Q4</span>
+        </div>
+        <a class="card-cta" href="#">查看案例 →</a>
+      </div>
+    </div>
+
+    <!-- Card 3: Li Auto -->
+    <div class="case-card">
+      <div class="card-cover">
+        <img src="site/assets/img/case-li-auto.png" alt="理想汽车案例封面" loading="lazy" />
+        <span class="card-tag-overlay">新能源汽车</span>
+      </div>
+      <div class="card-body">
+        <h3>理想汽车 · 年度战略规划</h3>
+        <p class="card-desc">从增程到纯电，战略切换的关键窗口——产品矩阵扩张与技术路线押注。</p>
+        <div class="card-stats">
+          <span class="stat-chip">18页</span>
+          <span class="stat-chip">2025.Q1</span>
+        </div>
+        <a class="card-cta" href="#">查看案例 →</a>
+      </div>
+    </div>
+
+    <!-- Card 4: Kingsoft / WPS -->
+    <div class="case-card">
+      <div class="card-cover">
+        <img src="site/assets/img/case-kingsoft.png" alt="金山办公案例封面" loading="lazy" />
+        <span class="card-tag-overlay">SaaS</span>
+      </div>
+      <div class="card-body">
+        <h3>金山办公 · 增长破局分析</h3>
+        <p class="card-desc">AI 重构办公软件的机会与风险——从工具付费到 AI 订阅的第二曲线。</p>
+        <div class="card-stats">
+          <span class="stat-chip">14页</span>
+          <span class="stat-chip">2025.Q1</span>
+        </div>
+        <a class="card-cta" href="#">查看案例 →</a>
+      </div>
+    </div>
+
+    <!-- Card 5: Haidilao -->
+    <div class="case-card">
+      <div class="card-cover">
+        <img src="site/assets/img/case-haidilao.png" alt="海底捞案例封面" loading="lazy" />
+        <span class="card-tag-overlay">餐饮连锁</span>
+      </div>
+      <div class="card-body">
+        <h3>海底捞 · 季度经营复盘</h3>
+        <p class="card-desc">门店优化后的增长质量复盘——翻台率、客单价与扩张节奏再平衡。</p>
+        <div class="card-stats">
+          <span class="stat-chip">11页</span>
+          <span class="stat-chip">2024.Q3</span>
+        </div>
+        <a class="card-cta" href="#">查看案例 →</a>
+      </div>
+    </div>
+
+    <!-- Card 6: ByteDance -->
+    <div class="case-card">
+      <div class="card-cover">
+        <img src="site/assets/img/case-bytedance.png" alt="字节跳动案例封面" loading="lazy" />
+        <span class="card-tag-overlay">互联网平台</span>
+      </div>
+      <div class="card-body">
+        <h3>字节跳动 · 竞争格局分析</h3>
+        <p class="card-desc">全球化布局下的多线作战——TikTok 监管博弈与国内电商第二战场。</p>
+        <div class="card-stats">
+          <span class="stat-chip">16页</span>
+          <span class="stat-chip">2025.Q1</span>
+        </div>
+        <a class="card-cta" href="#">查看案例 →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ====== CTA BANNER ====== -->
+<div class="cta-banner">
+  <div class="cta-banner-inner">
+    <div class="cta-text">
+      <h2>想用同样的方法分析你的公司？</h2>
+      <p>输入公司名，AI 自动拆解战略棋盘——3 分钟出结果。</p>
+    </div>
+    <a class="btn-primary" href="workshop.html">免费生成 3 页预览 →</a>
+  </div>
+</div>
+
+<!-- ====== FOOTER ====== -->
+<footer class="foot">
+  <div class="foot-inner">
+    <div class="foot-brand">
+      <a class="logo" href="index.html">StratVault</a>
+      <p>AI 战略分析工作台 · 让战略可视化</p>
+    </div>
+    <div class="foot-cols">
+      <div>
+        <h5>产品</h5>
+        <a href="workshop.html">工坊</a>
+        <a href="cases.html">案例</a>
+        <a href="experts.html">专家</a>
+        <a href="academy.html">下载</a>
+      </div>
+      <div>
+        <h5>方法</h5>
+        <a href="method.html">方法论</a>
+        <a href="profile.html">我的</a>
+        <a href="#">分析框架</a>
+        <a href="#">战略棋盘</a>
+        <a href="#">分析模板</a>
+      </div>
+      <div>
+        <h5>关于</h5>
+        <a href="#">团队</a>
+        <a href="#">商务合作</a>
+        <a href="#">联系我们</a>
+        <a href="#">隐私政策</a>
+      </div>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2026 StratVault · All rights reserved</span>
+  </div>
+</footer>
+
+<!-- ====== Tab Interaction ====== -->
+<script>
+document.querySelectorAll('.filter-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+  });
+});
+</script>
+
+</body>
+</html>

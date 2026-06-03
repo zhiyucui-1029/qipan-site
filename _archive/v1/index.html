@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>qipan.site · AI 战略棋盘工作台</title>
+<meta name="description" content="qipan.site 是一个 AI 战略棋盘工作台：用战略屋组织问题，用解码表拆成行动，并生成可汇报 PPT。" />
+<link rel="stylesheet" href="c-v2.css?v=qipan-home-20260531" />
+<style>
+  .studio-home{background:#fafaf7;color:#1a1d24}
+  .studio-hero{padding:72px 32px 50px;background:linear-gradient(180deg,#f8f3e8 0%,#fafaf7 100%);border-bottom:1px solid #ebe7d9}
+  .studio-hero-inner{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) 470px;gap:58px;align-items:center}
+  .studio-copy h1{max-width:780px;margin-bottom:20px;font-size:52px;line-height:1.12;letter-spacing:-.025em}
+  .studio-copy p{max-width:680px;color:#4b5563;font-size:18px;line-height:1.85}
+  .studio-actions{display:flex;gap:12px;margin-top:30px;flex-wrap:wrap}
+  .studio-proof{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+  .studio-proof span{padding:7px 11px;border:1px solid #e3d8c7;border-radius:999px;background:rgba(255,255,255,.68);color:#6b7280;font-size:12px}
+  .hero-workbench{position:relative;padding:18px;background:#1b2426;border-radius:18px;box-shadow:0 30px 80px -44px rgba(24,22,18,.5);color:#fff}
+  .hero-window{padding:18px;background:#11191b;border:1px solid rgba(255,255,255,.08);border-radius:14px}
+  .hero-window-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+  .hero-dots{display:flex;gap:7px}
+  .hero-dots i{width:9px;height:9px;border-radius:50%;display:block}
+  .hero-dots i:nth-child(1){background:#d96655}.hero-dots i:nth-child(2){background:#d7b36a}.hero-dots i:nth-child(3){background:#5aa878}
+  .hero-window-top span{color:#d7b36a;font-size:11px;font-weight:700;letter-spacing:.08em}
+  .ppt-preview{display:grid;gap:10px}
+  .ppt-slide{min-height:90px;padding:16px;border-radius:10px;background:#f8f7f2;color:#172123}
+  .ppt-slide.dark{background:#233033;color:#fff}
+  .ppt-kicker{display:block;margin-bottom:8px;color:#8a5d32;font-size:11px;font-weight:700;letter-spacing:.08em}
+  .ppt-slide.dark .ppt-kicker{color:#d7b36a}
+  .ppt-slide h3{font-size:18px;line-height:1.35;margin-bottom:8px}
+  .ppt-slide p{color:#5f6870;font-size:12px;line-height:1.6}
+  .ppt-slide.dark p{color:rgba(255,255,255,.72)}
+  .mini-map{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:12px}
+  .mini-map i{height:24px;border-radius:6px;background:#c6ccd2}
+  .mini-map i:nth-child(2),.mini-map i:nth-child(6){background:#22a562}
+  .mini-map i:nth-child(4),.mini-map i:nth-child(7){background:#d79a28}
+  .mini-map i:nth-child(8){background:#c84c3a}
+  .scenario-section{padding:44px 32px 72px}
+  .scenario-grid{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+  .scenario-card{min-height:330px;padding:26px 24px;background:#fff;border:1px solid #ebe7d9;border-radius:14px;display:flex;flex-direction:column;transition:.25s}
+  .scenario-card:hover{transform:translateY(-3px);border-color:#d7b36a;box-shadow:0 24px 52px -30px rgba(60,40,20,.28)}
+  .scenario-card span{width:max-content;margin-bottom:22px;padding:5px 10px;border-radius:999px;background:#f4ead8;color:#8a5d32;font-size:12px;font-weight:700}
+  .scenario-card h2{font-size:25px;margin-bottom:12px}
+  .scenario-card p{color:#4b5563;font-size:14px;line-height:1.75}
+  .scenario-list{list-style:none;margin:22px 0 24px;display:grid;gap:8px}
+  .scenario-list li{position:relative;padding-left:18px;color:#5f6870;font-size:13px}
+  .scenario-list li::before{content:"";position:absolute;left:0;top:9px;width:6px;height:6px;border-radius:50%;background:#7a4d2a}
+  .scenario-card a{margin-top:auto}
+  .system-section{padding:74px 32px;background:#fff;border-top:1px solid #ebe7d9;border-bottom:1px solid #ebe7d9}
+  .system-inner{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:380px minmax(0,1fr);gap:40px;align-items:start}
+  .system-copy p{color:#6b7280;font-size:15px;line-height:1.8;margin-top:14px}
+  .tool-matrix{display:grid;grid-template-columns:126px repeat(4,minmax(0,1fr));gap:8px;min-width:0}
+  .tool-matrix div{position:relative;min-height:58px;padding:10px;border:1px solid #ebe7d9;border-radius:9px;background:#fafaf7;color:#4b5563;font-size:12px;line-height:1.45}
+  .tool-matrix .head{display:flex;flex-direction:column;gap:3px;align-items:center;justify-content:center;background:#1c2325;color:#fff;font-weight:700;text-align:center}
+  .tool-matrix .head small{color:rgba(255,255,255,.64);font-size:11px;font-weight:600}
+  .tool-matrix .corner{display:flex;align-items:center;justify-content:center;background:#faf8f2;color:#8a5d32;font-weight:800;text-align:center}
+  .tool-matrix .axis{display:flex;align-items:center;justify-content:center;background:#f1eadf;color:#8a5d32;font-weight:700;text-align:center}
+  .tool-matrix .hot{background:#eef7f2;border-color:#c9e4d2;color:#1d6b4a;font-weight:700}
+  .tool-matrix .warm{background:#fff7e8;border-color:#efd29a;color:#8a5d32;font-weight:700}
+  .tool-matrix .core{background:#e6f4ec;border-color:#9fd0af;color:#1d6b4a;font-weight:800}
+  .tool-matrix .core::after{content:"★";position:absolute;top:8px;right:10px;color:#1d6b4a;font-size:12px;line-height:1}
+  .tool-matrix .core small{display:block;margin-top:4px;color:#2f7a59;font-size:11px;font-weight:700}
+  .ppt-section{padding:76px 32px;background:#f8f7f2}
+  .ppt-showcase{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .deck-card{padding:22px;background:#fff;border:1px solid #ebe7d9;border-radius:16px}
+  .deck-frame{aspect-ratio:16/10;padding:26px;border-radius:12px;background:#172123;color:#fff;display:flex;flex-direction:column;justify-content:space-between}
+  .deck-frame.light{background:#fdf7ea;color:#1a1d24;border:1px solid #efd29a}
+  .deck-frame span{color:#d7b36a;font-size:12px;font-weight:700;letter-spacing:.08em}
+  .deck-frame.light span{color:#8a5d32}
+  .deck-frame h3{max-width:440px;font-size:30px;line-height:1.25}
+  .deck-bars{display:grid;gap:8px}
+  .deck-bars i{height:10px;border-radius:999px;background:rgba(255,255,255,.26)}
+  .deck-frame.light .deck-bars i{background:#d7c8a8}
+  .deck-bars i:nth-child(1){width:78%}.deck-bars i:nth-child(2){width:56%}.deck-bars i:nth-child(3){width:88%}
+  .asset-section{padding:76px 32px}
+  .asset-grid{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+  .asset-card{padding:24px;background:#fff;border:1px solid #ebe7d9;border-radius:14px}
+  .asset-card span{display:block;margin-bottom:16px;color:#8a5d32;font-size:12px;font-weight:700;letter-spacing:.08em}
+  .asset-card h3{font-size:21px;margin-bottom:10px}
+  .asset-card p{color:#5f6870;font-size:14px;line-height:1.75;margin-bottom:20px}
+  .directory-section{padding:46px 32px 54px;background:#1c2325;color:#fff}
+  .directory-inner{max-width:1240px;margin:0 auto}
+  .directory-grid-footer{display:grid;grid-template-columns:1.2fr repeat(3,1fr);gap:18px}
+  .directory-column{padding-right:28px}
+  .directory-column h3{margin-bottom:14px;color:#f4d483;font-size:14px;letter-spacing:.04em}
+  .directory-column a{display:block;width:max-content;max-width:100%;padding:7px 0;color:rgba(255,255,255,.76);font-size:14px}
+  .directory-column a:hover{color:#fff}
+  .directory-column p{color:rgba(255,255,255,.58);font-size:13px;line-height:1.75}
+  @media(max-width:900px){
+    .studio-hero-inner,.system-inner,.ppt-showcase,.asset-grid,.directory-grid-footer{grid-template-columns:1fr;display:grid}
+    .studio-copy h1{font-size:38px}
+    .scenario-grid{grid-template-columns:1fr}
+    .tool-matrix{overflow-x:auto;grid-template-columns:108px repeat(4,172px)}
+  }
+</style>
+</head>
+<body class="studio-home">
+<header class="nav">
+  <div class="nav-inner">
+    <a class="logo" href="index.html">qipan.site <span class="logo-sub">· AI 战略棋盘工作台</span></a>
+    <nav class="nav-links">
+      <a href="index.html" class="is-active" data-home-link>首页</a>
+      <a href="#workshop" data-workshop-link>PPT 工坊</a>
+      <a href="past.html">案例馆</a>
+      <a href="method.html">战略棋盘</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn-ghost" href="past.html">看案例馆</a>
+      <a class="btn-primary" href="#workshop">生成样张</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="studio-hero">
+    <div class="studio-hero-inner">
+      <div class="studio-copy">
+        <div class="badge">AI Strategy Board Studio</div>
+        <h1>把复杂战略问题，变成可汇报的 PPT。</h1>
+        <p>选择一个场景，AI 会帮你搭建战略屋、生成解码表，并输出一套结构化汇报材料。适合年度战略、竞争分析、增长破局和老板汇报。</p>
+        <div class="studio-actions">
+          <a class="btn-primary lg" href="#workshop">开始生成战略 PPT</a>
+          <a class="btn-ghost lg" href="past.html">看案例馆</a>
+        </div>
+        <div class="studio-proof">
+          <span>战略棋盘推演</span>
+          <span>战略屋 + 解码表</span>
+          <span>PPT 可视化输出</span>
+          <span>专家诊断支持</span>
+        </div>
+      </div>
+      <div class="hero-workbench" aria-label="战略 PPT 预览">
+        <div class="hero-window">
+          <div class="hero-window-top">
+            <div class="hero-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+            <span>正在生成 · 年度战略规划</span>
+          </div>
+          <div class="ppt-preview">
+            <article class="ppt-slide dark">
+              <span class="ppt-kicker">STRATEGIC DIAGNOSIS</span>
+              <h3>增长放缓不是单点问题，而是渠道效率和产品组合同时变形。</h3>
+              <p>系统已识别 5 个关键病灶，并映射到战略棋盘。</p>
+            </article>
+            <article class="ppt-slide">
+              <span class="ppt-kicker">BOARD MAP</span>
+              <h3>战略棋盘 · 问题位置</h3>
+              <div class="mini-map" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            </article>
+            <article class="ppt-slide">
+              <span class="ppt-kicker">NEXT ACTION</span>
+              <h3>下一步：先做渠道利润池复盘，再重排年度重点战役。</h3>
+              <p>可导出 18 页 PPT，含诊断、分析、规划、落地四段。</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="scenario-section" id="workshop">
+    <div class="section-title">
+      <span class="section-eyebrow">PPT Workshop</span>
+      <h2>先从三个最常见的战略场景开始</h2>
+      <p>选择你正在面对的问题，先得到一份清晰、可展示、可继续修改的战略材料。</p>
+    </div>
+    <div class="scenario-grid">
+      <article class="scenario-card">
+        <span>01 · 规划</span>
+        <h2>年度战略规划 PPT</h2>
+        <p>适合战略部、业务负责人、创始人和高管助理，用来搭建年度战略会的主线。</p>
+        <ul class="scenario-list">
+          <li>外部环境与行业变化</li>
+          <li>公司关键问题与战略选择</li>
+          <li>年度重点战役与 KPI</li>
+        </ul>
+        <a class="btn-primary full" href="mailto:hello@qipan.site?subject=qipan.site 年度战略规划样张申请">生成样张</a>
+      </article>
+      <article class="scenario-card">
+        <span>02 · 分析</span>
+        <h2>竞争格局分析 PPT</h2>
+        <p>适合进入新行业、研究竞争对手、判断行业吸引力和寻找卡位机会。</p>
+        <ul class="scenario-list">
+          <li>行业结构与主要玩家</li>
+          <li>竞争壁垒与机会窗口</li>
+          <li>进入路径与风险信号</li>
+        </ul>
+        <a class="btn-primary full" href="mailto:hello@qipan.site?subject=qipan.site 竞争格局分析样张申请">生成样张</a>
+      </article>
+      <article class="scenario-card">
+        <span>03 · 破局</span>
+        <h2>增长问题破局 PPT</h2>
+        <p>适合增长放缓、渠道失效、产品组合混乱或组织协同变差的经营问题。</p>
+        <ul class="scenario-list">
+          <li>增长症状与可能病灶</li>
+          <li>品牌、产品、渠道、组织拆解</li>
+          <li>优先行动与专家介入建议</li>
+        </ul>
+        <a class="btn-primary full" href="mailto:hello@qipan.site?subject=qipan.site 增长问题破局样张申请">生成样张</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="system-section">
+    <div class="system-inner">
+      <div class="system-copy">
+        <span class="section-eyebrow">框架矩阵</span>
+        <h2>三种战略场景，对应三条分析路径。</h2>
+        <p>你选择年度战略、竞争格局或增长破局后，系统会在矩阵中匹配需要经过的关键格子，把环境、行业、公司、业务和执行层面的框架组合起来，最后生成一套完整的 PPT。</p>
+      </div>
+      <div class="tool-matrix" aria-label="战略框架矩阵示意">
+        <div class="corner">层次 / 阶段</div><div class="head">诊断<small>搭骨架 / 定问题</small></div><div class="head">分析<small>填参数 / 找事实</small></div><div class="head">规划<small>选取位</small></div><div class="head">落地<small>定动作 / 向量</small></div>
+        <div class="axis">宏观环境层</div><div>宏观议题树 / PEST</div><div class="hot">PESTEL 分析</div><div>情景规划</div><div>趋势路线图</div>
+        <div class="axis">行业竞争层</div><div>行业议题树</div><div class="hot">波特五力 / 生态分析</div><div>生态位</div><div>兵棋推演</div>
+        <div class="axis">公司能力层</div><div>公司议题树</div><div class="hot">SWOT / 财务估值</div><div class="core">战略屋</div><div>7S 协同</div>
+        <div class="axis">业务单元层</div><div>SCQA 故事线</div><div>BCG 矩阵</div><div>安索夫矩阵 / SPAN / FAN</div><div>产品路线图</div>
+        <div class="axis">执行动作层</div><div>举措议题树</div><div>差距分析</div><div>战略地图 / OKR / 北极星</div><div class="core">解码表<small>复盘 / 根因分析</small></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ppt-section">
+    <div class="section-title">
+      <span class="section-eyebrow">汇报样张</span>
+      <h2>做出一份讲得清、拿得出的战略汇报。</h2>
+      <p>每一页都围绕一个关键判断展开：先讲清问题，再摆出证据，最后给出可执行的下一步。</p>
+    </div>
+    <div class="ppt-showcase">
+      <article class="deck-card">
+        <div class="deck-frame">
+          <span>PAGE 03 · 核心判断</span>
+          <h3>公司增长失速，真正的瓶颈不在需求，而在渠道利润池重分配。</h3>
+          <div class="deck-bars"><i></i><i></i><i></i></div>
+        </div>
+      </article>
+      <article class="deck-card">
+        <div class="deck-frame light">
+          <span>PAGE 08 · 行动路线</span>
+          <h3>未来 90 天，先重排三个重点战役：渠道、产品、组织。</h3>
+          <div class="deck-bars"><i></i><i></i><i></i></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="asset-section">
+    <div class="section-title">
+      <span class="section-eyebrow">底层框架</span>
+      <h2>所有分析，最后都落回一张战略棋盘。</h2>
+      <p>战略棋盘是整套方案的底座。它把环境变化、行业结构、SWOT、战略屋、解码表和行动路径串起来，让每一份 PPT 都不是碎片化框架堆叠，而是一套完整推演。</p>
+    </div>
+    <div class="asset-grid">
+      <article class="asset-card">
+        <span>框架说明</span>
+        <h3>战略棋盘</h3>
+        <p>了解战略棋盘如何把环境、行业、公司、业务和执行层面的判断，组织成一张可推演的图。</p>
+        <a class="btn-ghost full" href="method.html">看战略棋盘</a>
+      </article>
+      <article class="asset-card">
+        <span>案例馆</span>
+        <h3>历史十倍增长博物馆</h3>
+        <p>把英伟达 2017 这类历史样本放回当时的棋盘里，复盘好机会、好公司和好策略是如何长出来的。</p>
+        <a class="btn-ghost full" href="past.html">进入博物馆</a>
+      </article>
+      <article class="asset-card">
+        <span>当下推演</span>
+        <h3>当下棋盘推演</h3>
+        <p>用战略棋盘看今天正在发生的机会、公司站位和策略动作，把当前判断沉淀成可继续跟踪的结果。</p>
+        <a class="btn-ghost full" href="present.html">查看推演结果</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="directory-section">
+    <div class="directory-inner">
+      <div class="directory-grid-footer" aria-label="页脚导航">
+        <div class="directory-column">
+          <h3>关于 qipan.site</h3>
+          <p>一个把战略问题映射到分析框架、棋盘推演和汇报材料的 AI 战略工作台。</p>
+          <a href="mailto:hello@qipan.site?subject=关于 qipan.site">联系我们</a>
+        </div>
+        <div class="directory-column">
+          <h3>产品入口</h3>
+          <a href="#workshop">PPT 工坊</a>
+          <a href="present.html">当下棋盘推演</a>
+          <a href="past.html">历史十倍增长博物馆</a>
+        </div>
+        <div class="directory-column">
+          <h3>方法论简介</h3>
+          <a href="method.html">战略棋盘</a>
+          <a href="#workshop">三种战略场景</a>
+          <a href="method.html">框架说明</a>
+        </div>
+        <div class="directory-column">
+          <h3>案例馆</h3>
+          <a href="past.html">英伟达 2017（即将开放）</a>
+          <a href="past.html">历史样本库</a>
+          <a href="present.html">当下机会与公司</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<script>
+  (() => {
+    const homeLink = document.querySelector("[data-home-link]");
+    const workshopLink = document.querySelector("[data-workshop-link]");
+    const syncNavState = () => {
+      const isWorkshop = window.location.hash === "#workshop";
+      homeLink?.classList.toggle("is-active", !isWorkshop);
+      workshopLink?.classList.toggle("is-active", isWorkshop);
+    };
+    syncNavState();
+    window.addEventListener("hashchange", syncNavState);
+  })();
+</script>
+</body>
+</html>

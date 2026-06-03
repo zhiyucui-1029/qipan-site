@@ -1,0 +1,73 @@
+contract_id: editable_pptx_layer_contract
+version: 0.1
+purpose: 确保最终交付给客户的 PPTX 可以手动编辑文字、图片、形状和关键图表。
+
+delivery_rule:
+  primary: pptx
+  previews:
+    - png
+    - pdf
+  forbidden_primary_delivery:
+    - single_full_slide_raster_image
+
+layer_types:
+  text:
+    editable_as: text_box
+    examples:
+      - title
+      - subtitle
+      - body
+      - footnote
+      - module_label
+  shapes:
+    editable_as: ppt_shape
+    examples:
+      - background_block
+      - diagonal_panel
+      - divider
+      - card
+      - tag
+  icons:
+    editable_as: vector_or_replaceable_icon
+    examples:
+      - capability_icon
+      - bottom_module_icon
+  pictures:
+    editable_as: replaceable_picture
+    examples:
+      - hero_image
+      - industry_photo
+      - case_screenshot
+  charts:
+    preferred: editable_shapes_and_text
+    allowed_fallback: raster_chart_with_source_data
+    examples:
+      - roadmap
+      - matrix
+      - issue_tree
+      - metric_dashboard
+
+cover_slide:
+  image2_allowed_for:
+    - hero_image
+    - visual_reference
+  image2_not_allowed_for:
+    - final_full_slide_with_baked_text
+  must_be_editable:
+    - report_series
+    - title
+    - subtitle
+    - capability_modules
+    - brand_line
+    - bottom_modules
+    - background_shapes
+  replaceable_picture:
+    - hero_image
+
+qa_checks:
+  - Compare the rendered PNG preview with the approved visual reference using pixel-level QA.
+  - Open the generated PPTX and verify title text can be selected and edited.
+  - Verify hero image can be selected and replaced.
+  - Verify bottom module text is not part of a raster image.
+  - Verify exported PNG preview matches the approved reference image, not merely the intended visual style.
+  - Verify any raster chart has source data or a regeneration spec nearby.

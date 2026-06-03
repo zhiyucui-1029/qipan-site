@@ -1,81 +1,505 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>战略棋盘 · qipan.site</title>
-<link rel="stylesheet" href="c-v2.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>方法论 · StratVault · AI 战略分析工作台</title>
+<meta name="description" content="20+ 专业战略分析框架，按层级 × 阶段矩阵组织。AI 自动选择最合适的框架组合，生成可执行的战略报告。">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ====== Reset & Base ====== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter','Noto Sans SC',-apple-system,BlinkMacSystemFont,'PingFang SC','Helvetica Neue',sans-serif;
+  color:#1a1d24;background:#fafaf7;
+  font-size:15px;line-height:1.65;letter-spacing:.01em;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,h4,h5{font-weight:600;letter-spacing:-.01em}
+h1{font-size:46px;line-height:1.18;letter-spacing:-.025em}
+h2{font-size:32px;line-height:1.25}
+h3{font-size:18px}
+
+/* ====== Nav ====== */
+.nav{position:sticky;top:0;z-index:50;background:rgba(250,250,247,.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(0,0,0,.04)}
+.nav-inner{max-width:1240px;margin:0 auto;padding:14px 32px;display:flex;align-items:center;gap:32px}
+.logo{font-weight:700;font-size:17px;letter-spacing:-.01em}
+.logo-sub{font-weight:400;color:#9ca3af;font-size:13px;margin-left:4px}
+.nav-links{display:flex;gap:28px;flex:1;margin-left:24px}
+.nav-links a{font-size:14px;color:#4b5563;transition:.2s;position:relative}
+.nav-links a:hover{color:#1a1d24}
+.nav-links a.is-active{color:#1a1d24;font-weight:600}
+.nav-links a.is-active::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:2px;background:#d7b36a;border-radius:1px}
+.nav-cta{display:flex;gap:10px}
+
+/* ====== Buttons ====== */
+.btn-primary{display:inline-flex;align-items:center;gap:6px;background:#1a1d24;color:#fff;padding:10px 20px;border-radius:8px;font-weight:500;font-size:14px;transition:.2s;border:none;cursor:pointer}
+.btn-primary:hover{background:#2d3340;transform:translateY(-1px)}
+.btn-primary.lg{padding:16px 32px;font-size:16px;border-radius:10px}
+.btn-primary.gold{background:#d7b36a;color:#1a1d24}
+.btn-primary.gold:hover{background:#e8c485}
+.btn-ghost{display:inline-flex;align-items:center;gap:6px;background:#fff;color:#1a1d24;padding:9px 18px;border:1px solid #e0ddd4;border-radius:8px;font-weight:500;font-size:14px;transition:.2s;cursor:pointer}
+.btn-ghost:hover{border-color:#1a1d24}
+
+/* ====== Section ====== */
+section{padding:88px 32px}
+.section-eyebrow{display:inline-block;color:#8a5d32;font-size:12px;font-weight:700;letter-spacing:.12em;margin-bottom:12px;text-transform:uppercase}
+.section-title{max-width:760px;margin:0 auto 48px;text-align:center}
+.section-title h2{margin-bottom:14px}
+.section-title p{color:#6b7280;font-size:16px;line-height:1.75}
+
+/* ====== Hero ====== */
+.hero{padding:100px 32px 80px;background:linear-gradient(180deg,#f9f7f1 0%,#fafaf7 60%,#fafaf7 100%);border-bottom:1px solid #ebe7d9;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;right:-40px;top:50%;transform:translateY(-50%);width:480px;height:480px;background:radial-gradient(circle,rgba(215,179,106,.08) 0%,transparent 70%);pointer-events:none}
+.hero-inner{max-width:1000px;margin:0 auto;text-align:center;position:relative;z-index:1}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #e8e4d8;color:#8a5d32;padding:6px 16px;border-radius:20px;font-size:12px;font-weight:600;margin-bottom:28px}
+.hero h1{margin-bottom:22px}
+.hero h1 span{color:#d7b36a}
+.hero-desc{max-width:660px;margin:0 auto;color:#4b5563;font-size:18px;line-height:1.8}
+
+/* ====== Template Matrix ====== */
+.matrix-section{background:#fff;border-top:1px solid #ebe7d9;border-bottom:1px solid #ebe7d9}
+.matrix-wrap{max-width:1240px;margin:0 auto;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:8px}
+.matrix-table{width:100%;min-width:780px;border-collapse:separate;border-spacing:0;border-radius:16px;overflow:hidden;border:1px solid #d5d0c3}
+
+.matrix-table thead th{
+  padding:18px 20px;font-size:13px;font-weight:700;letter-spacing:.04em;
+  text-align:center;vertical-align:middle;
+  background:#1b2426;color:#d7b36a;
+  border-bottom:2px solid #2a3638;
+}
+.matrix-table thead th:first-child{
+  background:#11191b;color:#9ca3af;text-align:left;width:150px;
+  border-right:2px solid #2a3638;
+}
+.matrix-table thead th .th-sub{
+  display:block;font-weight:400;font-size:11px;color:rgba(215,179,106,.6);margin-top:3px;letter-spacing:.02em;
+}
+
+.matrix-table tbody td{
+  padding:16px 16px;font-size:13.5px;line-height:1.5;
+  text-align:center;vertical-align:middle;
+  border-bottom:1px solid #ebe7d9;
+  border-right:1px solid #ebe7d9;
+  background:#fafaf7;
+  transition:all .25s ease;
+  position:relative;
+  cursor:default;
+}
+.matrix-table tbody tr:last-child td{border-bottom:none}
+.matrix-table tbody td:last-child{border-right:none}
+
+/* Row header cells */
+.matrix-table tbody td:first-child{
+  background:#f4f2ec;color:#1a1d24;font-weight:600;font-size:13px;
+  text-align:left;border-right:2px solid #e0ddd4;
+  padding:16px 18px;
+}
+.row-icon{display:block;font-size:16px;margin-bottom:4px;opacity:.7}
+
+/* Hover on data cells */
+.matrix-table tbody td:not(:first-child):hover{
+  background:#f9f3ea;color:#8a5d32;
+  transform:scale(1.03);
+  box-shadow:0 8px 24px -8px rgba(138,93,50,.18);
+  z-index:2;
+  border-radius:8px;
+}
+
+/* Star cells */
+.cell-star{
+  background:#f0f7f2 !important;font-weight:700;color:#1a1d24;
+}
+.cell-star::after{
+  content:'';position:absolute;top:6px;right:8px;width:8px;height:8px;
+  border-radius:50%;background:#22c55e;box-shadow:0 0 0 2px #f0f7f2;
+}
+.cell-star:hover{
+  background:#e2f0e6 !important;color:#1f7a44 !important;
+}
+
+/* Tooltip for cells */
+.matrix-table tbody td:not(:first-child){position:relative}
+.cell-tip{
+  position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%) translateY(4px);
+  background:#1b2426;color:#fff;padding:8px 14px;border-radius:8px;
+  font-size:12px;line-height:1.5;white-space:nowrap;
+  opacity:0;pointer-events:none;transition:all .2s ease;z-index:10;
+  box-shadow:0 8px 24px rgba(0,0,0,.2);
+}
+.cell-tip::after{
+  content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);
+  border:5px solid transparent;border-top-color:#1b2426;
+}
+.matrix-table tbody td:not(:first-child):hover .cell-tip{
+  opacity:1;transform:translateX(-50%) translateY(0);
+}
+
+/* ====== Combination Paths ====== */
+.paths-section{background:#fafaf7}
+.paths-grid{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.path-card{
+  background:#fff;border:1px solid #ebe7d9;border-radius:18px;padding:32px 28px;
+  transition:all .3s ease;position:relative;overflow:hidden;
+}
+.path-card:hover{transform:translateY(-4px);box-shadow:0 24px 56px -20px rgba(60,40,20,.14)}
+.path-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 12px;border-radius:8px;font-size:11px;font-weight:700;letter-spacing:.06em;
+  margin-bottom:18px;
+}
+.path-card:nth-child(1) .path-badge{background:#fef3c7;color:#92400e}
+.path-card:nth-child(2) .path-badge{background:#dbeafe;color:#1e40af}
+.path-card:nth-child(3) .path-badge{background:#fce7f3;color:#9d174d}
+.path-card h3{font-size:22px;margin-bottom:8px;letter-spacing:-.02em}
+.path-card .path-desc{color:#6b7280;font-size:13px;line-height:1.7;margin-bottom:22px}
+
+/* Path flow */
+.path-flow{display:flex;align-items:center;gap:0;flex-wrap:wrap}
+.path-node{
+  padding:7px 12px;border-radius:8px;font-size:12px;font-weight:600;
+  background:#f4f2ec;color:#1a1d24;border:1px solid #e0ddd4;
+  transition:.2s;white-space:nowrap;
+}
+.path-card:nth-child(1) .path-node{background:#fef9ee;border-color:#f5dfa0;color:#92400e}
+.path-card:nth-child(2) .path-node{background:#eff6ff;border-color:#bfdbfe;color:#1e40af}
+.path-card:nth-child(3) .path-node{background:#fdf2f8;border-color:#fbcfe8;color:#9d174d}
+.path-arrow{padding:0 6px;color:#d7b36a;font-size:14px;font-weight:600}
+.path-card:nth-child(2) .path-arrow{color:#60a5fa}
+.path-card:nth-child(3) .path-arrow{color:#f472b6}
+
+/* ====== Stats ====== */
+.stats-section{background:#fff;border-top:1px solid #ebe7d9;border-bottom:1px solid #ebe7d9}
+.stats-grid{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:center}
+.stat-item{}
+.stat-number{font-size:48px;font-weight:800;letter-spacing:-.04em;color:#1a1d24;line-height:1.1}
+.stat-number span{color:#d7b36a}
+.stat-label{color:#6b7280;font-size:14px;margin-top:8px}
+
+/* ====== CTA ====== */
+.cta-section{background:linear-gradient(135deg,#1a1d24 0%,#2d3340 100%);color:#fff;padding:88px 32px;text-align:center}
+.cta-inner{max-width:640px;margin:0 auto}
+.cta-section h2{color:#fff;font-size:34px;margin-bottom:16px}
+.cta-section p{color:rgba(255,255,255,.65);font-size:16px;line-height:1.75;margin-bottom:32px}
+
+/* ====== Footer ====== */
+.foot{background:#1a1d24;color:#9ca3af;padding:56px 32px 24px;margin-top:0}
+.foot-inner{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1fr 2fr;gap:60px;padding-bottom:36px;border-bottom:1px solid rgba(255,255,255,.08)}
+.foot-brand .logo{color:#fff;margin-bottom:8px;display:block}
+.foot-brand p{font-size:13px;color:#6b7280}
+.foot-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+.foot-cols h5{color:#fff;font-size:13px;font-weight:500;margin-bottom:14px}
+.foot-cols a{display:block;font-size:13px;color:#9ca3af;padding:4px 0;cursor:pointer;transition:.2s}
+.foot-cols a:hover{color:#fff}
+.foot-bottom{max-width:1240px;margin:24px auto 0;font-size:12px;color:#6b7280;text-align:center}
+
+/* ====== Responsive ====== */
+@media(max-width:1024px){
+  .paths-grid{grid-template-columns:1fr}
+  .stats-grid{grid-template-columns:repeat(2,1fr);gap:32px}
+  .foot-inner{grid-template-columns:1fr}
+  h1{font-size:36px}
+  h2{font-size:26px}
+}
+@media(max-width:768px){
+  section{padding:64px 20px}
+  .nav-inner{padding:14px 20px;gap:12px;justify-content:space-between}
+  .nav-links{display:none}
+  .logo-sub{display:none}
+  .nav-cta .btn-ghost{display:none}
+  .hero{padding:72px 20px 56px}
+  h1{font-size:30px}
+  .hero-desc{font-size:16px}
+  .stats-grid{grid-template-columns:repeat(2,1fr);gap:24px}
+  .stat-number{font-size:36px}
+  .foot-cols{grid-template-columns:1fr}
+  .cta-section{padding:64px 20px}
+  .cta-section h2{font-size:28px}
+  .paths-grid{grid-template-columns:1fr}
+}
+</style>
 </head>
 <body>
-<main class="sub-page">
-  <header class="nav">
-    <div class="nav-inner">
-      <a class="logo" href="index.html">qipan.site <span class="logo-sub">· AI 战略棋盘工作台</span></a>
-      <nav class="nav-links">
-        <a href="index.html">首页</a>
-        <a href="index.html#workshop">PPT 工坊</a>
-        <a href="past.html">案例馆</a>
-        <a class="is-active" href="method.html">战略棋盘</a>
-      </nav>
-      <div class="nav-cta">
-        <a class="btn-ghost" href="past.html">看案例馆</a>
-        <a class="btn-primary" href="index.html#workshop">生成样张</a>
+
+<!-- ====== NAV ====== -->
+<header class="nav">
+  <div class="nav-inner">
+    <a class="logo" href="index.html">StratVault <span class="logo-sub">· AI 战略分析工作台</span></a>
+    <nav class="nav-links">
+      <a href="workshop.html">工坊</a>
+      <a href="cases.html">案例</a>
+      <a href="experts.html">专家</a>
+      <a href="academy.html">下载</a>
+      <a href="method.html" class="is-active">方法论</a>
+      <a href="profile.html">我的</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn-ghost" href="cases.html">看案例</a>
+      <a class="btn-primary" href="workshop.html">开始生成</a>
+    </div>
+  </div>
+</header>
+
+<!-- ====== HERO ====== -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">Analysis Engine · 框架矩阵</div>
+    <h1>我们的<span>分析引擎</span></h1>
+    <p class="hero-desc">将数十个战略分析框架组合成可执行的 PPT。你只需要描述问题，AI 会自动选择最合适的框架组合。</p>
+  </div>
+</section>
+
+<!-- ====== TEMPLATE MATRIX ====== -->
+<section class="matrix-section">
+  <div class="section-title">
+    <span class="section-eyebrow">Template Matrix</span>
+    <h2>层级 × 阶段 框架矩阵</h2>
+    <p>五个分析层级，四个工作阶段。每个交叉点是一个专业分析模板，鼠标悬停可查看说明。</p>
+  </div>
+
+  <div class="matrix-wrap">
+    <table class="matrix-table">
+      <thead>
+        <tr>
+          <th>层级</th>
+          <th>诊断<span class="th-sub">搞骨架 / 定问题</span></th>
+          <th>分析<span class="th-sub">填参数 / 找事实</span></th>
+          <th>规划<span class="th-sub">选取位</span></th>
+          <th>落地<span class="th-sub">定动作</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Row 1: 宏观环境层 -->
+        <tr>
+          <td><span class="row-icon">🌐</span>宏观环境层</td>
+          <td>
+            PEST 宏观扫描
+            <span class="cell-tip">政治、经济、社会、技术四维度扫描宏观环境变化</span>
+          </td>
+          <td>
+            PESTEL 分析
+            <span class="cell-tip">在 PEST 基础上增加环境与法律维度，全面评估外部因素</span>
+          </td>
+          <td>
+            情景规划
+            <span class="cell-tip">构建多个未来情景假设，评估不确定性下的战略选择</span>
+          </td>
+          <td>
+            趋势路线图
+            <span class="cell-tip">将关键趋势转化为时间轴上的行动节点</span>
+          </td>
+        </tr>
+        <!-- Row 2: 行业竞争层 -->
+        <tr>
+          <td><span class="row-icon">⚔️</span>行业竞争层</td>
+          <td>
+            行业议题树
+            <span class="cell-tip">用 MECE 拆解行业关键问题，建立分析骨架</span>
+          </td>
+          <td>
+            波特五力 / 生态分析
+            <span class="cell-tip">评估行业竞争强度与盈利潜力，定位生态角色</span>
+          </td>
+          <td>
+            生态位选择
+            <span class="cell-tip">识别行业价值链中的最佳卡位点</span>
+          </td>
+          <td>
+            兵棋推演
+            <span class="cell-tip">模拟竞争对手反应，推演攻防策略与反制方案</span>
+          </td>
+        </tr>
+        <!-- Row 3: 公司能力层 -->
+        <tr>
+          <td><span class="row-icon">🏢</span>公司能力层</td>
+          <td>
+            公司议题树
+            <span class="cell-tip">以公司为单元，系统拆解经营层面的核心问题</span>
+          </td>
+          <td>
+            SWOT / 财务估值
+            <span class="cell-tip">内部优劣势 × 外部机会威胁，叠加财务健康诊断</span>
+          </td>
+          <td class="cell-star">
+            战略屋 ★
+            <span class="cell-tip">StratVault 核心框架 — 从使命到解码的完整战略架构</span>
+          </td>
+          <td>
+            7S 协同
+            <span class="cell-tip">麦肯锡 7S 模型，确保战略、结构、系统、人员协同一致</span>
+          </td>
+        </tr>
+        <!-- Row 4: 业务单元层 -->
+        <tr>
+          <td><span class="row-icon">📊</span>业务单元层</td>
+          <td>
+            SCQA 故事线
+            <span class="cell-tip">情境-冲突-问题-答案，结构化表达业务问题</span>
+          </td>
+          <td>
+            BCG 矩阵
+            <span class="cell-tip">按市场增长率 × 相对份额，分类管理业务组合</span>
+          </td>
+          <td>
+            安索夫 / SPAN / FAN
+            <span class="cell-tip">多维度评估业务增长方向与资源配置优先级</span>
+          </td>
+          <td>
+            产品路线图
+            <span class="cell-tip">将业务规划转化为可执行的产品迭代时间表</span>
+          </td>
+        </tr>
+        <!-- Row 5: 执行动作层 -->
+        <tr>
+          <td><span class="row-icon">🎯</span>执行动作层</td>
+          <td>
+            举措议题树
+            <span class="cell-tip">将战略举措分解为可验证的子问题和假设</span>
+          </td>
+          <td>
+            差距分析
+            <span class="cell-tip">量化目标与现状的差距，定位关键瓶颈</span>
+          </td>
+          <td>
+            OKR / 北极星
+            <span class="cell-tip">设定可衡量的目标与关键结果，聚焦核心指标</span>
+          </td>
+          <td class="cell-star">
+            解码表 ★
+            <span class="cell-tip">StratVault 核心框架 — 将战略分解为季度可追踪的行动项</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ====== COMBINATION PATHS ====== -->
+<section class="paths-section">
+  <div class="section-title">
+    <span class="section-eyebrow">Combinations</span>
+    <h2>每个场景自动组合不同模板</h2>
+    <p>AI 根据你的问题类型，自动从矩阵中选取最合适的框架路径，串联成完整的分析报告。</p>
+  </div>
+
+  <div class="paths-grid">
+    <!-- Path 1 -->
+    <div class="path-card">
+      <div class="path-badge">SCENARIO 01</div>
+      <h3>增长破局</h3>
+      <p class="path-desc">公司增长放缓，需要找到新的突破口。从能力诊断出发，系统识别机会窗口，构建完整战略框架并分解到执行。</p>
+      <div class="path-flow">
+        <span class="path-node">公司议题树</span>
+        <span class="path-arrow">→</span>
+        <span class="path-node">SWOT</span>
+        <span class="path-arrow">→</span>
+        <span class="path-node">战略屋 ★</span>
+        <span class="path-arrow">→</span>
+        <span class="path-node">解码表 ★</span>
       </div>
     </div>
-  </header>
 
-  <section class="page-hero method-hero">
-    <div class="page-hero-inner method-hero-inner">
-      <div class="method-copy">
-        <span class="section-eyebrow">战略棋盘</span>
-        <div class="method-foundation">本站底层方法论</div>
-        <h1>战略棋盘，是 qipan.site 的底层框架。</h1>
-        <p>这个网站里的 PPT 工坊、案例馆、框架矩阵和战略汇报，都不是彼此孤立的内容。它们背后使用的是同一套方法：战略棋盘。</p>
-        <p>战略棋盘的核心，是把公司放回它所在的行业结构里：不只看增长、融资、发布会和概念，而是看它到底站住了什么位置，这个位置是否重要，是否会变大，是否能被长期守住。</p>
-      </div>
-      <div class="board-language" aria-label="战略棋盘五维语言">
-        <div class="board-language-title">BOARD 五维语言</div>
-        <div class="dimension-strip">
-          <div class="dimension-card"><span>B</span><h3>能力底座</h3><p>真正会什么</p></div>
-          <div class="dimension-card"><span>O</span><h3>产品服务</h3><p>提供了什么</p></div>
-          <div class="dimension-card"><span>A</span><h3>场域空间</h3><p>在哪里竞争</p></div>
-          <div class="dimension-card"><span>R</span><h3>客群受众</h3><p>面对谁判断</p></div>
-          <div class="dimension-card"><span>D</span><h3>需求动机</h3><p>为什么长期存在</p></div>
-        </div>
-        <div class="map-flow">
-          <span>定维度</span><i></i><span>划格子</span><i></i><span>测参数</span><i></i><span>连关系</span>
-        </div>
+    <!-- Path 2 -->
+    <div class="path-card">
+      <div class="path-badge">SCENARIO 02</div>
+      <h3>年度规划</h3>
+      <p class="path-desc">新财年开始，需要从宏观趋势出发，层层推导出公司级战略目标和可衡量的关键结果。</p>
+      <div class="path-flow">
+        <span class="path-node">PEST</span>
+        <span class="path-arrow">→</span>
+        <span class="path-node">波特五力</span>
+        <span class="path-arrow">→</span>
+        <span class="path-node">战略屋 ★</span>
+        <span class="path-arrow">→</span>
+        <span class="path-node">OKR</span>
       </div>
     </div>
-  </section>
 
-  <section class="page-section method-intro-section">
-    <div class="method-intro">
-      <article>
-        <span>01</span>
-        <h3>从热闹回到位置</h3>
-        <p>增长、融资、发布会和概念都只是表层。真正要问的是：这家公司在产业结构里，是否占住了别人很难绕开的格子。</p>
-      </article>
-      <article>
-        <span>02</span>
-        <h3>用五维切开行业</h3>
-        <p>从能力底座、产品服务、场域空间、客群受众和需求动机五个方向切片，找到决定竞争位置的关键轴线。</p>
-      </article>
-      <article>
-        <span>03</span>
-        <h3>把判断变成复盘</h3>
-        <p>一个判断必须能回到格子、参数、关系和证据。后续财报、公告、产业事件出现时，才能知道假设是在变强还是被证伪。</p>
-      </article>
+    <!-- Path 3 -->
+    <div class="path-card">
+      <div class="path-badge">SCENARIO 03</div>
+      <h3>季度复盘</h3>
+      <p class="path-desc">季末回顾，用结构化方法梳理成果与差距，重新评估业务组合优先级，更新下季度执行计划。</p>
+      <div class="path-flow">
+        <span class="path-node">SCQA</span>
+        <span class="path-arrow">→</span>
+        <span class="path-node">差距分析</span>
+        <span class="path-arrow">→</span>
+        <span class="path-node">BCG 矩阵</span>
+        <span class="path-arrow">→</span>
+        <span class="path-node">解码表 ★</span>
+      </div>
     </div>
+  </div>
+</section>
 
-    <div class="method-note">
+<!-- ====== STATS ====== -->
+<section class="stats-section">
+  <div class="stats-grid">
+    <div class="stat-item">
+      <div class="stat-number">20<span>+</span></div>
+      <div class="stat-label">分析框架</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">3<span>+</span></div>
+      <div class="stat-label">典型场景</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">15<span>p</span></div>
+      <div class="stat-label">每份报告</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">∞</div>
+      <div class="stat-label">组合方式</div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== CTA ====== -->
+<section class="cta-section">
+  <div class="cta-inner">
+    <h2>用这些框架分析你的公司</h2>
+    <p>描述你的公司和问题，AI 将自动选择最合适的框架组合，生成完整的战略分析报告。</p>
+    <a class="btn-primary gold lg" href="workshop.html">用这些框架分析你的公司 →</a>
+  </div>
+</section>
+
+<!-- ====== FOOTER ====== -->
+<footer class="foot">
+  <div class="foot-inner">
+    <div class="foot-brand">
+      <a class="logo" href="index.html">StratVault</a>
+      <p>AI 战略分析工作台 · 不只是好看，更经得起推敲</p>
+    </div>
+    <div class="foot-cols">
       <div>
-        <span class="section-eyebrow">方法要义</span>
-        <h2>结构化先于洞察，呈现先于判断。</h2>
+        <h5>产品</h5>
+        <a href="workshop.html">工坊</a>
+        <a href="cases.html">案例</a>
+        <a href="experts.html">专家</a>
+        <a href="academy.html">下载</a>
       </div>
-      <p>战略棋盘不是给公司打一个简单分数，而是先把行业画成地图：哪些格子正在变大，哪些连接正在形成，哪些公司拥有穿越格子的能力。好机会看棋盘如何变化，好公司看谁站住关键格，好策略看它能不能继续守住、扩张或迁移。</p>
+      <div>
+        <h5>方法</h5>
+        <a href="method.html">分析引擎</a>
+        <a href="method.html">框架矩阵</a>
+        <a href="method.html">场景组合</a>
+      </div>
+      <div>
+        <h5>关于</h5>
+        <a>商务合作</a>
+        <a>联系我们</a>
+        <a>隐私政策</a>
+      </div>
     </div>
-  </section>
-</main>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2026 StratVault · stratvault.ai</span>
+  </div>
+</footer>
+
 </body>
 </html>

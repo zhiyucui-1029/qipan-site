@@ -1,0 +1,31 @@
+pack_id: ev
+version: 0.1
+name: 新能源车与智能出行
+status: cover_slice
+
+use_cases:
+  - 理想汽车增长破局
+  - 新能源车竞争格局
+  - 智能驾驶与渠道重构
+
+visual_language:
+  keywords:
+    - 智能电动车
+    - 城市道路
+    - 充电网络
+    - 智能座舱
+    - 深蓝
+    - 深绿
+    - 哑金
+  avoid:
+    - 明显车标特写
+    - 过度科幻
+    - 汽车广告大片感太强
+    - 高饱和霓虹色
+
+hero_assets:
+  - id: li_auto_hero_v01
+    path: background-images/li-auto-hero-v01.png
+    metadata: background-images/li-auto-hero-v01.yaml
+    role: 可替换右侧 hero image，用于可编辑 PPTX 封面
+recommended_theme: studio/design-system/themes/qipan-default.yaml

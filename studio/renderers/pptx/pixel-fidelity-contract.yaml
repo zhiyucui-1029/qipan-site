@@ -1,0 +1,66 @@
+contract_id: pptx_pixel_fidelity_contract
+version: 0.1
+purpose: 确保 PPTX 预览图可以 1:1 还原已确认的视觉目标图，同时保留可编辑图层。
+
+golden_master_rule:
+  every_template_slide_needs:
+    - approved_reference_image
+    - editable_layer_spec
+    - rendered_pptx_preview
+    - pixel_diff_report
+  reference_image:
+    role: golden_master
+    requirement: 必须是用户确认过的目标图，不能用生成后的 PPT 预览图反向冒充目标图。
+  visible_full_slide_raster:
+    allowed: false
+    reason: 整页烘焙成图片会破坏文字、图标和形状的可编辑性。
+
+layering_rule:
+  background_art:
+    editable_requirement: 可作为图片或 SVG 底图
+    allowed_content:
+      - photo
+      - texture
+      - gradient
+      - glow
+      - complex_mask
+      - decorative_background
+    forbidden_content:
+      - final_title_text
+      - final_body_text
+      - final_metric_text
+      - removable_icon
+      - removable_chart_shape
+  editable_layers:
+    must_remain_native:
+      - title
+      - subtitle
+      - body
+      - metric
+      - source
+      - icon
+      - divider
+      - card
+      - chart_shape
+      - annotation
+
+qa_gate:
+  render_size: 1600x900
+  compare_target: approved_reference_image
+  compare_candidate: rendered_pptx_preview
+  default_thresholds:
+    mean_abs_error_max: 1.5
+    mismatch_ratio_max: 0.02
+    pixel_delta_threshold: 8
+  required_outputs:
+    - diff_heatmap_png
+    - metrics_json
+  pass_rule: 必须通过像素对比，并人工确认关键文字、图标和形状可以单独选中、编辑、移除。
+
+workflow:
+  - 先锁定目标图。
+  - 把目标图拆为背景艺术层和可编辑对象层。
+  - 用同一 1600x900 坐标系写 PPT 图层。
+  - 渲染 PPT 截图。
+  - 用脚本逐像素比较目标图和 PPT 截图。
+  - 误差不过关时，只调坐标、字号、行距、颜色、透明度和图层顺序，不改内容判断。

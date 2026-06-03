@@ -1,0 +1,127 @@
+deck_id: growth_breakthrough
+version: 0.1
+name: 增长问题破局 PPT
+default_page_count: 15
+current_scope: slide_01_cover_and_slide_04_signal_evidence
+
+positioning: 把一个公司的增长困境拆成可判断、可汇报、可落地的战略报告
+
+global_inputs:
+  company: 公司名称
+  market: 主要市场
+  industry: 行业
+  problem_statement: 用户看到的增长问题
+  audience: 汇报对象
+  time_horizon: 分析周期
+  brand_kit: 颜色 token，可由用户上传主色/辅色生成
+  brand_logo: 可选；用户上传 logo 时覆盖品牌包默认 logo
+  industry_pack: 行业素材包
+  cover_hero_image: 可选；用户上传或从素材包选择的右侧主图
+  cover_symbol_image: 可选；symbol-minimal 极简封面使用的中心视觉图
+  cover_layout: 可选；选择封面版式，不改变行业图本身
+
+slide_sequence:
+  - slide_id: slide_01
+    slide_type: cover
+    template: slides/cover.yaml
+    status: active
+    role: 建立项目质感和问题场景
+    required_inputs:
+      - report_series
+      - report_year
+      - title
+      - subtitle
+      - cover_hero_image
+      - brand_kit
+    optional_inputs:
+      - brand_logo
+      - cover_layout
+      - cover_symbol_image
+    locked_inputs:
+      - capability_modules
+      - bottom_modules
+
+  - slide_id: slide_02
+    slide_type: executive_summary
+    status: planned
+    role: 一页结论
+
+  - slide_id: slide_03
+    slide_type: problem_snapshot
+    status: planned
+    role: 增长问题定位
+
+  - slide_id: slide_04
+    slide_type: signal_evidence
+    template: slides/signal-evidence.yaml
+    status: active_sample
+    role: 公开信号和证据
+    required_inputs:
+      - company
+      - market
+      - industry
+      - time_horizon
+      - source_register
+      - signal_cards
+    optional_inputs:
+      - user_concerns
+      - competitor_list
+      - internal_notes
+    locked_inputs:
+      - evidence_card_hierarchy
+      - editable_layer_contract
+
+  - slide_id: slide_05
+    slide_type: market_shift
+    status: planned
+    role: 需求迁移
+
+  - slide_id: slide_06
+    slide_type: competition_position
+    status: planned
+    role: 竞争格局和生态位
+
+  - slide_id: slide_07
+    slide_type: strategy_board
+    status: planned
+    role: 战略棋盘映射
+
+  - slide_id: slide_08
+    slide_type: issue_tree
+    status: planned
+    role: 增长议题树
+
+  - slide_id: slide_09
+    slide_type: strategy_house
+    status: planned
+    role: 战略屋
+
+  - slide_id: slide_10
+    slide_type: option_compare
+    status: planned
+    role: 路径对比
+
+  - slide_id: slide_11
+    slide_type: recommended_path
+    status: planned
+    role: 推荐路线
+
+  - slide_id: slide_12
+    slide_type: initiatives
+    status: planned
+    role: 关键举措
+
+  - slide_id: slide_13
+    slide_type: roadmap
+    status: planned
+    role: 行动路线图
+
+  - slide_id: slide_14
+    slide_type: metrics
+    status: planned
+    role: 验证指标
+
+  - slide_id: slide_15
+    slide_type: closing
+    status: planned
+    role: 生成样张入口

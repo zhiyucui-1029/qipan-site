@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="520" viewBox="0 0 1000 520">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#08151B"/>
+      <stop offset="0.48" stop-color="#0B2630"/>
+      <stop offset="1" stop-color="#07131D"/>
+    </linearGradient>
+    <radialGradient id="centerGlow" cx="50%" cy="50%" r="52%">
+      <stop offset="0" stop-color="#71B300" stop-opacity="0.55"/>
+      <stop offset="0.34" stop-color="#14457E" stop-opacity="0.46"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="redPush" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#B84A3A" stop-opacity="0.74"/>
+      <stop offset="1" stop-color="#B84A3A" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="redPushR" x1="1" y1="0" x2="0" y2="0">
+      <stop offset="0" stop-color="#B84A3A" stop-opacity="0.74"/>
+      <stop offset="1" stop-color="#B84A3A" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="goldPush" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#D6A84F" stop-opacity="0.72"/>
+      <stop offset="1" stop-color="#D6A84F" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="goldPushB" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#D6A84F" stop-opacity="0.72"/>
+      <stop offset="1" stop-color="#D6A84F" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="greenPush" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#71B300" stop-opacity="0.64"/>
+      <stop offset="1" stop-color="#71B300" stop-opacity="0"/>
+    </linearGradient>
+    <pattern id="grid" width="38" height="38" patternUnits="userSpaceOnUse">
+      <path d="M38 0H0V38" fill="none" stroke="#CFE6EF" stroke-opacity="0.055" stroke-width="1"/>
+    </pattern>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000000" flood-opacity="0.40"/>
+    </filter>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="14" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.44 0 0 0 0 0.70 0 0 0 0 0.00 0 0 0 0.78 0"/>
+      <feBlend in="SourceGraphic" mode="screen"/>
+    </filter>
+  </defs>
+  <rect width="1000" height="520" rx="8" fill="url(#bg)"/>
+  <rect x="0" y="0" width="1000" height="520" rx="8" fill="url(#grid)"/>
+  <rect x="235" y="70" width="530" height="390" rx="8" fill="url(#centerGlow)" opacity="0.92"/>
+  <path d="M58 216 C180 198 280 212 385 248 L385 310 C268 286 168 286 58 306Z" fill="url(#redPush)" opacity="0.82"/>
+  <path d="M942 216 C820 198 720 212 615 248 L615 310 C732 286 832 286 942 306Z" fill="url(#redPushR)" opacity="0.82"/>
+  <path d="M430 58 C452 150 456 194 488 225 L512 225 C544 194 548 150 570 58Z" fill="url(#goldPush)" opacity="0.88"/>
+  <path d="M430 462 C452 370 456 326 488 295 L512 295 C544 326 548 370 570 462Z" fill="url(#goldPushB)" opacity="0.88"/>
+  <path d="M777 72 C705 132 660 172 585 236 L610 262 C700 230 790 180 922 98Z" fill="url(#greenPush)" opacity="0.84"/>
+  <g opacity="0.92" filter="url(#shadow)">
+    <rect x="385" y="214" width="230" height="112" rx="8" fill="#14457E"/>
+    <rect x="397" y="226" width="206" height="88" rx="6" fill="#0B2F58" opacity="0.72"/>
+    <rect x="412" y="244" width="176" height="52" rx="4" fill="#14457E" opacity="0.98"/>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="48" y="218" width="204" height="82" rx="8" fill="#101D25" stroke="#E46555" stroke-width="2"/>
+    <rect x="754" y="218" width="204" height="82" rx="8" fill="#101D25" stroke="#E46555" stroke-width="2"/>
+    <rect x="392" y="42" width="216" height="82" rx="8" fill="#111D24" stroke="#D6A84F" stroke-width="2"/>
+    <rect x="392" y="398" width="216" height="82" rx="8" fill="#111D24" stroke="#D6A84F" stroke-width="2"/>
+    <rect x="754" y="42" width="204" height="82" rx="8" fill="#111D24" stroke="#71B300" stroke-width="2"/>
+  </g>
+  <g filter="url(#glow)" opacity="0.9">
+    <circle cx="500" cy="260" r="144" fill="none" stroke="#71B300" stroke-opacity="0.22" stroke-width="1.5"/>
+    <circle cx="500" cy="260" r="198" fill="none" stroke="#D6A84F" stroke-opacity="0.11" stroke-width="1.2"/>
+  </g>
+  <path d="M270 260H358" stroke="#E46555" stroke-width="5" stroke-linecap="round"/>
+  <path d="M730 260H642" stroke="#E46555" stroke-width="5" stroke-linecap="round"/>
+  <path d="M500 142V196" stroke="#D6A84F" stroke-width="5" stroke-linecap="round"/>
+  <path d="M500 378V324" stroke="#D6A84F" stroke-width="5" stroke-linecap="round"/>
+  <path d="M720 142L628 218" stroke="#71B300" stroke-width="5" stroke-linecap="round"/>
+  <rect x="18" y="18" width="964" height="484" rx="8" fill="none" stroke="#D8E7EC" stroke-opacity="0.16" stroke-width="1.2"/>
+</svg>

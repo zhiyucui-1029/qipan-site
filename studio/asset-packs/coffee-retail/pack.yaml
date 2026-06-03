@@ -1,0 +1,31 @@
+pack_id: coffee-retail
+version: 0.1
+name: 咖啡与连锁门店
+status: cover_slice
+
+use_cases:
+  - 星巴克中国增长破局
+  - 咖啡连锁竞争格局
+  - 门店网络与会员增长
+
+visual_language:
+  keywords:
+    - 咖啡门店
+    - 城市街角
+    - 会员消费
+    - 暖光
+    - 深绿
+    - 深蓝
+    - 哑金
+  avoid:
+    - 明显商标特写
+    - 过度生活方式广告
+    - 甜腻奶茶风
+    - 画面太亮导致右侧压不住
+
+hero_assets:
+  - id: starbucks_china_hero_v01
+    path: background-images/starbucks-china-hero-v01.png
+    metadata: background-images/starbucks-china-hero-v01.yaml
+    role: 可替换右侧 hero image，用于可编辑 PPTX 封面
+recommended_theme: studio/design-system/themes/qipan-default.yaml

@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>我的空间 · StratVault</title>
+<meta name="description" content="管理你的项目、查看能力成长、追踪分析历史。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ====== Reset & Base ====== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter','Noto Sans SC',-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",sans-serif;
+  color:#1a1d24;background:#fafaf7;
+  font-size:15px;line-height:1.65;letter-spacing:.01em;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,h4,h5{font-weight:600;letter-spacing:-.01em}
+input,textarea,select{font:inherit}
+
+/* ====== Nav ====== */
+.nav{position:sticky;top:0;z-index:100;background:rgba(250,250,247,.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(0,0,0,.04)}
+.nav-inner{max-width:1400px;margin:0 auto;padding:14px 32px;display:flex;align-items:center;gap:32px}
+.logo{font-weight:700;font-size:17px;letter-spacing:-.01em;white-space:nowrap}
+.logo-sub{font-weight:400;color:#9ca3af;font-size:13px;margin-left:4px}
+.nav-links{display:flex;gap:28px;flex:1;margin-left:24px}
+.nav-links a{font-size:14px;color:#4b5563;transition:.2s;font-weight:500}
+.nav-links a:hover{color:#1a1d24}
+.nav-links a.is-active{color:#1a1d24;font-weight:600}
+.nav-cta{display:flex;gap:10px;align-items:center}
+.btn-primary{background:#1a1d24;color:#fff;padding:10px 18px;border-radius:8px;font-weight:500;transition:.2s;display:inline-flex;align-items:center;justify-content:center;font-size:14px}
+.btn-primary:hover{background:#2d3340}
+.btn-ghost{background:#fff;color:#1a1d24;padding:9px 18px;border:1px solid #e0ddd4;border-radius:8px;font-weight:500;transition:.2s;display:inline-flex;align-items:center;justify-content:center;font-size:14px}
+.btn-ghost:hover{border-color:#1a1d24}
+.btn-ghost.active{border-color:#d7b36a;background:#fffbf3;color:#8a5d32}
+.nav-avatar{
+  width:28px;height:28px;border-radius:50%;
+  background:linear-gradient(135deg,#d7b36a,#8a5d32);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;color:#fff;
+  margin-left:-6px;
+}
+
+/* ====== User Header ====== */
+.user-header{
+  max-width:1400px;margin:0 auto;
+  padding:40px 32px 32px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:24px;flex-wrap:wrap;
+}
+.user-info{display:flex;align-items:center;gap:20px}
+.user-avatar{
+  width:64px;height:64px;border-radius:50%;
+  background:linear-gradient(135deg,#d7b36a 0%,#8a5d32 100%);
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;font-weight:700;color:#fff;
+  box-shadow:0 8px 24px -8px rgba(215,179,106,.35);
+  flex-shrink:0;
+}
+.user-name{font-size:22px;font-weight:700;color:#1a1d24}
+.user-greeting{font-size:13px;color:#9ca3af;margin-top:2px}
+.user-stats{display:flex;gap:24px;flex-wrap:wrap}
+.stat-chip{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 18px;
+  background:#fff;border:1px solid #ebe7d9;border-radius:10px;
+  font-size:13px;font-weight:500;color:#4b5563;
+  transition:.2s;
+}
+.stat-chip:hover{border-color:#d7b36a;background:#fffbf3}
+.stat-chip .sc-val{font-weight:700;color:#1a1d24}
+.stat-chip .sc-val.gold{color:#8a5d32}
+.stat-chip .sc-icon{font-size:16px}
+
+/* ====== Three-Column Dashboard ====== */
+.dashboard{
+  max-width:1400px;margin:0 auto;
+  padding:0 32px 48px;
+  display:grid;
+  grid-template-columns:30% 40% 30%;
+  gap:24px;
+}
+
+/* ====== Column 1: Projects ====== */
+.col-projects{
+  background:#f5f3ee;
+  border:1px solid #e8e4d8;
+  border-radius:18px;
+  padding:24px;
+  display:flex;flex-direction:column;gap:16px;
+}
+.col-title{
+  font-size:12px;font-weight:700;letter-spacing:.08em;
+  color:#9ca3af;text-transform:uppercase;margin-bottom:4px;
+}
+.folder-group{margin-bottom:8px}
+.folder-header{
+  display:flex;align-items:center;gap:10px;
+  padding:12px 14px;
+  background:#fff;border:1px solid #e8e4d8;border-radius:12px;
+  cursor:pointer;transition:all .25s;
+  font-size:15px;font-weight:700;color:#1a1d24;
+}
+.folder-header:hover{border-color:#d4cdb5;box-shadow:0 4px 16px -6px rgba(60,40,20,.08)}
+.folder-header .folder-icon{font-size:18px}
+.folder-header .folder-tag{
+  margin-left:auto;font-size:11px;font-weight:600;
+  color:#9ca3af;
+}
+.folder-header .folder-tag.new{color:#d7b36a}
+.folder-items{
+  padding:4px 0 4px 20px;
+  border-left:2px solid #e8e4d8;
+  margin-left:24px;margin-top:6px;
+  display:flex;flex-direction:column;gap:4px;
+}
+.folder-item{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 12px;
+  border-radius:8px;
+  font-size:13px;color:#4b5563;
+  cursor:pointer;transition:all .2s;
+}
+.folder-item:hover{background:#fff;color:#1a1d24}
+.folder-item .fi-name{flex:1}
+.folder-item .fi-count{font-size:11px;color:#9ca3af}
+.fi-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.fi-dot.green{background:#4ade80}
+.fi-dot.yellow{background:#d7b36a}
+.fi-dot.grey{background:#d4cdb5}
+.folder-empty{
+  padding:8px 12px;margin-left:24px;margin-top:6px;
+  font-size:12px;color:#b5b0a3;font-style:italic;
+}
+.proj-new{
+  padding:14px 18px;
+  background:transparent;
+  border:2px dashed #d4cdb5;
+  border-radius:12px;
+  cursor:pointer;transition:all .25s;
+  display:flex;align-items:center;gap:10px;
+  color:#9ca3af;font-size:13px;font-weight:600;
+}
+.proj-new:hover{border-color:#d7b36a;color:#8a5d32;background:#fffbf3}
+.proj-new .plus{
+  width:28px;height:28px;border-radius:8px;
+  background:#f0ede5;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;font-weight:300;color:#8a5d32;transition:.2s;
+}
+.proj-new:hover .plus{background:#fde9d4}
+.new-analysis-btn{
+  margin-top:auto;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  padding:12px 20px;
+  background:#1a1d24;color:#fff;
+  border-radius:10px;font-size:14px;font-weight:600;
+  transition:all .25s;
+}
+.new-analysis-btn:hover{background:#2d3340;transform:translateY(-1px);box-shadow:0 6px 16px -6px rgba(0,0,0,.2)}
+
+/* ====== Column 2: Activity & Achievements ====== */
+.col-activity{display:flex;flex-direction:column;gap:20px}
+.card{
+  background:#fff;border:1px solid #ebe7d9;border-radius:16px;
+  padding:24px;transition:all .3s;
+}
+.card:hover{box-shadow:0 8px 24px -8px rgba(60,40,20,.06)}
+.card-title{
+  font-size:15px;font-weight:700;color:#1a1d24;margin-bottom:16px;
+  display:flex;align-items:center;gap:8px;
+}
+.card-title .ct-icon{font-size:18px}
+
+/* Calendar */
+.calendar-grid{
+  display:grid;
+  grid-template-columns:auto repeat(12,1fr);
+  gap:3px;
+  margin-bottom:12px;
+}
+.cal-day-label{
+  font-size:9px;color:#9ca3af;font-weight:600;
+  display:flex;align-items:center;justify-content:flex-end;
+  padding-right:6px;
+}
+.cal-cell{
+  aspect-ratio:1;border-radius:3px;
+  transition:all .2s;cursor:default;
+  position:relative;
+}
+.cal-cell:hover{transform:scale(1.3);z-index:2}
+.cal-cell[data-level="0"]{background:#f0ede5}
+.cal-cell[data-level="1"]{background:rgba(215,179,106,.3)}
+.cal-cell[data-level="2"]{background:rgba(215,179,106,.55)}
+.cal-cell[data-level="3"]{background:#d7b36a;box-shadow:0 1px 4px rgba(215,179,106,.3)}
+.cal-cell::after{
+  content:attr(data-tip);
+  position:absolute;bottom:calc(100% + 4px);left:50%;
+  transform:translateX(-50%);
+  padding:3px 7px;border-radius:5px;
+  background:#1a1d24;color:#fff;
+  font-size:9px;white-space:nowrap;
+  opacity:0;pointer-events:none;transition:.2s;z-index:10;
+}
+.cal-cell:hover::after{opacity:1}
+.cal-summary{font-size:12px;color:#9ca3af;text-align:center;margin-top:4px}
+
+/* Badges */
+.badge-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:12px;margin-bottom:16px;
+}
+.badge-item{
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  cursor:default;
+}
+.badge-circle{
+  width:56px;height:56px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;transition:all .3s;position:relative;
+}
+.badge-circle.earned{
+  background:linear-gradient(135deg,#fdf3e0,#f8e4b8);
+  box-shadow:0 4px 16px -4px rgba(215,179,106,.35);
+}
+.badge-circle.earned::after{
+  content:"";position:absolute;inset:-3px;border-radius:50%;
+  border:2px solid rgba(215,179,106,.3);
+  animation:badgeGlow 2s ease-in-out infinite alternate;
+}
+@keyframes badgeGlow{
+  from{border-color:rgba(215,179,106,.2);box-shadow:0 0 0 0 rgba(215,179,106,0)}
+  to{border-color:rgba(215,179,106,.5);box-shadow:0 0 12px -2px rgba(215,179,106,.2)}
+}
+.badge-circle.locked{
+  background:#f0ede5;
+  color:#b5b0a3;filter:grayscale(.6);opacity:.55;
+}
+.badge-circle.locked::before{
+  content:"🔒";position:absolute;bottom:-2px;right:-2px;
+  font-size:12px;filter:none;
+}
+.badge-label{font-size:10px;color:#6b7280;font-weight:500;text-align:center}
+.badge-progress{
+  display:flex;align-items:center;gap:10px;
+  font-size:12px;color:#6b7280;font-weight:500;
+}
+.badge-progress-bar{
+  flex:1;height:6px;background:#f0ede5;border-radius:3px;overflow:hidden;
+}
+.badge-progress-fill{
+  height:100%;width:37.5%;
+  background:linear-gradient(90deg,#d7b36a,#8a5d32);
+  border-radius:3px;transition:width .6s ease;
+}
+
+/* Level / XP */
+.level-section{display:flex;flex-direction:column;gap:12px}
+.level-current{
+  display:flex;align-items:center;justify-content:space-between;
+}
+.level-label{font-size:16px;font-weight:700;color:#1a1d24}
+.level-label .lv-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:4px 12px;border-radius:999px;
+  background:linear-gradient(135deg,#fdf3e0,#f8e4b8);
+  color:#8a5d32;font-size:12px;font-weight:700;
+}
+.level-next{font-size:12px;color:#9ca3af}
+.xp-bar{
+  height:10px;background:#f0ede5;border-radius:5px;overflow:hidden;
+  position:relative;
+}
+.xp-fill{
+  height:100%;width:72%;
+  background:linear-gradient(90deg,#d7b36a,#e8c485,#d7b36a);
+  background-size:200% 100%;
+  border-radius:5px;
+  animation:xpPulse 2.5s ease-in-out infinite;
+}
+@keyframes xpPulse{
+  0%,100%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+}
+.xp-text{
+  display:flex;justify-content:space-between;
+  font-size:11px;color:#9ca3af;font-weight:500;
+}
+
+/* ====== Column 3: Capability ====== */
+.col-capability{display:flex;flex-direction:column;gap:20px}
+
+/* Heatmap */
+.heatmap-grid{
+  display:grid;
+  grid-template-columns:auto repeat(4,1fr);
+  gap:4px;align-items:center;
+}
+.hm-corner{}
+.hm-col-label{
+  font-size:10px;font-weight:700;color:#8a5d32;
+  text-align:center;padding:4px 0 8px;letter-spacing:.04em;
+}
+.hm-row-label{
+  font-size:11px;font-weight:600;color:#6b7280;
+  padding-right:8px;white-space:nowrap;text-align:right;
+}
+.hm-cell{
+  width:100%;aspect-ratio:1;border-radius:4px;
+  position:relative;transition:all .3s;cursor:default;
+  max-width:40px;margin:0 auto;
+  display:flex;align-items:center;justify-content:center;gap:2px;
+  flex-wrap:wrap;
+}
+.hm-cell:hover{transform:scale(1.15);z-index:2}
+.hm-cell[data-level="0"]{background:#f0ede5}
+.hm-cell[data-level="1"]{background:rgba(215,179,106,.25)}
+.hm-cell[data-level="2"]{background:rgba(215,179,106,.5)}
+.hm-cell[data-level="3"]{background:#d7b36a;box-shadow:0 2px 8px -2px rgba(215,179,106,.4)}
+.hm-dot{width:4px;height:4px;border-radius:50%;background:rgba(138,93,50,.5)}
+.hm-cell[data-level="3"] .hm-dot{background:rgba(255,255,255,.6)}
+.hm-cell::after{
+  content:attr(data-tip);
+  position:absolute;bottom:calc(100% + 6px);left:50%;
+  transform:translateX(-50%);
+  padding:4px 8px;border-radius:6px;
+  background:#1a1d24;color:#fff;
+  font-size:9px;white-space:nowrap;
+  opacity:0;pointer-events:none;transition:.2s;z-index:10;
+}
+.hm-cell:hover::after{opacity:1}
+.hm-legend{
+  display:flex;align-items:center;gap:6px;
+  margin-top:14px;justify-content:flex-end;
+  font-size:10px;color:#9ca3af;
+}
+.hm-legend-cell{width:12px;height:12px;border-radius:3px}
+
+/* Capability Bars (Radar substitute) */
+.cap-bars{display:flex;flex-direction:column;gap:10px}
+.cap-bar-row{display:flex;align-items:center;gap:10px}
+.cap-bar-label{
+  width:40px;font-size:12px;font-weight:600;color:#6b7280;text-align:right;
+  flex-shrink:0;
+}
+.cap-bar-track{
+  flex:1;height:10px;background:#f0ede5;border-radius:5px;overflow:hidden;
+}
+.cap-bar-fill{
+  height:100%;border-radius:5px;
+  background:linear-gradient(90deg,#d7b36a,#8a5d32);
+  transition:width .8s ease;
+}
+.cap-bar-val{
+  width:36px;font-size:12px;font-weight:700;color:#8a5d32;
+}
+
+/* Quick Stats */
+.quick-stats{
+  display:flex;flex-direction:column;gap:10px;
+}
+.qs-item{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 14px;
+  background:#fafaf7;border:1px solid #ebe7d9;border-radius:10px;
+  font-size:13px;
+}
+.qs-item .qs-label{color:#6b7280}
+.qs-item .qs-val{font-weight:700;color:#1a1d24}
+.qs-item .qs-val.gold{color:#8a5d32}
+
+/* ====== Activity Feed ====== */
+.activity-feed{
+  max-width:1400px;margin:0 auto;
+  padding:0 32px 56px;
+}
+.feed-title{
+  font-size:18px;font-weight:700;color:#1a1d24;margin-bottom:20px;
+  display:flex;align-items:center;gap:8px;
+}
+.feed-list{
+  display:flex;flex-direction:column;gap:0;
+  border-left:2px solid #e8e4d8;
+  margin-left:8px;padding-left:24px;
+}
+.feed-item{
+  position:relative;padding:14px 18px;
+  background:#fff;border:1px solid #ebe7d9;border-radius:12px;
+  margin-bottom:12px;
+  transition:all .25s;
+  font-size:14px;color:#4b5563;
+}
+.feed-item:hover{border-color:#d4cdb5;box-shadow:0 4px 16px -6px rgba(60,40,20,.06)}
+.feed-item::before{
+  content:"";position:absolute;
+  left:-31px;top:50%;transform:translateY(-50%);
+  width:10px;height:10px;border-radius:50%;
+  background:#d7b36a;border:2px solid #fafaf7;
+}
+.feed-item .feed-time{
+  font-size:11px;color:#9ca3af;font-weight:500;margin-bottom:4px;
+}
+.feed-item .feed-text{font-size:13px;color:#1a1d24;line-height:1.5}
+.feed-item .feed-text strong{color:#8a5d32;font-weight:600}
+
+/* ====== Footer ====== */
+.foot{padding:56px 32px 24px;background:#fafaf7;border-top:1px solid #ebe7d9}
+.foot-inner{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:40px;margin-bottom:40px}
+.foot-brand .logo{font-size:18px;display:block;margin-bottom:8px}
+.foot-brand p{color:#6b7280;font-size:13px;line-height:1.7}
+.foot-cols h5{font-size:13px;color:#1a1d24;font-weight:600;margin-bottom:14px;letter-spacing:.02em}
+.foot-cols a{display:block;color:#6b7280;font-size:13px;margin-bottom:8px;transition:.2s}
+.foot-cols a:hover{color:#1a1d24}
+.foot-bottom{max-width:1400px;margin:0 auto;padding-top:20px;border-top:1px solid #ebe7d9;font-size:12px;color:#9ca3af}
+
+/* ====== Animations ====== */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.fade-up{opacity:0;animation:fadeUp .5s ease forwards}
+.fd1{animation-delay:.05s}
+.fd2{animation-delay:.1s}
+.fd3{animation-delay:.15s}
+.fd4{animation-delay:.2s}
+.fd5{animation-delay:.25s}
+
+/* ====== Responsive ====== */
+@media(max-width:1100px){
+  .dashboard{grid-template-columns:1fr 1fr;gap:20px}
+  .col-projects{grid-column:1 / -1}
+  .col-activity,.col-capability{grid-column:span 1}
+}
+@media(max-width:768px){
+  .dashboard{grid-template-columns:1fr;padding:0 20px 40px}
+  .col-projects,.col-activity,.col-capability{grid-column:1}
+  .user-header{padding:28px 20px 24px;flex-direction:column;align-items:flex-start}
+  .user-stats{gap:12px}
+  .stat-chip{padding:8px 12px;font-size:12px}
+  .badge-grid{grid-template-columns:repeat(4,1fr);gap:8px}
+  .activity-feed{padding:0 20px 40px}
+  .foot-inner{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .nav-inner{padding:14px 16px;gap:12px;justify-content:space-between}
+  .logo-sub{display:none}
+  .nav-links{display:none}
+  .nav-cta .btn-ghost{display:none}
+  .nav-cta .btn-primary{padding:9px 12px;font-size:13px}
+  .user-header{padding:20px 16px}
+  .dashboard{padding:0 16px 32px}
+  .activity-feed{padding:0 16px 32px}
+  .user-stats{flex-direction:column;gap:8px;width:100%}
+  .stat-chip{width:100%;justify-content:center}
+  .calendar-grid{gap:2px}
+  .badge-grid{grid-template-columns:repeat(3,1fr)}
+}
+</style>
+</head>
+<body>
+
+<!-- ====== NAV ====== -->
+<header class="nav">
+  <div class="nav-inner">
+    <a class="logo" href="index.html">StratVault <span class="logo-sub">· AI 战略分析工作台</span></a>
+    <nav class="nav-links">
+      <a href="workshop.html">工坊</a>
+      <a href="cases.html">案例</a>
+      <a href="experts.html">专家</a>
+      <a href="academy.html">下载</a>
+      <a href="method.html">方法</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn-ghost" href="cases.html">看案例</a>
+      <a class="btn-ghost active" href="profile.html" style="display:inline-flex;align-items:center;gap:6px;">
+        <span class="nav-avatar">用</span>
+        我的
+      </a>
+      <a class="btn-primary" href="workshop.html">开始生成</a>
+    </div>
+  </div>
+</header>
+
+<!-- ====== USER HEADER ====== -->
+<div class="user-header fade-up">
+  <div class="user-info">
+    <div class="user-avatar">用</div>
+    <div>
+      <div class="user-name">用户的名字</div>
+      <div class="user-greeting">欢迎回来，继续你的战略分析之旅</div>
+    </div>
+  </div>
+  <div class="user-stats">
+    <div class="stat-chip">
+      <span class="sc-icon">📅</span>
+      加入 <span class="sc-val">42</span> 天
+    </div>
+    <div class="stat-chip">
+      <span class="sc-icon">📁</span>
+      <span class="sc-val">3</span> 个项目
+    </div>
+    <div class="stat-chip">
+      <span class="sc-icon">📊</span>
+      <span class="sc-val">7</span> 份报告
+    </div>
+    <div class="stat-chip">
+      <span class="sc-icon">⭐</span>
+      <span class="sc-val gold">Lv.3</span> 分析师
+    </div>
+  </div>
+</div>
+
+<!-- ====== THREE-COLUMN DASHBOARD ====== -->
+<div class="dashboard">
+
+  <!-- ====== Column 1: Projects ====== -->
+  <div class="col-projects fade-up fd1">
+    <div class="col-title">项目文件夹</div>
+
+    <!-- Nike -->
+    <div class="folder-group">
+      <div class="folder-header" onclick="toggleFolder(this)">
+        <span class="folder-icon">📁</span>
+        <span>Nike 中国</span>
+        <span class="folder-tag">3 个问题</span>
+      </div>
+      <div class="folder-items" id="folder-nike">
+        <div class="folder-item">
+          <div class="fi-dot green"></div>
+          <span class="fi-name">增长停滞问题</span>
+          <span class="fi-count">2份报告 🟢</span>
+        </div>
+        <div class="folder-item">
+          <div class="fi-dot yellow"></div>
+          <span class="fi-name">品类创新问题</span>
+          <span class="fi-count">1份报告 🟡</span>
+        </div>
+        <div class="folder-item">
+          <div class="fi-dot grey"></div>
+          <span class="fi-name">组织协同问题</span>
+          <span class="fi-count">待分析 ⚪</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Starbucks -->
+    <div class="folder-group">
+      <div class="folder-header" onclick="toggleFolder(this)">
+        <span class="folder-icon">📁</span>
+        <span>星巴克中国</span>
+        <span class="folder-tag">1 个问题</span>
+      </div>
+      <div class="folder-items" id="folder-starbucks">
+        <div class="folder-item">
+          <div class="fi-dot green"></div>
+          <span class="fi-name">竞争格局分析</span>
+          <span class="fi-count">1份报告 🟢</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 理想汽车 -->
+    <div class="folder-group">
+      <div class="folder-header" onclick="toggleFolder(this)">
+        <span class="folder-icon">📁</span>
+        <span>理想汽车</span>
+        <span class="folder-tag new">新建</span>
+      </div>
+      <div class="folder-empty">尚无问题</div>
+    </div>
+
+    <!-- New Project -->
+    <div class="proj-new" onclick="this.querySelector('input').focus()">
+      <div class="plus">+</div>
+      <span>+ 新建项目</span>
+      <input type="text" placeholder="输入公司名称…" style="display:none;flex:1;padding:6px 10px;border:1px solid #e8e4d8;border-radius:6px;font-size:13px;outline:none;background:#fff;color:#1a1d24" onfocus="this.style.display='block';this.previousElementSibling.style.display='none'" onblur="if(!this.value){this.style.display='none';this.previousElementSibling.style.display='inline'}" />
+    </div>
+
+    <a class="new-analysis-btn" href="workshop.html">新建分析 →</a>
+  </div>
+
+  <!-- ====== Column 2: Activity & Achievements ====== -->
+  <div class="col-activity">
+
+    <!-- 2a: Activity Calendar -->
+    <div class="card fade-up fd2">
+      <div class="card-title"><span class="ct-icon">📅</span> 分析日历</div>
+      <div class="calendar-grid" id="calendarGrid">
+        <!-- Built by JS -->
+      </div>
+      <div class="cal-summary">过去 12 周共完成 <strong style="color:#8a5d32">18</strong> 次分析</div>
+    </div>
+
+    <!-- 2b: Badges -->
+    <div class="card fade-up fd3">
+      <div class="card-title"><span class="ct-icon">🏆</span> 我的勋章</div>
+      <div class="badge-grid">
+        <!-- Earned -->
+        <div class="badge-item">
+          <div class="badge-circle earned">🌟</div>
+          <span class="badge-label">首份报告</span>
+        </div>
+        <div class="badge-item">
+          <div class="badge-circle earned">📊</div>
+          <span class="badge-label">数据驱动</span>
+        </div>
+        <div class="badge-item">
+          <div class="badge-circle earned">📁</div>
+          <span class="badge-label">多项目达人</span>
+        </div>
+        <!-- Locked -->
+        <div class="badge-item">
+          <div class="badge-circle locked">🎯</div>
+          <span class="badge-label">战略思考者</span>
+        </div>
+        <div class="badge-item">
+          <div class="badge-circle locked">🚀</div>
+          <span class="badge-label">连续生成</span>
+        </div>
+        <div class="badge-item">
+          <div class="badge-circle locked">🔥</div>
+          <span class="badge-label">模板大师</span>
+        </div>
+        <div class="badge-item">
+          <div class="badge-circle locked">👑</div>
+          <span class="badge-label">全矩阵解锁</span>
+        </div>
+        <div class="badge-item">
+          <div class="badge-circle locked">🌍</div>
+          <span class="badge-label">行业通</span>
+        </div>
+      </div>
+      <div class="badge-progress">
+        <span>3/8 勋章已解锁</span>
+        <div class="badge-progress-bar">
+          <div class="badge-progress-fill"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2c: Level Progress -->
+    <div class="card fade-up fd4">
+      <div class="card-title"><span class="ct-icon">⚡</span> 等级进度</div>
+      <div class="level-section">
+        <div class="level-current">
+          <div class="level-label">
+            <span class="lv-badge">Lv.3</span> 分析师
+          </div>
+          <div class="level-next">下一级：Lv.4 战略师</div>
+        </div>
+        <div class="xp-bar">
+          <div class="xp-fill"></div>
+        </div>
+        <div class="xp-text">
+          <span>720 XP</span>
+          <span>1000 XP</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== Column 3: Capability ====== -->
+  <div class="col-capability">
+
+    <!-- 3a: Capability Heatmap -->
+    <div class="card fade-up fd2">
+      <div class="card-title"><span class="ct-icon">🗺️</span> 能力图谱</div>
+      <div class="heatmap-grid">
+        <!-- Header row -->
+        <div class="hm-corner"></div>
+        <div class="hm-col-label">诊断</div>
+        <div class="hm-col-label">分析</div>
+        <div class="hm-col-label">规划</div>
+        <div class="hm-col-label">落地</div>
+        <!-- Row 1: 宏观环境 -->
+        <div class="hm-row-label">宏观环境</div>
+        <div class="hm-cell" data-level="1" data-tip="宏观环境 × 诊断：已使用 PESTEL"><span class="hm-dot"></span></div>
+        <div class="hm-cell" data-level="0" data-tip="宏观环境 × 分析：尚未使用"></div>
+        <div class="hm-cell" data-level="0" data-tip="宏观环境 × 规划：尚未使用"></div>
+        <div class="hm-cell" data-level="0" data-tip="宏观环境 × 落地：尚未使用"></div>
+        <!-- Row 2: 行业竞争 -->
+        <div class="hm-row-label">行业竞争</div>
+        <div class="hm-cell" data-level="2" data-tip="行业竞争 × 诊断：已使用 波特五力、行业地图"><span class="hm-dot"></span><span class="hm-dot"></span></div>
+        <div class="hm-cell" data-level="1" data-tip="行业竞争 × 分析：已使用 竞争矩阵"><span class="hm-dot"></span></div>
+        <div class="hm-cell" data-level="0" data-tip="行业竞争 × 规划：尚未使用"></div>
+        <div class="hm-cell" data-level="0" data-tip="行业竞争 × 落地：尚未使用"></div>
+        <!-- Row 3: 公司能力 -->
+        <div class="hm-row-label">公司能力</div>
+        <div class="hm-cell" data-level="1" data-tip="公司能力 × 诊断：已使用 核心能力评估"><span class="hm-dot"></span></div>
+        <div class="hm-cell" data-level="3" data-tip="公司能力 × 分析：已使用 SWOT、财务估值、BCG矩阵"><span class="hm-dot"></span><span class="hm-dot"></span><span class="hm-dot"></span></div>
+        <div class="hm-cell" data-level="1" data-tip="公司能力 × 规划：已使用 战略屋"><span class="hm-dot"></span></div>
+        <div class="hm-cell" data-level="0" data-tip="公司能力 × 落地：尚未使用"></div>
+        <!-- Row 4: 业务单元 -->
+        <div class="hm-row-label">业务单元</div>
+        <div class="hm-cell" data-level="0" data-tip="业务单元 × 诊断：尚未使用"></div>
+        <div class="hm-cell" data-level="2" data-tip="业务单元 × 分析：已使用 BCG矩阵、安索夫矩阵"><span class="hm-dot"></span><span class="hm-dot"></span></div>
+        <div class="hm-cell" data-level="1" data-tip="业务单元 × 规划：已使用 安索夫矩阵"><span class="hm-dot"></span></div>
+        <div class="hm-cell" data-level="0" data-tip="业务单元 × 落地：尚未使用"></div>
+        <!-- Row 5: 执行动作 -->
+        <div class="hm-row-label">执行动作</div>
+        <div class="hm-cell" data-level="0" data-tip="执行动作 × 诊断：尚未使用"></div>
+        <div class="hm-cell" data-level="0" data-tip="执行动作 × 分析：尚未使用"></div>
+        <div class="hm-cell" data-level="1" data-tip="执行动作 × 规划：已使用 解码表"><span class="hm-dot"></span></div>
+        <div class="hm-cell" data-level="2" data-tip="执行动作 × 落地：已使用 OKR、行动计划"><span class="hm-dot"></span><span class="hm-dot"></span></div>
+      </div>
+      <div class="hm-legend">
+        <span>空</span>
+        <div class="hm-legend-cell" style="background:#f0ede5"></div>
+        <span>1</span>
+        <div class="hm-legend-cell" style="background:rgba(215,179,106,.25)"></div>
+        <span>2</span>
+        <div class="hm-legend-cell" style="background:rgba(215,179,106,.5)"></div>
+        <span>3+</span>
+        <div class="hm-legend-cell" style="background:#d7b36a"></div>
+      </div>
+    </div>
+
+    <!-- 3b: Capability Bars -->
+    <div class="card fade-up fd3">
+      <div class="card-title"><span class="ct-icon">📈</span> 能力雷达</div>
+      <div class="cap-bars">
+        <div class="cap-bar-row">
+          <div class="cap-bar-label">诊断</div>
+          <div class="cap-bar-track"><div class="cap-bar-fill" style="width:76%"></div></div>
+          <div class="cap-bar-val">76%</div>
+        </div>
+        <div class="cap-bar-row">
+          <div class="cap-bar-label">分析</div>
+          <div class="cap-bar-track"><div class="cap-bar-fill" style="width:87%"></div></div>
+          <div class="cap-bar-val">87%</div>
+        </div>
+        <div class="cap-bar-row">
+          <div class="cap-bar-label">规划</div>
+          <div class="cap-bar-track"><div class="cap-bar-fill" style="width:64%"></div></div>
+          <div class="cap-bar-val">64%</div>
+        </div>
+        <div class="cap-bar-row">
+          <div class="cap-bar-label">落地</div>
+          <div class="cap-bar-track"><div class="cap-bar-fill" style="width:55%"></div></div>
+          <div class="cap-bar-val">55%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3c: Quick Stats -->
+    <div class="card fade-up fd4">
+      <div class="card-title"><span class="ct-icon">📋</span> 快速概览</div>
+      <div class="quick-stats">
+        <div class="qs-item">
+          <span class="qs-label">模板已解锁</span>
+          <span class="qs-val">5 / 20</span>
+        </div>
+        <div class="qs-item">
+          <span class="qs-label">AI Score</span>
+          <span class="qs-val gold">78</span>
+        </div>
+        <div class="qs-item">
+          <span class="qs-label">最近分析</span>
+          <span class="qs-val">昨天</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ====== ACTIVITY FEED ====== -->
+<div class="activity-feed fade-up fd5">
+  <div class="feed-title">📍 最近动态</div>
+  <div class="feed-list">
+    <div class="feed-item">
+      <div class="feed-time">今天 14:30</div>
+      <div class="feed-text">生成了 <strong>Nike 中国 · 增长停滞问题</strong> 的报告</div>
+    </div>
+    <div class="feed-item">
+      <div class="feed-time">昨天 10:15</div>
+      <div class="feed-text">解锁了勋章「<strong>数据驱动</strong>」🏆</div>
+    </div>
+    <div class="feed-item">
+      <div class="feed-time">3 天前</div>
+      <div class="feed-text">创建了项目「<strong>理想汽车</strong>」</div>
+    </div>
+    <div class="feed-item">
+      <div class="feed-time">5 天前</div>
+      <div class="feed-text">下载了工具包「<strong>波特五力分析</strong>」📦</div>
+    </div>
+    <div class="feed-item">
+      <div class="feed-time">1 周前</div>
+      <div class="feed-text">生成了 <strong>星巴克中国 · 竞争格局分析</strong> 的报告</div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== FOOTER ====== -->
+<footer class="foot">
+  <div class="foot-inner">
+    <div class="foot-brand">
+      <a class="logo" href="index.html">StratVault</a>
+      <p>AI 战略分析工作台<br>Not just beautiful. Bulletproof.</p>
+    </div>
+    <div class="foot-cols">
+      <h5>产品</h5>
+      <a href="workshop.html">工坊</a>
+      <a href="cases.html">案例</a>
+      <a href="experts.html">专家</a>
+      <a href="academy.html">下载</a>
+    </div>
+    <div class="foot-cols">
+      <h5>资源</h5>
+      <a href="method.html">方法论</a>
+      <a href="cases.html">案例馆</a>
+      <a>文档</a>
+      <a>API</a>
+    </div>
+    <div class="foot-cols">
+      <h5>关于</h5>
+      <a>团队</a>
+      <a>商务合作</a>
+      <a>联系我们</a>
+      <a>隐私政策</a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2026 StratVault · AI-Powered Strategic Analysis</span>
+  </div>
+</footer>
+
+<script>
+// ====== Calendar Generation ======
+(function(){
+  const grid = document.getElementById('calendarGrid');
+  const dayLabels = ['一','二','三','四','五','六','日'];
+  
+  // Mock active cells (week index 0-11, day index 0-6)
+  const activeCells = {
+    '1-0':1, '1-3':1, '2-1':2, '2-4':1, '3-2':1, '3-5':3,
+    '4-0':1, '4-1':2, '4-2':1, '5-4':1, '6-0':1, '6-3':2,
+    '7-1':1, '7-6':1, '8-2':3, '8-3':2, '8-5':1,
+    '9-1':1, '10-0':1, '10-4':2, '11-2':1, '11-6':1
+  };
+  
+  for(let day=0; day<7; day++){
+    // Day label
+    const lbl = document.createElement('div');
+    lbl.className = 'cal-day-label';
+    lbl.textContent = (day % 2 === 0) ? dayLabels[day] : '';
+    grid.appendChild(lbl);
+    
+    // 12 weeks
+    for(let week=0; week<12; week++){
+      const cell = document.createElement('div');
+      cell.className = 'cal-cell';
+      const key = week + '-' + day;
+      const level = activeCells[key] || 0;
+      cell.setAttribute('data-level', Math.min(level, 3));
+      if(level > 0){
+        cell.setAttribute('data-tip', level + ' 次分析');
+      }
+      grid.appendChild(cell);
+    }
+  }
+})();
+
+// ====== Folder Toggle ======
+function toggleFolder(el){
+  const items = el.nextElementSibling;
+  if(items){
+    items.style.display = items.style.display === 'none' ? 'flex' : 'none';
+  }
+}
+</script>
+
+</body>
+</html>

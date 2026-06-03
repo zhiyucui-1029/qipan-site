@@ -1,0 +1,49 @@
+brand_id: r3-trineering
+version: 0.1
+name: 源力势界 / Trineering 品牌体系
+status: reusable
+
+source:
+  file: /Users/trineering/Desktop/战略驱动/logo模板/R3logo规范-源力势界/R3logo规范-源力势界.jpg
+  note: 颜色来自 R3LOGO 规范图。
+
+positioning: 源力势界的企业品牌色，用于 qipan.site 报告输出和咨询交付材料。
+
+color_tokens:
+  primary: "#14457E"
+  secondary: "#0B2F58"
+  accent: "#71B300"
+  background: "#F7F8F6"
+  surface: "#FFFFFF"
+  text: "#172033"
+  muted: "#667085"
+  success: "#71B300"
+  warning: "#D6A84F"
+  risk: "#B85443"
+  divider: "#D7DDE6"
+
+logo_assets:
+  horizontal_color: studio/design-system/brand-assets/r3-trineering/logo-horizontal-color.png
+  symbol_color: studio/design-system/brand-assets/r3-trineering/logo-symbol-color.png
+
+usage_rules:
+  primary: 主标题、底部主色栏、大面积深色品牌区。
+  secondary: 需要更深背景时的蓝色替代。
+  accent: 斜切分割线、图标强调、关键节点，不做大面积正文背景。
+  background: 浅色报告页底。
+  text: 正文和标题。
+  muted: 辅助说明、注释和低优先级信息。
+
+visual_style:
+  layout: 保持 qipan.site 咨询报告版式，只替换品牌色和品牌标识。
+  typography: 中文优先使用思源黑体或系统黑体；英文可使用 PT Sans 或 Aptos。
+  imagery: 行业图不强行染色，但整体明暗需要和蓝绿品牌色协调。
+
+brand_override_policy:
+  layout_locked: true
+  rules:
+    - 蓝色可用于大面积深色底栏。
+    - 绿色只作为强调色，避免整页变成高饱和绿色。
+    - 深色蓝底上使用白色或浅灰文字。
+    - 浅色背景上主标题优先使用品牌蓝。
+

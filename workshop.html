@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>工坊 · StratVault</title>
+<meta name="description" content="选择场景，生成专业战略分析报告。" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ====== Reset & Base ====== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter','Noto Sans SC',-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",sans-serif;
+  color:#1a1d24;background:#fafaf7;
+  font-size:15px;line-height:1.65;letter-spacing:.01em;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,h4,h5{font-weight:600;letter-spacing:-.01em}
+input,textarea,select{font:inherit}
+
+/* ====== Nav ====== */
+.nav{position:sticky;top:0;z-index:100;background:rgba(250,250,247,.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(0,0,0,.04)}
+.nav-inner{max-width:1400px;margin:0 auto;padding:14px 32px;display:flex;align-items:center;gap:32px}
+.logo{font-weight:600;font-size:17px;letter-spacing:-.01em}
+.logo-sub{font-weight:400;color:#9ca3af;font-size:13px;margin-left:4px}
+.nav-links{display:flex;gap:28px;flex:1;margin-left:24px}
+.nav-links a{font-size:14px;color:#4b5563;transition:.2s}
+.nav-links a:hover{color:#1a1d24}
+.nav-links a.is-active{color:#1a1d24;font-weight:600}
+.nav-cta{display:flex;gap:10px;align-items:center}
+.btn-primary{background:#1a1d24;color:#fff;padding:10px 18px;border-radius:8px;font-weight:500;transition:.2s;display:inline-flex;align-items:center;justify-content:center;font-size:14px}
+.btn-primary:hover{background:#2d3340}
+.btn-ghost{background:#fff;color:#1a1d24;padding:9px 18px;border:1px solid #e0ddd4;border-radius:8px;font-weight:500;transition:.2s;display:inline-flex;align-items:center;justify-content:center;font-size:14px}
+.btn-ghost:hover{border-color:#1a1d24}
+.btn-avatar{
+  display:inline-flex;align-items:center;gap:6px;
+  background:#fff;color:#4b5563;padding:7px 14px 7px 8px;
+  border:1px solid #e0ddd4;border-radius:8px;
+  font-size:14px;font-weight:500;transition:.2s;cursor:pointer;
+}
+.btn-avatar:hover{border-color:#1a1d24;color:#1a1d24}
+.avatar-circle{
+  width:24px;height:24px;border-radius:50%;
+  background:linear-gradient(135deg,#d7b36a,#8a5d32);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;color:#fff;flex-shrink:0;
+}
+
+/* ====== Context Bar ====== */
+.ctx-bar{
+  background:#f5f3ee;border-bottom:1px solid #e8e4d8;
+  padding:10px 32px;
+}
+.ctx-bar-inner{
+  max-width:800px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:16px;flex-wrap:wrap;
+}
+.ctx-left{display:flex;align-items:center;gap:10px;font-size:13px;color:#6b7280}
+.ctx-left .ctx-label{font-weight:500;color:#9ca3af}
+.ctx-dropdown{
+  position:relative;
+}
+.ctx-dropdown-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 12px;border-radius:6px;
+  background:#fff;border:1px solid #e0ddd4;
+  font-size:13px;font-weight:600;color:#1a1d24;
+  cursor:pointer;transition:.2s;
+}
+.ctx-dropdown-btn:hover{border-color:#d7b36a}
+.ctx-dropdown-btn svg{width:12px;height:12px;color:#9ca3af;transition:.2s}
+.ctx-dropdown-btn:hover svg{color:#1a1d24}
+.ctx-menu{
+  position:absolute;top:calc(100% + 6px);left:0;
+  background:#fff;border:1px solid #e0ddd4;border-radius:10px;
+  box-shadow:0 12px 36px -8px rgba(60,40,20,.12);
+  min-width:240px;padding:6px;z-index:50;
+  display:none;
+}
+.ctx-menu.open{display:block;animation:fadeUp .2s ease both}
+.ctx-menu-item{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 12px;border-radius:8px;font-size:13px;
+  color:#4b5563;cursor:pointer;transition:.15s;
+}
+.ctx-menu-item:hover{background:#f5f3ee;color:#1a1d24}
+.ctx-menu-item.active{background:#fffbf3;color:#8a5d32;font-weight:600}
+.ctx-menu-item .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.ctx-menu-item .dot.green{background:#4ade80}
+.ctx-menu-item .dot.yellow{background:#d7b36a}
+.ctx-menu-item .dot.grey{background:#d4cdb5}
+.ctx-menu-divider{height:1px;background:#ebe7d9;margin:6px 0}
+.ctx-manage{
+  font-size:13px;font-weight:500;color:#8a5d32;transition:.2s;
+}
+.ctx-manage:hover{color:#6b3f1a;text-decoration:underline}
+
+/* ====== Main Content ====== */
+.main-content{
+  max-width:800px;margin:0 auto;
+  padding:48px 24px 80px;
+  min-height:calc(100vh - 140px);
+}
+
+/* ====== Scenario Selector ====== */
+.scenario-area{}
+.scenario-header{text-align:center;margin-bottom:36px}
+.scenario-header h2{font-size:28px;color:#1a1d24;margin-bottom:6px;font-weight:700}
+.scenario-header p{font-size:14px;color:#9ca3af}
+
+.scenario-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+  margin-bottom:40px;
+}
+.sc-card{
+  padding:28px 20px 24px;
+  background:#fff;
+  border:2px solid #ebe7d9;
+  border-radius:14px;
+  cursor:pointer;
+  transition:all .28s ease;
+  text-align:center;
+  position:relative;
+}
+.sc-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 16px 40px -16px rgba(60,40,20,.12);
+  border-color:#d4cdb5;
+}
+.sc-card.active{
+  border-color:#d7b36a;
+  background:linear-gradient(180deg,#fdf7ea 0%,#fff 100%);
+  box-shadow:0 16px 40px -16px rgba(215,179,106,.22);
+}
+.sc-card .radio{
+  width:20px;height:20px;border-radius:50%;
+  border:2px solid #d4cdb5;
+  margin:0 auto 16px;
+  display:flex;align-items:center;justify-content:center;
+  transition:.2s;
+}
+.sc-card.active .radio{border-color:#d7b36a;background:#d7b36a}
+.sc-card.active .radio::after{content:"";width:7px;height:7px;border-radius:50%;background:#fff}
+.sc-card .sc-icon{font-size:28px;display:block;margin-bottom:10px}
+.sc-card h3{font-size:16px;margin-bottom:6px;color:#1a1d24}
+.sc-card p{font-size:12px;color:#6b7280;line-height:1.5}
+
+.start-btn-wrap{text-align:center}
+.start-btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:16px 52px;
+  background:linear-gradient(135deg,#d7b36a 0%,#c49a4e 50%,#d7b36a 100%);
+  background-size:200% 200%;
+  color:#1a1d24;
+  font-size:17px;font-weight:700;
+  border-radius:14px;
+  border:none;cursor:pointer;
+  transition:all .3s;
+  box-shadow:0 12px 36px -12px rgba(215,179,106,.45);
+  animation:shimmer 3s ease-in-out infinite;
+}
+.start-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 18px 44px -12px rgba(215,179,106,.55);
+}
+@keyframes shimmer{
+  0%,100%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+}
+
+/* ====== Wizard ====== */
+.wizard-area{display:none}
+.wizard-area.visible{display:block;animation:fadeUp .4s ease both}
+
+/* Progress dots */
+.wizard-progress{
+  display:flex;align-items:center;justify-content:center;
+  gap:0;margin-bottom:36px;
+}
+.wiz-step{
+  display:flex;align-items:center;
+  cursor:pointer;
+}
+.wiz-dot{
+  width:36px;height:36px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700;
+  border:2px solid #e0ddd4;
+  color:#9ca3af;
+  background:#fff;
+  transition:all .25s;
+  position:relative;
+  z-index:2;
+}
+.wiz-dot.active{
+  border-color:#d7b36a;
+  background:#d7b36a;
+  color:#fff;
+  box-shadow:0 4px 16px -4px rgba(215,179,106,.4);
+}
+.wiz-dot.done{
+  border-color:#4ade80;
+  background:#4ade80;
+  color:#fff;
+}
+.wiz-connector{
+  width:40px;height:2px;
+  background:#e0ddd4;
+  transition:background .25s;
+}
+.wiz-connector.done{background:#4ade80}
+.wiz-connector.active{background:linear-gradient(90deg,#4ade80,#d7b36a)}
+
+/* Wizard card */
+.wiz-card{
+  max-width:640px;
+  margin:0 auto;
+  background:#fff;
+  border:1px solid #ebe7d9;
+  border-radius:18px;
+  padding:36px 32px;
+  box-shadow:0 8px 32px -12px rgba(60,40,20,.06);
+  animation:fadeUp .35s ease both;
+}
+.wiz-card h2{
+  font-size:22px;color:#1a1d24;margin-bottom:24px;
+  display:flex;align-items:center;gap:12px;
+}
+.wiz-card h2 .step-badge{
+  font-size:11px;font-weight:700;color:#8a5d32;
+  background:#fdf3e0;padding:4px 12px;border-radius:20px;
+}
+
+.wiz-input{
+  width:100%;padding:14px 18px;
+  border:1px solid #e8e4d8;border-radius:10px;
+  background:#fafaf7;font-size:15px;color:#1a1d24;
+  outline:none;transition:all .2s;
+}
+.wiz-input::placeholder{color:#b5b0a3}
+.wiz-input:focus{border-color:#d7b36a;background:#fff;box-shadow:0 0 0 3px rgba(215,179,106,.1)}
+textarea.wiz-input{resize:vertical;min-height:90px;line-height:1.6}
+
+.wiz-insight{margin-top:20px}
+.wiz-insight label{
+  display:block;font-size:12px;font-weight:600;color:#9ca3af;
+  margin-bottom:8px;letter-spacing:.04em;
+}
+.wiz-insight textarea{min-height:72px}
+
+/* Option pills */
+.option-pills{display:flex;flex-wrap:wrap;gap:10px}
+.pill{
+  padding:10px 20px;
+  border:1.5px solid #e0ddd4;
+  border-radius:10px;
+  font-size:14px;font-weight:500;color:#4b5563;
+  cursor:pointer;transition:all .2s;
+  background:#fff;
+}
+.pill:hover{border-color:#d7b36a;color:#8a5d32;background:#fffbf3}
+.pill.selected{
+  border-color:#d7b36a;background:#d7b36a;color:#1a1d24;
+  font-weight:600;
+  box-shadow:0 4px 12px -4px rgba(215,179,106,.3);
+}
+
+/* Wizard nav buttons */
+.wiz-nav{
+  display:flex;justify-content:space-between;align-items:center;
+  max-width:640px;margin:28px auto 0;
+}
+.wiz-btn{
+  padding:12px 28px;border-radius:10px;
+  font-size:14px;font-weight:600;
+  transition:all .2s;cursor:pointer;
+  display:inline-flex;align-items:center;gap:6px;
+}
+.wiz-btn-prev{
+  background:transparent;border:1px solid #e0ddd4;color:#6b7280;
+}
+.wiz-btn-prev:hover{border-color:#1a1d24;color:#1a1d24}
+.wiz-btn-next{
+  background:#1a1d24;color:#fff;border:none;
+}
+.wiz-btn-next:hover{background:#2d3340;transform:translateY(-1px);box-shadow:0 4px 12px -4px rgba(0,0,0,.2)}
+.wiz-btn-gen{
+  background:linear-gradient(135deg,#d7b36a,#c49a4e);
+  color:#1a1d24;border:none;
+  font-size:16px;font-weight:700;
+  padding:14px 36px;
+  box-shadow:0 8px 24px -8px rgba(215,179,106,.4);
+}
+.wiz-btn-gen:hover{transform:translateY(-2px);box-shadow:0 12px 32px -8px rgba(215,179,106,.5)}
+
+/* Summary card (step 6) */
+.summary-list{
+  display:flex;flex-direction:column;gap:12px;
+}
+.summary-row{
+  display:flex;gap:12px;align-items:flex-start;
+  padding:12px 16px;
+  background:#fafaf7;
+  border-radius:10px;
+  border:1px solid #ebe7d9;
+}
+.summary-row .sr-num{
+  width:24px;height:24px;border-radius:6px;
+  background:#fdf3e0;color:#8a5d32;
+  font-size:11px;font-weight:700;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.summary-row .sr-content{flex:1}
+.summary-row .sr-q{font-size:12px;color:#9ca3af;margin-bottom:2px}
+.summary-row .sr-a{font-size:14px;font-weight:600;color:#1a1d24}
+
+/* ====== Generation Result ====== */
+.gen-result{display:none;animation:fadeUp .5s ease both}
+.gen-result.visible{display:block}
+
+.gen-progress{
+  max-width:520px;margin:0 auto 36px;
+}
+.progress-label{
+  display:flex;justify-content:space-between;
+  font-size:12px;color:#9ca3af;font-weight:500;
+  margin-bottom:8px;
+}
+.progress-track{height:6px;background:#ebe7d9;border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;width:0%;background:linear-gradient(90deg,#d7b36a,#8a5d32);border-radius:3px;animation:fillProgress 2.8s ease-out forwards}
+@keyframes fillProgress{0%{width:0%}60%{width:78%}80%{width:85%}100%{width:100%}}
+
+.slides-preview{margin-top:8px;display:none}
+.slides-preview.visible{display:block;animation:fadeUp .5s ease both}
+.slides-label{
+  font-size:13px;color:#7a4d2a;font-weight:600;
+  letter-spacing:.08em;margin-bottom:18px;
+  text-align:center;
+}
+.slides-grid{
+  display:grid;grid-template-columns:repeat(5,1fr);gap:10px;
+}
+.slide-card{
+  position:relative;aspect-ratio:16/10;background:#fff;
+  border:1px solid #ebe7d9;border-radius:10px;overflow:hidden;transition:all .3s;
+}
+.slide-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px -8px rgba(60,40,20,.1)}
+.slide-card.unlocked{border-color:#d7b36a}
+.slide-inner{
+  padding:10px 8px;height:100%;
+  display:flex;flex-direction:column;justify-content:space-between;
+}
+.slide-inner .slide-eyebrow{
+  font-size:7px;color:#7a4d2a;font-weight:700;letter-spacing:.06em;text-transform:uppercase;text-align:left;
+}
+.slide-inner h4{font-size:9px;font-weight:700;color:#1a1d24;text-align:left;line-height:1.3;margin-top:4px}
+.slide-inner .slide-bars{display:flex;gap:2px;align-items:flex-end;margin-top:auto;height:18px}
+.slide-inner .slide-bars span{flex:1;border-radius:2px 2px 0 0;background:#ebe7d9}
+.slide-inner .slide-bars span:nth-child(1){height:40%;background:#d7b36a}
+.slide-inner .slide-bars span:nth-child(2){height:70%;background:#8a5d32}
+.slide-inner .slide-bars span:nth-child(3){height:55%;background:#d7b36a}
+.slide-inner .slide-bars span:nth-child(4){height:85%;background:#1a1d24}
+.slide-inner .slide-bars span:nth-child(5){height:35%;background:#ebe7d9}
+.slide-inner .slide-lines{display:flex;flex-direction:column;gap:3px;margin-top:auto}
+.slide-inner .slide-lines span{height:3px;border-radius:2px;background:#ebe7d9}
+.slide-inner .slide-lines span:nth-child(1){width:90%}
+.slide-inner .slide-lines span:nth-child(2){width:70%}
+.slide-inner .slide-lines span:nth-child(3){width:80%}
+.slide-inner .slide-grid-mini{display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:auto}
+.slide-inner .slide-grid-mini span{height:12px;border-radius:3px;background:#f3f1ec}
+.slide-inner .slide-grid-mini span:nth-child(1){background:#fde9d4}
+.slide-inner .slide-grid-mini span:nth-child(3){background:#e8f5ee}
+
+.slide-card.locked{background:#f5f3ee;border-color:#e8e4d8}
+.slide-card.locked .slide-blur{
+  width:100%;height:100%;padding:8px;
+  display:flex;flex-direction:column;gap:4px;
+  filter:blur(3px);opacity:.4;
+}
+.slide-card.locked .slide-blur span{height:3px;border-radius:2px;background:#c4bfb2}
+.slide-card.locked .slide-blur span:nth-child(1){width:60%}
+.slide-card.locked .slide-blur span:nth-child(2){width:85%;margin-top:6px}
+.slide-card.locked .slide-blur span:nth-child(3){width:70%}
+.slide-card.locked .slide-blur span:nth-child(4){width:45%;margin-top:6px}
+.slide-card.locked .slide-blur span:nth-child(5){width:90%}
+.slide-card.locked .slide-blur span:nth-child(6){width:55%}
+.slide-lock-icon{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;z-index:2;
+}
+.slide-lock-icon svg{width:18px;height:18px;color:#b5b0a3;opacity:.7}
+
+.price-overlay{
+  margin-top:28px;padding:24px 28px;
+  background:linear-gradient(135deg,#1a1d24 0%,#2d3340 100%);
+  border-radius:14px;color:#fff;
+  display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;
+}
+.price-overlay-left{text-align:left}
+.price-tag{font-size:22px;font-weight:700;display:flex;align-items:baseline;gap:4px}
+.price-tag .currency{font-size:14px;color:#d7b36a;font-weight:600}
+.price-tag .amount{color:#d7b36a}
+.price-desc{font-size:13px;color:rgba(255,255,255,.6);margin-top:4px}
+.price-download-btn{
+  padding:12px 28px;background:#d7b36a;color:#1a1d24;
+  font-size:14px;font-weight:700;border-radius:10px;
+  border:none;cursor:pointer;transition:all .25s;
+  display:inline-flex;align-items:center;gap:8px;
+}
+.price-download-btn:hover{background:#e8c485;transform:translateY(-1px);box-shadow:0 8px 24px -8px rgba(215,179,106,.45)}
+
+/* ====== Footer ====== */
+.foot{background:#1a1d24;color:#9ca3af;padding:56px 32px 24px}
+.foot-inner{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:1fr 2fr;gap:60px;padding-bottom:36px;border-bottom:1px solid rgba(255,255,255,.08)}
+.foot-brand .logo{color:#fff;margin-bottom:8px}
+.foot-brand p{font-size:13px;color:#6b7280}
+.foot-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+.foot-cols h5{color:#fff;margin-bottom:14px;font-size:13px;font-weight:500}
+.foot-cols a{display:block;font-size:13px;color:#9ca3af;padding:4px 0;cursor:pointer;transition:.2s}
+.foot-cols a:hover{color:#fff}
+.foot-bottom{max-width:1400px;margin:24px auto 0;font-size:12px;color:#6b7280;text-align:center}
+
+/* ====== Animations ====== */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* ====== Responsive ====== */
+@media (max-width:768px){
+  .scenario-grid{grid-template-columns:1fr}
+  .slides-grid{grid-template-columns:repeat(3,1fr)}
+  .price-overlay{flex-direction:column;text-align:center}
+  .price-overlay-left{text-align:center}
+  .option-pills{justify-content:center}
+  .wiz-card{padding:24px 20px}
+  .main-content{padding:32px 16px 60px}
+  .scenario-header h2{font-size:24px}
+}
+@media (max-width:640px){
+  .nav-inner{padding:14px 16px;gap:12px;justify-content:space-between}
+  .logo-sub{display:none}
+  .nav-links{display:none}
+  .nav-cta .btn-ghost:not(.btn-avatar){display:none}
+  .nav-cta .btn-primary{padding:9px 12px;font-size:13px}
+  .ctx-bar{padding:10px 16px}
+  .foot-inner{grid-template-columns:1fr}
+  .foot-cols{grid-template-columns:1fr}
+  .slides-grid{grid-template-columns:repeat(2,1fr)}
+  .start-btn{padding:14px 32px;font-size:15px}
+}
+</style>
+</head>
+<body>
+
+<!-- ====== NAV ====== -->
+<header class="nav">
+  <div class="nav-inner">
+    <a class="logo" href="index.html">StratVault <span class="logo-sub">· AI 战略分析工作台</span></a>
+    <nav class="nav-links">
+      <a href="workshop.html" class="is-active">工坊</a>
+      <a href="cases.html">案例</a>
+      <a href="experts.html">专家</a>
+      <a href="academy.html">下载</a>
+      <a href="method.html">方法</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn-ghost" href="cases.html">看案例</a>
+      <a class="btn-avatar btn-ghost" href="profile.html">
+        <span class="avatar-circle">U</span>
+        我的
+      </a>
+      <a class="btn-primary" href="workshop.html">开始生成</a>
+    </div>
+  </div>
+</header>
+
+<!-- ====== CONTEXT BAR ====== -->
+<div class="ctx-bar">
+  <div class="ctx-bar-inner">
+    <div class="ctx-left">
+      <span class="ctx-label">当前项目:</span>
+      <div class="ctx-dropdown" id="ctxDropdown">
+        <button class="ctx-dropdown-btn" onclick="toggleCtxMenu()">
+          <span id="ctxCurrentLabel">Nike 中国 · 增长停滞问题</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="ctx-menu" id="ctxMenu">
+          <div class="ctx-menu-item active" onclick="switchContext(this, 'nike', 0)">
+            <span class="dot green"></span>
+            Nike 中国 · 增长停滞问题
+          </div>
+          <div class="ctx-menu-item" onclick="switchContext(this, 'nike', 1)">
+            <span class="dot yellow"></span>
+            Nike 中国 · 品类创新问题
+          </div>
+          <div class="ctx-menu-item" onclick="switchContext(this, 'nike', 2)">
+            <span class="dot grey"></span>
+            Nike 中国 · 组织协同问题
+          </div>
+          <div class="ctx-menu-divider"></div>
+          <div class="ctx-menu-item" onclick="switchContext(this, 'starbucks', 0)">
+            <span class="dot yellow"></span>
+            星巴克中国 · 市场份额下降
+          </div>
+        </div>
+      </div>
+    </div>
+    <a class="ctx-manage" href="profile.html">管理项目 →</a>
+  </div>
+</div>
+
+<!-- ====== MAIN CONTENT ====== -->
+<main class="main-content">
+
+  <!-- Scenario Selector -->
+  <div class="scenario-area" id="scenarioArea">
+    <div class="scenario-header">
+      <h2>选择分析场景</h2>
+      <p>为当前问题选择合适的分析模板</p>
+    </div>
+
+    <div class="scenario-grid" id="scenarioGrid">
+      <div class="sc-card active" onclick="selectScenario(this)">
+        <div class="radio"></div>
+        <span class="sc-icon">🚀</span>
+        <h3>增长问题破局</h3>
+        <p>营收停滞，找到增长引擎与突破路径</p>
+      </div>
+      <div class="sc-card" onclick="selectScenario(this)">
+        <div class="radio"></div>
+        <span class="sc-icon">📋</span>
+        <h3>年度战略规划</h3>
+        <p>系统梳理目标、资源与关键举措</p>
+      </div>
+      <div class="sc-card" onclick="selectScenario(this)">
+        <div class="radio"></div>
+        <span class="sc-icon">🔍</span>
+        <h3>季度经营复盘</h3>
+        <p>深度回顾业务进展，纠偏调整方向</p>
+      </div>
+    </div>
+
+    <div class="start-btn-wrap">
+      <button class="start-btn" onclick="startWizard()">
+        开始分析 →
+      </button>
+    </div>
+  </div>
+
+  <!-- Step-by-Step Wizard -->
+  <div class="wizard-area" id="wizardArea">
+
+    <!-- Progress dots -->
+    <div class="wizard-progress" id="wizProgress">
+      <!-- Built dynamically by JS -->
+    </div>
+
+    <!-- Step content container -->
+    <div id="wizContent"></div>
+
+    <!-- Nav buttons -->
+    <div class="wiz-nav" id="wizNav">
+      <button class="wiz-btn wiz-btn-prev" id="btnPrev" onclick="wizPrev()">← 上一步</button>
+      <button class="wiz-btn wiz-btn-next" id="btnNext" onclick="wizNext()">下一步 →</button>
+    </div>
+  </div>
+
+  <!-- Generation Result -->
+  <div class="gen-result" id="genResult">
+    <div class="gen-progress" id="genProgress">
+      <div class="progress-label">
+        <span>正在生成报告…</span>
+        <span id="progressPct">0%</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+
+    <div class="slides-preview" id="slidesPreview">
+      <div class="slides-label">报告预览 · 15 页</div>
+      <div class="slides-grid">
+        <!-- Slide 1: Unlocked -->
+        <div class="slide-card unlocked">
+          <div class="slide-inner">
+            <span class="slide-eyebrow">STRATVAULT</span>
+            <h4>增长破局<br/>战略报告</h4>
+            <div class="slide-lines"><span></span><span></span><span></span></div>
+          </div>
+        </div>
+        <!-- Slide 2: Unlocked -->
+        <div class="slide-card unlocked">
+          <div class="slide-inner">
+            <span class="slide-eyebrow">01 现状分析</span>
+            <h4>营收趋势</h4>
+            <div class="slide-bars"><span></span><span></span><span></span><span></span><span></span></div>
+          </div>
+        </div>
+        <!-- Slide 3: Unlocked -->
+        <div class="slide-card unlocked">
+          <div class="slide-inner">
+            <span class="slide-eyebrow">02 竞争格局</span>
+            <h4>市场定位</h4>
+            <div class="slide-grid-mini"><span></span><span></span><span></span><span></span></div>
+          </div>
+        </div>
+        <!-- Locked slides 4-15 -->
+        <div class="slide-card locked"><div class="slide-blur"><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="slide-lock-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div></div>
+        <div class="slide-card locked"><div class="slide-blur"><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="slide-lock-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div></div>
+        <div class="slide-card locked"><div class="slide-blur"><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="slide-lock-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div></div>
+        <div class="slide-card locked"><div class="slide-blur"><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="slide-lock-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div></div>
+        <div class="slide-card locked"><div class="slide-blur"><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="slide-lock-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div></div>
+        <div class="slide-card locked"><div class="slide-blur"><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="slide-lock-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div></div>
+        <div class="slide-card locked"><div class="slide-blur"><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="slide-lock-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div></div>
+        <div class="slide-card locked"><div class="slide-blur"><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="slide-lock-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div></div>
+        <div class="slide-card locked"><div class="slide-blur"><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="slide-lock-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div></div>
+        <div class="slide-card locked"><div class="slide-blur"><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="slide-lock-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div></div>
+        <div class="slide-card locked"><div class="slide-blur"><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="slide-lock-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div></div>
+        <div class="slide-card locked"><div class="slide-blur"><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="slide-lock-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div></div>
+      </div>
+
+      <!-- Price Overlay -->
+      <div class="price-overlay">
+        <div class="price-overlay-left">
+          <div class="price-tag">
+            <span class="currency">¥</span>
+            <span class="amount">199</span>
+          </div>
+          <div class="price-desc">解锁完整 15 页报告 · 含可编辑 PPTX 源文件</div>
+        </div>
+        <button class="price-download-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          立即下载
+        </button>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ====== FOOTER ====== -->
+<footer class="foot">
+  <div class="foot-inner">
+    <div class="foot-brand">
+      <a class="logo" href="index.html">StratVault</a>
+      <p>AI 驱动的战略分析工作台 · 让战略可视化</p>
+    </div>
+    <div class="foot-cols">
+      <div>
+        <h5>产品</h5>
+        <a href="workshop.html">PPT 工坊</a>
+        <a href="cases.html">案例库</a>
+        <a href="experts.html">专家网络</a>
+        <a href="academy.html">下载</a>
+      </div>
+      <div>
+        <h5>方法论</h5>
+        <a href="method.html">战略屋模型</a>
+        <a>五维分析法</a>
+        <a>增长飞轮</a>
+      </div>
+      <div>
+        <h5>关于</h5>
+        <a>关于我们</a>
+        <a>商务合作</a>
+        <a>联系我们</a>
+      </div>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2026 StratVault · AI 战略分析工作台</span>
+  </div>
+</footer>
+
+<script>
+// ========================================
+// STATE
+// ========================================
+const contextOptions = [
+  { project: 'nike', problem: 0, label: 'Nike 中国 · 增长停滞问题', dot: 'green' },
+  { project: 'nike', problem: 1, label: 'Nike 中国 · 品类创新问题', dot: 'yellow' },
+  { project: 'nike', problem: 2, label: 'Nike 中国 · 组织协同问题', dot: 'grey' },
+  { project: 'starbucks', problem: 0, label: '星巴克中国 · 市场份额下降', dot: 'yellow' },
+];
+
+let currentCtx = 0;
+let wizardStep = 0;
+const totalSteps = 6;
+
+const wizAnswers = {
+  1: '', 2: '', 3: '', 4: '', 5: '',
+  insight1: '', insight2: '', insight3: '', insight4: '', insight5: ''
+};
+
+// ========================================
+// CONTEXT DROPDOWN
+// ========================================
+function toggleCtxMenu() {
+  const menu = document.getElementById('ctxMenu');
+  menu.classList.toggle('open');
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', (e) => {
+  const dropdown = document.getElementById('ctxDropdown');
+  if (!dropdown.contains(e.target)) {
+    document.getElementById('ctxMenu').classList.remove('open');
+  }
+});
+
+function switchContext(el, project, problemIdx) {
+  // Find matching context
+  const idx = contextOptions.findIndex(c => c.project === project && c.problem === problemIdx);
+  if (idx === -1) return;
+  currentCtx = idx;
+
+  // Update button label
+  document.getElementById('ctxCurrentLabel').textContent = contextOptions[idx].label;
+
+  // Update active state
+  document.querySelectorAll('.ctx-menu-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+
+  // Close menu
+  document.getElementById('ctxMenu').classList.remove('open');
+
+  // Reset to scenario
+  resetToScenario();
+}
+
+// ========================================
+// SCENARIO SELECTION
+// ========================================
+function selectScenario(el) {
+  document.querySelectorAll('.sc-card').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function resetToScenario() {
+  document.getElementById('scenarioArea').style.display = '';
+  document.getElementById('wizardArea').classList.remove('visible');
+  document.getElementById('wizardArea').style.display = 'none';
+  document.getElementById('genResult').classList.remove('visible');
+  document.getElementById('genResult').style.display = 'none';
+}
+
+// ========================================
+// WIZARD
+// ========================================
+const steps = [
+  {
+    question: '你所在的行业是什么？',
+    type: 'text',
+    placeholder: '例如：运动鞋服零售',
+    key: '1',
+    hasInsight: true,
+    insightKey: 'insight1',
+    insightPlaceholder: '关于行业的任何假设或观察…'
+  },
+  {
+    question: '目前最大的增长挑战是什么？',
+    type: 'textarea',
+    placeholder: '例如：线下渠道萎缩，线上增长乏力',
+    key: '2',
+    hasInsight: true,
+    insightKey: 'insight2',
+    insightPlaceholder: '你对这个挑战的初步判断…'
+  },
+  {
+    question: '过去一年营收变化趋势？',
+    type: 'pills',
+    options: ['增长>20%', '增长5-20%', '基本持平', '下降5-20%', '下降>20%'],
+    key: '3',
+    hasInsight: true,
+    insightKey: 'insight3',
+    insightPlaceholder: '补充说明变化的原因…'
+  },
+  {
+    question: '你的核心竞争优势是什么？',
+    type: 'textarea',
+    placeholder: '例如：品牌认知度高，供应链成熟',
+    key: '4',
+    hasInsight: true,
+    insightKey: 'insight4',
+    insightPlaceholder: '你认为优势能否持续…'
+  },
+  {
+    question: '报告的主要受众是谁？',
+    type: 'pills',
+    options: ['董事会/CEO', '业务负责人', '战略部', '投资人'],
+    key: '5',
+    hasInsight: true,
+    insightKey: 'insight5',
+    insightPlaceholder: '受众最关注哪些维度…'
+  },
+  {
+    question: '确认生成',
+    type: 'summary',
+    key: '6',
+  }
+];
+
+function startWizard() {
+  wizardStep = 0;
+
+  // Hide scenario, show wizard
+  document.getElementById('scenarioArea').style.display = 'none';
+  const wa = document.getElementById('wizardArea');
+  wa.style.display = 'block';
+  wa.offsetHeight;
+  wa.classList.add('visible');
+  document.getElementById('genResult').classList.remove('visible');
+  document.getElementById('genResult').style.display = 'none';
+
+  buildProgress();
+  renderStep();
+}
+
+function buildProgress() {
+  const wrap = document.getElementById('wizProgress');
+  let html = '';
+  for (let i = 0; i < totalSteps; i++) {
+    const dotClass = i < wizardStep ? 'done' : i === wizardStep ? 'active' : '';
+    html += `<div class="wiz-step" onclick="jumpToStep(${i})">
+      <div class="wiz-dot ${dotClass}">${i + 1}</div>
+    </div>`;
+    if (i < totalSteps - 1) {
+      const connClass = i < wizardStep ? 'done' : i === wizardStep ? 'active' : '';
+      html += `<div class="wiz-connector ${connClass}"></div>`;
+    }
+  }
+  wrap.innerHTML = html;
+}
+
+function jumpToStep(i) {
+  if (i <= wizardStep || i === wizardStep) {
+    wizardStep = i;
+    buildProgress();
+    renderStep();
+  }
+}
+
+function renderStep() {
+  const step = steps[wizardStep];
+  const container = document.getElementById('wizContent');
+  let html = '';
+
+  if (step.type === 'summary') {
+    html = `<div class="wiz-card">
+      <h2><span class="step-badge">Step ${wizardStep + 1}/${totalSteps}</span> ${step.question}</h2>
+      <div class="summary-list">`;
+
+    const labels = [
+      '你所在的行业是什么？',
+      '目前最大的增长挑战是什么？',
+      '过去一年营收变化趋势？',
+      '你的核心竞争优势是什么？',
+      '报告的主要受众是谁？'
+    ];
+    for (let i = 1; i <= 5; i++) {
+      const ans = wizAnswers[i] || '（未填写）';
+      html += `<div class="summary-row">
+        <div class="sr-num">${i}</div>
+        <div class="sr-content">
+          <div class="sr-q">${labels[i-1]}</div>
+          <div class="sr-a">${ans}</div>
+        </div>
+      </div>`;
+    }
+    html += `</div></div>`;
+  } else {
+    html = `<div class="wiz-card">
+      <h2><span class="step-badge">Step ${wizardStep + 1}/${totalSteps}</span> ${step.question}</h2>`;
+
+    if (step.type === 'text') {
+      html += `<input type="text" class="wiz-input" placeholder="${step.placeholder}" value="${wizAnswers[step.key] || ''}" oninput="wizAnswers['${step.key}']=this.value" />`;
+    } else if (step.type === 'textarea') {
+      html += `<textarea class="wiz-input" placeholder="${step.placeholder}" oninput="wizAnswers['${step.key}']=this.value">${wizAnswers[step.key] || ''}</textarea>`;
+    } else if (step.type === 'pills') {
+      html += `<div class="option-pills">`;
+      step.options.forEach(opt => {
+        const sel = wizAnswers[step.key] === opt ? 'selected' : '';
+        html += `<div class="pill ${sel}" onclick="selectPill(this, '${step.key}', '${opt}')">${opt}</div>`;
+      });
+      html += `</div>`;
+    }
+
+    if (step.hasInsight) {
+      html += `<div class="wiz-insight">
+        <label>💡 你的洞察（可选）</label>
+        <textarea class="wiz-input" placeholder="${step.insightPlaceholder}" oninput="wizAnswers['${step.insightKey}']=this.value">${wizAnswers[step.insightKey] || ''}</textarea>
+      </div>`;
+    }
+
+    html += `</div>`;
+  }
+
+  container.innerHTML = html;
+  // Trigger animation
+  const card = container.querySelector('.wiz-card');
+  if (card) {
+    card.style.animation = 'none';
+    card.offsetHeight;
+    card.style.animation = 'fadeUp .35s ease both';
+  }
+
+  updateWizNav();
+  buildProgress();
+}
+
+function selectPill(el, key, value) {
+  wizAnswers[key] = value;
+  el.parentElement.querySelectorAll('.pill').forEach(p => p.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function updateWizNav() {
+  const prev = document.getElementById('btnPrev');
+  const next = document.getElementById('btnNext');
+
+  prev.style.visibility = wizardStep === 0 ? 'hidden' : 'visible';
+
+  if (wizardStep === totalSteps - 1) {
+    next.className = 'wiz-btn wiz-btn-gen';
+    next.innerHTML = '生成 PPT →';
+    next.onclick = startGeneration;
+  } else {
+    next.className = 'wiz-btn wiz-btn-next';
+    next.innerHTML = '下一步 →';
+    next.onclick = wizNext;
+  }
+}
+
+function wizPrev() {
+  if (wizardStep > 0) {
+    wizardStep--;
+    renderStep();
+  }
+}
+
+function wizNext() {
+  if (wizardStep < totalSteps - 1) {
+    wizardStep++;
+    renderStep();
+  }
+}
+
+// ========================================
+// GENERATION
+// ========================================
+function startGeneration() {
+  // Hide wizard
+  document.getElementById('wizardArea').classList.remove('visible');
+  document.getElementById('wizardArea').style.display = 'none';
+
+  // Show gen result
+  const gr = document.getElementById('genResult');
+  gr.style.display = 'block';
+  gr.offsetHeight;
+  gr.classList.add('visible');
+
+  const fill = document.getElementById('progressFill');
+  const pct = document.getElementById('progressPct');
+  const preview = document.getElementById('slidesPreview');
+
+  // Reset
+  preview.classList.remove('visible');
+  fill.style.animation = 'none';
+  fill.offsetHeight;
+  fill.style.animation = 'fillProgress 2.8s ease-out forwards';
+
+  let current = 0;
+  const interval = setInterval(() => {
+    current += 1;
+    if (current > 100) {
+      clearInterval(interval);
+      pct.textContent = '100%';
+      setTimeout(() => {
+        preview.classList.add('visible');
+      }, 300);
+      return;
+    }
+    pct.textContent = current + '%';
+  }, 28);
+
+  // Scroll to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>

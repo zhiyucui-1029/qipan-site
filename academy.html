@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>分析工具库 · StratVault Academy</title>
+<meta name="description" content="下载专业分析框架工具包，学习每个框架的使用方法。先学会用工具，再生成报告。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ====== Reset & Base ====== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter','Noto Sans SC',-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;
+  color:#1a1d24;background:#fafaf7;
+  font-size:15px;line-height:1.65;letter-spacing:.01em;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,h4,h5{font-weight:600;letter-spacing:-.01em}
+img{max-width:100%;display:block}
+
+/* ====== Nav ====== */
+.nav{position:sticky;top:0;z-index:50;background:rgba(250,250,247,.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(0,0,0,.04)}
+.nav-inner{max-width:1240px;margin:0 auto;padding:14px 32px;display:flex;align-items:center;gap:32px}
+.logo{font-weight:700;font-size:17px;letter-spacing:-.01em;white-space:nowrap}
+.logo-sub{font-weight:400;color:#9ca3af;font-size:13px;margin-left:4px}
+.nav-links{display:flex;gap:28px;flex:1;margin-left:24px}
+.nav-links a{font-size:14px;color:#4b5563;transition:.2s;font-weight:500}
+.nav-links a:hover{color:#1a1d24}
+.nav-links a.is-active{color:#1a1d24;font-weight:600}
+.nav-cta{display:flex;gap:10px}
+
+/* ====== Buttons ====== */
+.btn-primary{display:inline-flex;align-items:center;gap:6px;background:#1a1d24;color:#fff;padding:10px 18px;border-radius:8px;font-weight:500;font-size:14px;transition:.2s;border:none;cursor:pointer}
+.btn-primary:hover{background:#2d3340}
+.btn-primary.lg{padding:14px 28px;font-size:16px}
+.btn-primary.gold{background:linear-gradient(135deg,#d7b36a 0%,#b8943f 100%);color:#1a1d24}
+.btn-primary.gold:hover{background:linear-gradient(135deg,#e4c47d 0%,#c9a450 100%)}
+.btn-ghost{display:inline-flex;align-items:center;gap:6px;background:#fff;color:#1a1d24;padding:9px 18px;border:1px solid #e0ddd4;border-radius:8px;font-weight:500;font-size:14px;transition:.2s}
+.btn-ghost:hover{border-color:#1a1d24}
+.btn-ghost.lg{padding:13px 26px;font-size:16px}
+.btn-sm{padding:8px 16px;font-size:13px;border-radius:7px}
+
+/* ====== Hero ====== */
+.hero{position:relative;padding:100px 32px 88px;background:linear-gradient(180deg,#11191b 0%,#1b2426 60%,#1f2c2f 100%);color:#fff;overflow:hidden}
+.hero::before{content:"";position:absolute;top:-120px;right:-160px;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(215,179,106,.08) 0%,transparent 70%);pointer-events:none}
+.hero::after{content:"";position:absolute;bottom:-80px;left:-100px;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(215,179,106,.05) 0%,transparent 70%);pointer-events:none}
+.hero-inner{max-width:860px;margin:0 auto;text-align:center;position:relative;z-index:2}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:7px 16px;border-radius:999px;background:rgba(215,179,106,.12);border:1px solid rgba(215,179,106,.25);color:#d7b36a;font-size:12px;font-weight:600;letter-spacing:.06em;margin-bottom:28px}
+.hero-badge::before{content:"";width:6px;height:6px;border-radius:50%;background:#d7b36a;flex-shrink:0}
+.hero h1{font-size:48px;line-height:1.2;letter-spacing:-.025em;font-weight:800;margin-bottom:22px;background:linear-gradient(180deg,#fff 0%,rgba(255,255,255,.82) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-subtitle{max-width:640px;margin:0 auto;font-size:17px;line-height:1.85;color:rgba(255,255,255,.6);font-weight:400}
+.hero-subtitle strong{color:rgba(255,255,255,.88);font-weight:600}
+
+/* ====== Section shared ====== */
+section{padding:80px 32px}
+.section-eyebrow{display:inline-block;color:#8a5d32;font-size:12px;font-weight:600;letter-spacing:.1em;margin-bottom:10px;text-transform:uppercase}
+.section-title{max-width:760px;margin:0 auto 48px;text-align:center}
+.section-title h2{font-size:34px;line-height:1.25;margin-bottom:12px;letter-spacing:-.02em}
+.section-title p{color:#6b7280;font-size:16px;line-height:1.7}
+
+/* ====== Toolkit Grid ====== */
+.toolkit-section{background:#fff;border-top:1px solid #ebe7d9;border-bottom:1px solid #ebe7d9}
+.toolkit-grid{max-width:1140px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.toolkit-card{
+  position:relative;
+  padding:28px 24px 24px;
+  background:#fafaf7;
+  border:1px solid #ebe7d9;
+  border-radius:16px;
+  transition:all .32s ease;
+  display:flex;flex-direction:column;
+}
+.toolkit-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 24px 56px -20px rgba(60,40,20,.13);
+  border-color:#d4cdb5;
+}
+.toolkit-card-icon{
+  width:56px;height:56px;
+  border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;
+  margin-bottom:16px;
+  background:linear-gradient(135deg,#f9f3ea 0%,#f0deb0 100%);
+}
+.toolkit-card h3{font-size:17px;line-height:1.35;margin-bottom:4px;letter-spacing:-.005em}
+.toolkit-card .tk-en{font-size:12px;color:#9ca3af;font-weight:500;margin-bottom:12px;letter-spacing:.02em}
+.toolkit-card .tk-desc{font-size:13.5px;color:#4b5563;line-height:1.7;margin-bottom:16px;flex:1}
+.toolkit-card .tk-includes{
+  display:flex;align-items:center;gap:6px;
+  padding:8px 12px;
+  background:#fff;
+  border:1px solid #ebe7d9;
+  border-radius:8px;
+  font-size:12px;color:#6b7280;font-weight:500;
+  margin-bottom:10px;
+}
+.toolkit-card .tk-includes .tk-icon-sm{font-size:14px}
+.tk-course-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:5px 10px;
+  border-radius:999px;
+  background:#e8f5ee;
+  color:#1f7a44;
+  font-size:11px;font-weight:600;
+  margin-bottom:16px;
+  width:fit-content;
+}
+.tk-price-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-top:16px;
+  border-top:1px solid #ebe7d9;
+  margin-bottom:14px;
+}
+.tk-price{font-size:20px;font-weight:700;color:#1a1d24}
+.tk-price.free{color:#1f7a44}
+.tk-price .tk-currency{font-size:13px;font-weight:600;color:#8a5d32}
+.tk-cta-row{display:flex;gap:8px}
+.tk-cta-row .btn-primary{flex:1;justify-content:center;font-size:13px;padding:9px 14px}
+.tk-cta-row .btn-ghost{flex:1;justify-content:center;font-size:13px;padding:8px 14px}
+
+/* Free badge */
+.tk-free-tag{
+  position:absolute;top:16px;right:16px;
+  padding:4px 10px;border-radius:999px;
+  background:#e8f5ee;color:#1f7a44;
+  font-size:11px;font-weight:700;
+  letter-spacing:.03em;
+}
+
+/* ====== VIP Expert-Exclusive Cards ====== */
+.toolkit-card.vip{
+  background:linear-gradient(160deg,#1b2426 0%,#243034 50%,#1b2426 100%);
+  border:1px solid rgba(215,179,106,.25);
+  color:#fff;
+}
+.toolkit-card.vip:hover{
+  border-color:rgba(215,179,106,.5);
+  box-shadow:0 24px 60px -16px rgba(215,179,106,.2),0 0 40px -20px rgba(215,179,106,.15);
+}
+.toolkit-card.vip h3{color:#fff}
+.toolkit-card.vip .tk-en{color:rgba(255,255,255,.5)}
+.toolkit-card.vip .tk-desc{color:rgba(255,255,255,.6)}
+.toolkit-card.vip .tk-includes{
+  background:rgba(255,255,255,.06);
+  border-color:rgba(255,255,255,.1);
+  color:rgba(255,255,255,.55);
+}
+.toolkit-card.vip .tk-course-badge{
+  background:rgba(215,179,106,.15);
+  color:#d7b36a;
+}
+.toolkit-card.vip .tk-price-row{border-top-color:rgba(255,255,255,.1)}
+.toolkit-card.vip .tk-price{color:#d7b36a}
+.toolkit-card.vip .tk-price .tk-currency{color:#d7b36a}
+.toolkit-card.vip .btn-primary{background:linear-gradient(135deg,#d7b36a 0%,#b8943f 100%);color:#1a1d24}
+.toolkit-card.vip .btn-primary:hover{background:linear-gradient(135deg,#e4c47d 0%,#c9a450 100%)}
+.toolkit-card.vip .btn-ghost{background:transparent;border-color:rgba(215,179,106,.3);color:#d7b36a}
+.toolkit-card.vip .btn-ghost:hover{border-color:#d7b36a;background:rgba(215,179,106,.08)}
+.toolkit-card.vip .toolkit-card-icon{
+  background:linear-gradient(135deg,rgba(215,179,106,.2) 0%,rgba(215,179,106,.08) 100%);
+}
+.tk-vip-badge{
+  position:absolute;top:16px;right:16px;
+  display:inline-flex;align-items:center;gap:4px;
+  padding:5px 12px;border-radius:999px;
+  background:linear-gradient(135deg,rgba(215,179,106,.2) 0%,rgba(215,179,106,.1) 100%);
+  border:1px solid rgba(215,179,106,.3);
+  color:#d7b36a;
+  font-size:11px;font-weight:700;
+  letter-spacing:.03em;
+}
+.tk-expert-line{
+  font-size:12px;color:rgba(255,255,255,.45);font-weight:500;
+  margin-bottom:10px;
+  display:flex;align-items:center;gap:6px;
+}
+.tk-expert-line .expert-dot{
+  width:4px;height:4px;border-radius:50%;background:rgba(215,179,106,.5);
+}
+@keyframes vipShimmer{
+  0%{background-position:200% 0}
+  100%{background-position:-200% 0}
+}
+.toolkit-card.vip::after{
+  content:"";
+  position:absolute;inset:0;
+  border-radius:16px;
+  background:linear-gradient(105deg,transparent 40%,rgba(215,179,106,.04) 45%,rgba(215,179,106,.08) 50%,rgba(215,179,106,.04) 55%,transparent 60%);
+  background-size:200% 100%;
+  animation:vipShimmer 4s ease-in-out infinite;
+  pointer-events:none;
+}
+
+/* ====== Course Section ====== */
+.course-section{background:#fafaf7}
+.course-grid{max-width:1140px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.course-card{
+  background:#fff;
+  border:1px solid #ebe7d9;
+  border-radius:16px;
+  overflow:hidden;
+  transition:all .32s ease;
+}
+.course-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 24px 56px -20px rgba(60,40,20,.13);
+  border-color:#d4cdb5;
+}
+.course-thumb{
+  position:relative;
+  height:180px;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.course-thumb .ct-bg{
+  position:absolute;inset:0;
+  z-index:0;
+}
+.course-card:nth-child(1) .ct-bg{background:linear-gradient(135deg,#1b2426 0%,#2a3a3e 60%,#1f2c2f 100%)}
+.course-card:nth-child(2) .ct-bg{background:linear-gradient(135deg,#1a1d24 0%,#2d3340 60%,#1a1d24 100%)}
+.course-card:nth-child(3) .ct-bg{background:linear-gradient(135deg,#2a1f10 0%,#3d2c18 60%,#1b1408 100%)}
+.ct-content{position:relative;z-index:2;text-align:center;color:#fff;padding:24px}
+.ct-emoji{font-size:36px;margin-bottom:12px;display:block;filter:drop-shadow(0 4px 12px rgba(0,0,0,.3))}
+.ct-title{font-size:18px;font-weight:700;letter-spacing:-.005em}
+.ct-play{
+  position:absolute;bottom:16px;right:16px;z-index:3;
+  width:40px;height:40px;
+  border-radius:50%;
+  background:rgba(255,255,255,.15);
+  backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.2);
+  display:flex;align-items:center;justify-content:center;
+  transition:all .25s;
+}
+.ct-play:hover{background:rgba(215,179,106,.3);border-color:rgba(215,179,106,.5)}
+.ct-play svg{width:16px;height:16px;fill:#fff;margin-left:2px}
+.course-body{padding:22px 24px}
+.course-meta{display:flex;align-items:center;gap:16px;margin-bottom:14px}
+.course-meta-item{display:flex;align-items:center;gap:5px;font-size:13px;color:#6b7280;font-weight:500}
+.course-meta-item .cm-icon{font-size:14px}
+.course-price-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.course-price{font-size:22px;font-weight:700;color:#1a1d24}
+.course-price.free{color:#1f7a44}
+.course-price .cp-currency{font-size:13px;font-weight:600;color:#8a5d32}
+.course-lessons{font-size:12px;color:#9ca3af;font-weight:500}
+.course-cta{
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  width:100%;padding:12px 20px;
+  background:#1a1d24;color:#fff;
+  border:none;border-radius:10px;
+  font-size:14px;font-weight:600;
+  cursor:pointer;transition:all .25s;
+}
+.course-cta:hover{background:#2d3340;transform:translateY(-1px)}
+.course-cta svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ====== CTA Section ====== */
+.cta-section{background:linear-gradient(180deg,#fafaf7 0%,#f5f0e6 100%)}
+.cta-card{max-width:860px;margin:0 auto;padding:52px 48px;background:#1b2426;border-radius:20px;color:#fff;text-align:center;position:relative;overflow:hidden;box-shadow:0 32px 80px -24px rgba(0,0,0,.35)}
+.cta-card::before{content:"";position:absolute;top:-60px;right:-60px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(215,179,106,.1) 0%,transparent 70%);pointer-events:none}
+.cta-card::after{content:"";position:absolute;bottom:-40px;left:-40px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(215,179,106,.06) 0%,transparent 70%);pointer-events:none}
+.cta-card h2{font-size:32px;margin-bottom:16px;letter-spacing:-.02em;font-weight:700}
+.cta-card p.cta-desc{color:rgba(255,255,255,.6);font-size:16px;line-height:1.75;margin-bottom:36px;max-width:520px;margin-left:auto;margin-right:auto}
+.cta-card p.cta-desc strong{color:#d7b36a;font-weight:600}
+
+/* ====== Stats Banner ====== */
+.stats-banner{
+  max-width:1140px;margin:-40px auto 0;
+  position:relative;z-index:10;
+  display:grid;grid-template-columns:repeat(4,1fr);
+  background:#fff;
+  border:1px solid #ebe7d9;
+  border-radius:16px;
+  box-shadow:0 20px 48px -20px rgba(60,40,20,.1);
+  overflow:hidden;
+}
+.stat-cell{
+  padding:28px 24px;
+  text-align:center;
+  border-right:1px solid #ebe7d9;
+}
+.stat-cell:last-child{border-right:none}
+.stat-number{font-size:28px;font-weight:800;color:#1a1d24;margin-bottom:4px;letter-spacing:-.02em}
+.stat-number.gold{color:#d7b36a}
+.stat-label{font-size:13px;color:#6b7280;font-weight:500}
+
+/* ====== Footer ====== */
+.foot{padding:56px 32px 24px;background:#fafaf7;border-top:1px solid #ebe7d9}
+.foot-inner{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:40px;margin-bottom:40px}
+.foot-brand .logo{font-size:18px;display:block;margin-bottom:8px}
+.foot-brand p{color:#6b7280;font-size:13px;line-height:1.7}
+.foot-cols h5{font-size:13px;color:#1a1d24;font-weight:600;margin-bottom:14px;letter-spacing:.02em}
+.foot-cols a{display:block;color:#6b7280;font-size:13px;margin-bottom:8px;transition:.2s}
+.foot-cols a:hover{color:#1a1d24}
+.foot-bottom{max-width:1240px;margin:0 auto;padding-top:20px;border-top:1px solid #ebe7d9;font-size:12px;color:#9ca3af}
+
+/* ====== Animations ====== */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.fade-up{opacity:0;animation:fadeUp .6s ease forwards}
+.fade-up.d1{animation-delay:.1s}
+.fade-up.d2{animation-delay:.2s}
+.fade-up.d3{animation-delay:.3s}
+.fade-up.d4{animation-delay:.35s}
+.fade-up.d5{animation-delay:.4s}
+.fade-up.d6{animation-delay:.45s}
+.fade-up.d7{animation-delay:.5s}
+.fade-up.d8{animation-delay:.55s}
+
+/* ====== Responsive ====== */
+@media(max-width:1024px){
+  .hero h1{font-size:38px}
+  .toolkit-grid{grid-template-columns:repeat(2,1fr)}
+  .course-grid{grid-template-columns:repeat(2,1fr)}
+  .stats-banner{grid-template-columns:repeat(2,1fr)}
+  .stat-cell:nth-child(2){border-right:none}
+  .stat-cell:nth-child(3),.stat-cell:nth-child(4){border-top:1px solid #ebe7d9}
+  .foot-inner{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+  .nav-links,.nav-cta{display:none}
+  .nav-inner{padding:12px 20px}
+  section{padding:56px 20px}
+  .hero{padding:72px 20px 64px}
+  .hero h1{font-size:30px}
+  .hero-subtitle{font-size:15px}
+  .section-title h2{font-size:26px}
+  .toolkit-grid{grid-template-columns:1fr}
+  .course-grid{grid-template-columns:1fr}
+  .stats-banner{grid-template-columns:1fr;margin-top:-24px}
+  .stat-cell{border-right:none;border-bottom:1px solid #ebe7d9}
+  .stat-cell:last-child{border-bottom:none}
+  .cta-card{padding:36px 24px}
+  .cta-card h2{font-size:24px}
+  .foot-inner{grid-template-columns:1fr}
+  .course-thumb{height:150px}
+}
+</style>
+</head>
+<body>
+
+<!-- ====== NAV ====== -->
+<header class="nav">
+  <div class="nav-inner">
+    <a class="logo" href="index.html">StratVault <span class="logo-sub">· AI 战略分析工作台</span></a>
+    <nav class="nav-links">
+      <a href="workshop.html">工坊</a>
+      <a href="cases.html">案例</a>
+      <a href="experts.html">专家</a>
+      <a href="academy.html" class="is-active">下载</a>
+      <a href="method.html">方法论</a>
+        <a href="profile.html">我的</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn-ghost" href="cases.html">看案例</a>
+      <a class="btn-primary" href="workshop.html">开始生成</a>
+    </div>
+  </div>
+</header>
+
+<!-- ====== HERO ====== -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">Learning Resource Center</div>
+    <h1>分析工具库</h1>
+    <p class="hero-subtitle">
+      下载专业分析框架工具包，学习每个框架的使用方法。<br>
+      <strong>先学会用工具，再生成报告。</strong>
+    </p>
+  </div>
+</section>
+
+<!-- ====== STATS BANNER ====== -->
+<div class="stats-banner fade-up">
+  <div class="stat-cell">
+    <div class="stat-number">10</div>
+    <div class="stat-label">框架工具包</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-number gold">3</div>
+    <div class="stat-label">配套微课程</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-number">65<span style="font-size:18px;font-weight:600">min</span></div>
+    <div class="stat-label">总课程时长</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-number">2</div>
+    <div class="stat-label">免费工具包</div>
+  </div>
+</div>
+
+<!-- ====== TOOLKIT GRID ====== -->
+<section class="toolkit-section">
+  <div class="section-title">
+    <span class="section-eyebrow">Frameworks</span>
+    <h2>框架工具包</h2>
+    <p>每个工具包包含 PPT 模板、填写指南和真实案例，开箱即用。</p>
+  </div>
+
+  <div class="toolkit-grid">
+    <!-- VIP Card 1: Granularity of Growth -->
+    <div class="toolkit-card vip fade-up d1">
+      <span class="tk-vip-badge">👑 专家定制</span>
+      <div class="toolkit-card-icon">👑</div>
+      <h3>颗粒度经济分析框架</h3>
+      <div class="tk-en">Granularity of Growth</div>
+      <div class="tk-expert-line">廖建文教授 <span class="expert-dot"></span> 长江商学院</div>
+      <p class="tk-desc">从行业颗粒度拆解增长来源，识别被平均数掩盖的结构性机会。</p>
+      <div class="tk-includes">
+        <span class="tk-icon-sm">📦</span>
+        PPT 模板 + 填写指南 + 案例
+      </div>
+      <div class="tk-course-badge">🎓 配套课程 25min</div>
+      <div class="tk-price-row">
+        <span class="tk-price"><span class="tk-currency">¥</span>199</span>
+      </div>
+      <div class="tk-cta-row">
+        <a class="btn-primary btn-sm" href="#">下载工具包</a>
+        <a class="btn-ghost btn-sm" href="#">学习课程</a>
+      </div>
+    </div>
+
+    <!-- VIP Card 2: China Go-Global Strategy -->
+    <div class="toolkit-card vip fade-up d2">
+      <span class="tk-vip-badge">👑 专家定制</span>
+      <div class="toolkit-card-icon">👑</div>
+      <h3>中国企业出海战略工具包</h3>
+      <div class="tk-en">China Go-Global Strategy</div>
+      <div class="tk-expert-line">廖建文教授 <span class="expert-dot"></span> 长江商学院</div>
+      <p class="tk-desc">系统评估出海路径、目标市场选择与本地化策略。</p>
+      <div class="tk-includes">
+        <span class="tk-icon-sm">📦</span>
+        PPT 模板 + 填写指南 + 案例
+      </div>
+      <div class="tk-course-badge">🎓 配套课程 30min</div>
+      <div class="tk-price-row">
+        <span class="tk-price"><span class="tk-currency">¥</span>199</span>
+      </div>
+      <div class="tk-cta-row">
+        <a class="btn-primary btn-sm" href="#">下载工具包</a>
+        <a class="btn-ghost btn-sm" href="#">学习课程</a>
+      </div>
+    </div>
+
+    <!-- Card 1: Porter's Five Forces -->
+    <div class="toolkit-card fade-up d1">
+      <span class="tk-free-tag">免费</span>
+      <div class="toolkit-card-icon">🔬</div>
+      <h3>波特五力分析</h3>
+      <div class="tk-en">Porter's Five Forces</div>
+      <p class="tk-desc">系统评估行业竞争压力，识别威胁与机会。</p>
+      <div class="tk-includes">
+        <span class="tk-icon-sm">📦</span>
+        PPT 模板 + 填写指南 + 案例
+      </div>
+      <div class="tk-course-badge">🎓 配套课程 15min</div>
+      <div class="tk-price-row">
+        <span class="tk-price free">免费</span>
+      </div>
+      <div class="tk-cta-row">
+        <a class="btn-primary btn-sm" href="#">下载工具包</a>
+        <a class="btn-ghost btn-sm" href="#">学习课程</a>
+      </div>
+    </div>
+
+    <!-- Card 2: SWOT -->
+    <div class="toolkit-card fade-up d2">
+      <span class="tk-free-tag">免费</span>
+      <div class="toolkit-card-icon">📊</div>
+      <h3>SWOT 分析</h3>
+      <div class="tk-en">SWOT Analysis</div>
+      <p class="tk-desc">优势·劣势·机会·威胁的结构化梳理。</p>
+      <div class="tk-includes">
+        <span class="tk-icon-sm">📦</span>
+        PPT 模板 + 填写指南 + 案例
+      </div>
+      <div class="tk-course-badge">🎓 配套课程 20min</div>
+      <div class="tk-price-row">
+        <span class="tk-price free">免费</span>
+      </div>
+      <div class="tk-cta-row">
+        <a class="btn-primary btn-sm" href="#">下载工具包</a>
+        <a class="btn-ghost btn-sm" href="#">学习课程</a>
+      </div>
+    </div>
+
+    <!-- Card 3: PESTEL -->
+    <div class="toolkit-card fade-up d3">
+      <div class="toolkit-card-icon">🎯</div>
+      <h3>PESTEL 宏观环境分析</h3>
+      <div class="tk-en">PESTEL Analysis</div>
+      <p class="tk-desc">政治·经济·社会·技术·环境·法律六维度扫描。</p>
+      <div class="tk-includes">
+        <span class="tk-icon-sm">📦</span>
+        PPT 模板 + 填写指南 + 案例
+      </div>
+      <div class="tk-course-badge">🎓 配套课程 15min</div>
+      <div class="tk-price-row">
+        <span class="tk-price"><span class="tk-currency">¥</span>29</span>
+      </div>
+      <div class="tk-cta-row">
+        <a class="btn-primary btn-sm" href="#">下载工具包</a>
+        <a class="btn-ghost btn-sm" href="#">学习课程</a>
+      </div>
+    </div>
+
+    <!-- Card 4: BCG Matrix -->
+    <div class="toolkit-card fade-up d4">
+      <div class="toolkit-card-icon">🧩</div>
+      <h3>BCG 矩阵</h3>
+      <div class="tk-en">BCG Matrix</div>
+      <p class="tk-desc">业务组合的增长份额分类与资源分配。</p>
+      <div class="tk-includes">
+        <span class="tk-icon-sm">📦</span>
+        PPT 模板 + 填写指南 + 案例
+      </div>
+      <div class="tk-course-badge">🎓 配套课程 15min</div>
+      <div class="tk-price-row">
+        <span class="tk-price"><span class="tk-currency">¥</span>29</span>
+      </div>
+      <div class="tk-cta-row">
+        <a class="btn-primary btn-sm" href="#">下载工具包</a>
+        <a class="btn-ghost btn-sm" href="#">学习课程</a>
+      </div>
+    </div>
+
+    <!-- Card 5: Ansoff -->
+    <div class="toolkit-card fade-up d5">
+      <div class="toolkit-card-icon">🛤️</div>
+      <h3>安索夫矩阵</h3>
+      <div class="tk-en">Ansoff Matrix</div>
+      <p class="tk-desc">产品×市场的增长方向选择。</p>
+      <div class="tk-includes">
+        <span class="tk-icon-sm">📦</span>
+        PPT 模板 + 填写指南 + 案例
+      </div>
+      <div class="tk-course-badge">🎓 配套课程 15min</div>
+      <div class="tk-price-row">
+        <span class="tk-price"><span class="tk-currency">¥</span>29</span>
+      </div>
+      <div class="tk-cta-row">
+        <a class="btn-primary btn-sm" href="#">下载工具包</a>
+        <a class="btn-ghost btn-sm" href="#">学习课程</a>
+      </div>
+    </div>
+
+    <!-- Card 6: Strategy House -->
+    <div class="toolkit-card fade-up d6">
+      <div class="toolkit-card-icon" style="background:linear-gradient(135deg,#fde9d4 0%,#f0c880 100%)">🏠</div>
+      <h3>战略屋</h3>
+      <div class="tk-en">Strategy House</div>
+      <p class="tk-desc">从使命愿景到执行落地的完整架构。</p>
+      <div class="tk-includes">
+        <span class="tk-icon-sm">📦</span>
+        PPT 模板 + 填写指南 + 案例
+      </div>
+      <div class="tk-course-badge">🎓 配套课程 30min</div>
+      <div class="tk-price-row">
+        <span class="tk-price"><span class="tk-currency">¥</span>49</span>
+      </div>
+      <div class="tk-cta-row">
+        <a class="btn-primary btn-sm" href="#">下载工具包</a>
+        <a class="btn-ghost btn-sm" href="#">学习课程</a>
+      </div>
+    </div>
+
+    <!-- Card 7: Decode Table -->
+    <div class="toolkit-card fade-up d7">
+      <div class="toolkit-card-icon" style="background:linear-gradient(135deg,#fde9d4 0%,#f0c880 100%)">📝</div>
+      <h3>解码表</h3>
+      <div class="tk-en">Strategy Decode</div>
+      <p class="tk-desc">把战略目标拆解成可执行的行动计划。</p>
+      <div class="tk-includes">
+        <span class="tk-icon-sm">📦</span>
+        PPT 模板 + 填写指南 + 案例
+      </div>
+      <div class="tk-course-badge">🎓 配套课程 20min</div>
+      <div class="tk-price-row">
+        <span class="tk-price"><span class="tk-currency">¥</span>49</span>
+      </div>
+      <div class="tk-cta-row">
+        <a class="btn-primary btn-sm" href="#">下载工具包</a>
+        <a class="btn-ghost btn-sm" href="#">学习课程</a>
+      </div>
+    </div>
+
+    <!-- Card 8: Gap Analysis -->
+    <div class="toolkit-card fade-up d8">
+      <div class="toolkit-card-icon">🔍</div>
+      <h3>差距分析</h3>
+      <div class="tk-en">Gap Analysis</div>
+      <p class="tk-desc">识别现状与目标之间的关键差距。</p>
+      <div class="tk-includes">
+        <span class="tk-icon-sm">📦</span>
+        PPT 模板 + 填写指南 + 案例
+      </div>
+      <div class="tk-course-badge">🎓 配套课程 15min</div>
+      <div class="tk-price-row">
+        <span class="tk-price"><span class="tk-currency">¥</span>29</span>
+      </div>
+      <div class="tk-cta-row">
+        <a class="btn-primary btn-sm" href="#">下载工具包</a>
+        <a class="btn-ghost btn-sm" href="#">学习课程</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== COURSE SECTION ====== -->
+<section class="course-section">
+  <div class="section-title">
+    <span class="section-eyebrow">Mini Courses</span>
+    <h2>配套课程</h2>
+    <p>每个工具包都有对应的微课程，帮你理解框架背后的思考逻辑。</p>
+  </div>
+
+  <div class="course-grid">
+    <!-- Course 1 -->
+    <div class="course-card fade-up d1">
+      <div class="course-thumb">
+        <div class="ct-bg"></div>
+        <div class="ct-content">
+          <span class="ct-emoji">🔬</span>
+          <div class="ct-title">波特五力实战指南</div>
+        </div>
+        <div class="ct-play">
+          <svg viewBox="0 0 16 16"><polygon points="4,2 14,8 4,14"/></svg>
+        </div>
+      </div>
+      <div class="course-body">
+        <div class="course-meta">
+          <div class="course-meta-item"><span class="cm-icon">⏱</span> 15 分钟</div>
+          <div class="course-meta-item"><span class="cm-icon">📖</span> 5 节课</div>
+        </div>
+        <div class="course-price-row">
+          <span class="course-price free">免费</span>
+          <span class="course-lessons">入门推荐</span>
+        </div>
+        <a class="course-cta" href="#">
+          开始学习
+          <svg viewBox="0 0 16 16"><path d="M3 8h10M10 4l4 4-4 4"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Course 2 -->
+    <div class="course-card fade-up d2">
+      <div class="course-thumb">
+        <div class="ct-bg"></div>
+        <div class="ct-content">
+          <span class="ct-emoji">📊</span>
+          <div class="ct-title">从 SWOT 到行动计划</div>
+        </div>
+        <div class="ct-play">
+          <svg viewBox="0 0 16 16"><polygon points="4,2 14,8 4,14"/></svg>
+        </div>
+      </div>
+      <div class="course-body">
+        <div class="course-meta">
+          <div class="course-meta-item"><span class="cm-icon">⏱</span> 20 分钟</div>
+          <div class="course-meta-item"><span class="cm-icon">📖</span> 7 节课</div>
+        </div>
+        <div class="course-price-row">
+          <span class="course-price"><span class="cp-currency">¥</span>29</span>
+          <span class="course-lessons">进阶实战</span>
+        </div>
+        <a class="course-cta" href="#">
+          开始学习
+          <svg viewBox="0 0 16 16"><path d="M3 8h10M10 4l4 4-4 4"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Course 3 -->
+    <div class="course-card fade-up d3">
+      <div class="course-thumb">
+        <div class="ct-bg"></div>
+        <div class="ct-content">
+          <span class="ct-emoji">🏠</span>
+          <div class="ct-title">战略屋搭建全流程</div>
+        </div>
+        <div class="ct-play">
+          <svg viewBox="0 0 16 16"><polygon points="4,2 14,8 4,14"/></svg>
+        </div>
+      </div>
+      <div class="course-body">
+        <div class="course-meta">
+          <div class="course-meta-item"><span class="cm-icon">⏱</span> 30 分钟</div>
+          <div class="course-meta-item"><span class="cm-icon">📖</span> 10 节课</div>
+        </div>
+        <div class="course-price-row">
+          <span class="course-price"><span class="cp-currency">¥</span>49</span>
+          <span class="course-lessons">完整体系</span>
+        </div>
+        <a class="course-cta" href="#">
+          开始学习
+          <svg viewBox="0 0 16 16"><path d="M3 8h10M10 4l4 4-4 4"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== CTA ====== -->
+<section class="cta-section">
+  <div class="cta-card">
+    <span class="section-eyebrow" style="color:#d7b36a;margin-bottom:16px">Learn → Build → Ship</span>
+    <h2>先学框架，再生成报告</h2>
+    <p class="cta-desc">掌握分析框架的思考逻辑后，用 <strong>PPT 工坊</strong>一键生成专业报告。<br>从学习到输出，一站搞定。</p>
+    <a class="btn-primary gold lg" href="workshop.html">前往 PPT 工坊 →</a>
+  </div>
+</section>
+
+<!-- ====== FOOTER ====== -->
+<footer class="foot">
+  <div class="foot-inner">
+    <div class="foot-brand">
+      <a class="logo" href="index.html">StratVault</a>
+      <p>AI 战略分析工作台<br>Not just beautiful. Bulletproof.</p>
+    </div>
+    <div class="foot-cols">
+      <h5>产品</h5>
+      <a href="workshop.html">工坊</a>
+      <a href="cases.html">案例</a>
+      <a href="experts.html">专家</a>
+      <a href="academy.html">下载</a>
+    </div>
+    <div class="foot-cols">
+      <h5>资源</h5>
+      <a href="method.html">方法论</a>
+        <a href="profile.html">我的</a>
+      <a href="cases.html">案例馆</a>
+      <a>文档</a>
+      <a>API</a>
+    </div>
+    <div class="foot-cols">
+      <h5>关于</h5>
+      <a>团队</a>
+      <a>商务合作</a>
+      <a>联系我们</a>
+      <a>隐私政策</a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2026 StratVault · AI-Powered Strategic Analysis</span>
+  </div>
+</footer>
+
+</body>
+</html>

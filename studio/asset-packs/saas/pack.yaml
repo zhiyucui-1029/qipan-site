@@ -1,0 +1,31 @@
+pack_id: saas
+version: 0.1
+name: SaaS 与企业软件
+status: cover_slice
+
+use_cases:
+  - 金山办公增长破局
+  - 企业软件竞争格局
+  - AI 办公与协同软件增长
+
+visual_language:
+  keywords:
+    - 企业办公
+    - 云端协作
+    - 数据看板
+    - AI 办公
+    - 深蓝
+    - 深绿
+    - 哑金
+  avoid:
+    - 过度赛博科技感
+    - 密集代码屏幕
+    - 明显商标特写
+    - 泛泛的抽象 AI 光效
+
+hero_assets:
+  - id: kingsoft_office_hero_v01
+    path: background-images/kingsoft-office-hero-v01.png
+    metadata: background-images/kingsoft-office-hero-v01.yaml
+    role: 可替换右侧 hero image，用于可编辑 PPTX 封面
+recommended_theme: studio/design-system/themes/qipan-default.yaml

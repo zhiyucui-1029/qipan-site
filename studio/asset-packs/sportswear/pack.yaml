@@ -1,0 +1,36 @@
+pack_id: sportswear
+version: 0.1
+name: 运动鞋服与运动零售
+status: cover_slice
+
+use_cases:
+  - 耐克中国增长破局
+  - 运动品牌竞争格局
+  - 运动零售渠道重构
+
+visual_language:
+  keywords:
+    - 跑鞋
+    - 城市旗舰店
+    - 运动零售
+    - 夜景玻璃幕墙
+    - 深绿
+    - 深蓝
+    - 哑金
+  avoid:
+    - 过强广告海报感
+    - 明显商标特写
+    - 过亮高饱和运动海报
+    - 抢主标题的强对比主体
+
+hero_assets:
+  - id: nike_china_hero_v01
+    path: background-images/nike-china-hero-v01.png
+    metadata: background-images/nike-china-hero-v01.yaml
+    role: 可替换右侧 hero image，用于可编辑 PPTX 封面
+  - id: nike_china_symbol_v01
+    path: background-images/nike-china-symbol-v01.png
+    metadata: background-images/nike-china-symbol-v01.yaml
+    role: 可替换中心视觉 image，用于 symbol-minimal 极简封面
+
+recommended_theme: studio/design-system/themes/qipan-default.yaml

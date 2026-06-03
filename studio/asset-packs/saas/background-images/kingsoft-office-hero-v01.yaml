@@ -1,0 +1,17 @@
+asset_id: kingsoft_office_hero_v01
+version: 0.1
+type: hero_image
+industry_pack: saas
+file: kingsoft-office-hero-v01.png
+source: image_generation
+source_note: copied from Codex generated image session 019e59bd-0b24-7f31-9821-ff6bc1e461c3
+usage:
+  - growth_breakthrough_cover_hero_image
+  - kingsoft_office_growth_sample
+visual_notes:
+  - 无文字、无底部栏、无图标
+  - 夜间办公室、会议室剪影和数据看板氛围
+  - 深蓝科技感，但避免赛博和代码屏
+  - 适合作为 PPTX 中可替换的右侧 hero image
+quality_status: selected_editable_ppt_asset
+
